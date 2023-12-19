@@ -4097,11 +4097,6 @@ mkdirp@^1.0.3:
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mo@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.npmjs.org/mo/-/mo-1.7.3.tgz"
-  integrity sha512-YJT2mnQBdeFkb0eESdatfyHW8WkPQAly5ImFNORlA1z8e64Uvo7gtTE3CefU3qTQx2Z3LnEwISP+WkxoSiFG/A==
-
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz"

@@ -39,6 +39,7 @@ export const readOrganizationRepository = async (id?: string) => {
       where: { softDeleted: false },
       select: {
         id: true,
+        isActive: true,
         image: true,
         name: true,
         phone: true,

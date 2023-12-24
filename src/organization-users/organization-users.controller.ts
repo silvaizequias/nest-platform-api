@@ -53,6 +53,16 @@ export class OrganizationUsersController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/user/:id')
+  findByUserId(@Param('id') id: string) {
+    return this.organizationUsersService.findByUserId(id)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.organizationUsersService.findOne(id)

@@ -51,9 +51,29 @@ export class UsersController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/email/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id)
+  findById(@Param('id') id: string) {
+    return this.usersService.findById(id)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/phone/:phone')
+  findByPhone(@Param('phone') phone: string) {
+    return this.usersService.findByPhone(phone)
   }
 
   @UseGuards(JwtAuthGuard)

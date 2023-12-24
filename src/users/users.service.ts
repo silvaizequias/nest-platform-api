@@ -5,6 +5,8 @@ import { createUserRepository } from './repositories/create-user.repository'
 import { readUserRepository } from './repositories/read-user.repository'
 import { updateUserRepository } from './repositories/update-user.repository'
 import { deleteUserRepository } from './repositories/delete-user.repository'
+import { readUserByEmailRepository } from './repositories/read-user-by-email.repository'
+import { readUserByPhoneRepository } from './repositories/read-user-by-phone.repository'
 
 @Injectable()
 export class UsersService {
@@ -16,8 +18,16 @@ export class UsersService {
     return readUserRepository()
   }
 
-  findOne(id: string) {
+  findByEmail(email: string) {
+    return readUserByEmailRepository(email)
+  }
+
+  findById(id: string) {
     return readUserRepository(id)
+  }
+
+  findByPhone(phone: string) {
+    return readUserByPhoneRepository(phone)
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

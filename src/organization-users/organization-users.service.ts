@@ -5,6 +5,7 @@ import { createOrganizationUserRepository } from './repositories/create-organiza
 import { readOrganizationUserRepository } from './repositories/read-organization-user.repository'
 import { updateOrganizationUserRepository } from './repositories/update-organization-user.repository'
 import { deleteOrganizationUserRepository } from './repositories/delete-organization-user.repository'
+import { readOrganizationUserByIdRepository } from './repositories/read-organization-user-by-id.repository'
 
 @Injectable()
 export class OrganizationUsersService {
@@ -14,6 +15,10 @@ export class OrganizationUsersService {
 
   findAll() {
     return readOrganizationUserRepository()
+  }
+
+  findByUserId(id: string) {
+    return readOrganizationUserByIdRepository(id)
   }
 
   findOne(id: string) {

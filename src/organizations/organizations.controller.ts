@@ -51,6 +51,16 @@ export class OrganizationsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/document/:document')
+  findByDocument(@Param('document') document: string) {
+    return this.organizationsService.findByDocument(document)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.organizationsService.findOne(id)

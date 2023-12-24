@@ -5,6 +5,7 @@ import { createOrganizationRepository } from './repositories/create-organization
 import { readOrganizationRepository } from './repositories/read-organization.repository'
 import { updateOrganizationRepository } from './repositories/update-organization.repository'
 import { deleteOrganizationRepository } from './repositories/delete-organization.repository'
+import { readOrganizationByDocumentRepository } from './repositories/read-organization-by-document.repository'
 
 @Injectable()
 export class OrganizationsService {
@@ -14,6 +15,10 @@ export class OrganizationsService {
 
   findAll() {
     return readOrganizationRepository()
+  }
+
+  findByDocument(document: string) {
+    return readOrganizationByDocumentRepository(document)
   }
 
   findOne(id: string) {

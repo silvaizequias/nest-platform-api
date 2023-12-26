@@ -14,7 +14,9 @@ model Organization {
   deletedAt   DateTime? @map("deleted_at") @db.Date
   softDeleted Boolean?  @default(false) @map("soft_deleted")
 
-  isActive Boolean? @default(true) @map("is_active")
+  isActive    Boolean?  @default(true) @map("is_active")
+  apiKey      String?   @unique @map("api_key")
+  apiExpireIn DateTime? @map("api_expire_in")
 
   name         String
   image        String?

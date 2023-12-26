@@ -7,6 +7,8 @@ export class OrganizationEntity implements Organization {
   deletedAt: Date
   softDeleted: boolean
   isActive: boolean
+  apiKey: string
+  apiExpireIn: Date
   name: string
   image: string
   email: string

@@ -46,6 +46,14 @@ export class OrganizationsController {
     return this.organizationsService.findAll()
   }
 
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/apikey/:key')
+  findByApiKey(@Param('key') key: string) {
+    return this.organizationsService.findByApiKey(key)
+  }
+
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()

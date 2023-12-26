@@ -6,6 +6,7 @@ import { readOrganizationRepository } from './repositories/read-organization.rep
 import { updateOrganizationRepository } from './repositories/update-organization.repository'
 import { deleteOrganizationRepository } from './repositories/delete-organization.repository'
 import { readOrganizationByDocumentRepository } from './repositories/read-organization-by-document.repository'
+import { readOrganizationByApiKeyRepository } from './repositories/read-organization-by-api-key.repository'
 
 @Injectable()
 export class OrganizationsService {
@@ -15,6 +16,10 @@ export class OrganizationsService {
 
   findAll() {
     return readOrganizationRepository()
+  }
+
+  findByApiKey(key: string) {
+    return readOrganizationByApiKeyRepository(key)
   }
 
   findByDocument(document: string) {

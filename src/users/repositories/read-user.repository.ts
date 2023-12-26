@@ -39,14 +39,11 @@ export const readUserRepository = async (id?: string) => {
       select: {
         id: true,
         isActive: true,
-        name: true,
+        profile: true,
         image: true,
-        email: true,
+        name: true,
         phone: true,
-        zipCode: true,
-        complement: true,
-        latitude: true,
-        longitude: true,
+        email: true,
         organizations: {
           select: {
             id: true,

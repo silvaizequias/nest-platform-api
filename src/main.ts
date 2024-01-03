@@ -18,7 +18,9 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3000',
+      'http://sistema.localhost:3000',
       'https://dedicado.digital',
+      'https://sistema.dedicado.digital',
       'http://dedicated-support-management-api.sa-east-1.elasticbeanstalk.com',
       'http://dedicated-service-management-api.sa-east-1.elasticbeanstalk.com',
     ],

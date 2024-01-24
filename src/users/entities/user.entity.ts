@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { $Enums, User } from '@prisma/client'
 
 export class UserEntity implements User {
   id: string
@@ -6,22 +6,21 @@ export class UserEntity implements User {
   updatedAt: Date
   deletedAt: Date
   softDeleted: boolean
-  isActive: boolean
-  profile: string
+  active: boolean
+  subscriber: boolean
+  suspended: boolean
+  accessCode: string
+  passHash: string
+  profile: $Enums.UserProfile
   name: string
   image: string
   email: string
   phone: string
-  documentCode: string
-  accessCode: string
-  passHash: string
+  document: string
   zipCode: string
   street: string
   complement: string
-  district: string
-  city: string
-  state: string
-  country: string
   latitude: number
   longitude: number
+  defaultOrganization: string
 }

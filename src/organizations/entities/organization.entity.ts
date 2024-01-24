@@ -6,21 +6,15 @@ export class OrganizationEntity implements Organization {
   updatedAt: Date
   deletedAt: Date
   softDeleted: boolean
-  isActive: boolean
-  apiKey: string
-  apiExpireIn: Date
+  active: boolean
   name: string
   image: string
   email: string
   phone: string
-  documentCode: string
+  document: string
   zipCode: string
   street: string
   complement: string
-  district: string
-  city: string
-  state: string
-  country: string
   latitude: number
   longitude: number
 }

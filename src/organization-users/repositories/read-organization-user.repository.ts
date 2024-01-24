@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 export const readOrganizationUserRepository = async (id?: string) => {
@@ -6,13 +6,13 @@ export const readOrganizationUserRepository = async (id?: string) => {
 
   try {
     if (id) {
-      return await prisma.organizationUsers.findFirst({
+      const organizationUser = await prisma.organizationUsers.findFirst({
         where: { id: id },
         select: {
           id: true,
           createdAt: true,
           updatedAt: true,
-          isActive: true,
+          active: true,
           role: true,
           organization: {
             select: {
@@ -21,7 +21,7 @@ export const readOrganizationUserRepository = async (id?: string) => {
               image: true,
               email: true,
               phone: true,
-              documentCode: true,
+              document: true,
               zipCode: true,
               complement: true,
               latitude: true,
@@ -44,6 +44,10 @@ export const readOrganizationUserRepository = async (id?: string) => {
           },
         },
       })
+      if (!organizationUser)
+        throw new NotFoundException('nada foi encontrado por aqui')
+
+      return organizationUser
     }
 
     return await prisma.organizationUsers.findMany({
@@ -51,7 +55,7 @@ export const readOrganizationUserRepository = async (id?: string) => {
         id: true,
         createdAt: true,
         updatedAt: true,
-        isActive: true,
+        active: true,
         role: true,
         organization: {
           select: {
@@ -60,7 +64,7 @@ export const readOrganizationUserRepository = async (id?: string) => {
             image: true,
             email: true,
             phone: true,
-            documentCode: true,
+            document: true,
             zipCode: true,
             complement: true,
             latitude: true,

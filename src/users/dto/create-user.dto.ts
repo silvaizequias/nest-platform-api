@@ -1,7 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { $Enums } from '@prisma/client'
 import {
   IsBoolean,
   IsEmail,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -12,14 +14,15 @@ export class CreateUserDto {
   @ApiPropertyOptional({ default: true })
   @IsBoolean()
   @IsOptional()
-  isActive: boolean
+  active: boolean
 
-  @ApiPropertyOptional({ default: 'USER', enum: ['USER', 'MASTER'] })
-  @IsString()
+  @ApiPropertyOptional({ default: 'guest', enum: $Enums.UserProfile })
+  @IsEnum($Enums.UserProfile)
   @IsOptional()
-  profile: string
+  profile: $Enums.UserProfile
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   name: string
 
@@ -28,20 +31,25 @@ export class CreateUserDto {
   @IsOptional()
   image: string
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsString()
+  @IsOptional()
   @IsEmail()
   email: string
 
   @ApiProperty()
   @IsString()
-  @Length(11)
   phone: string
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  documentCode: string
+  password: string
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  document: string
 
   @ApiPropertyOptional()
   @IsString()
@@ -58,26 +66,6 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   complement: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  district: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  city: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  state: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  country: string
 
   @ApiPropertyOptional()
   @IsNumber()

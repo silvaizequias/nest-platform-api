@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 export const readOrganizationByDocumentRepository = async (
@@ -7,29 +7,29 @@ export const readOrganizationByDocumentRepository = async (
   const prisma = new PrismaService()
 
   try {
-    return await prisma.organization.findFirst({
-      where: { documentCode: document, softDeleted: false },
+    const organziation = await prisma.organization.findFirst({
+      where: { document: document, softDeleted: false },
       include: {
         users: {
           select: {
             id: true,
+            active: true,
             role: true,
-            isActive: true,
             user: {
               select: {
                 id: true,
-                isActive: true,
                 profile: true,
-                image: true,
                 name: true,
                 phone: true,
-                email: true,
               },
             },
           },
         },
       },
     })
+    if (!organziation) throw new NotFoundException('organização não encontrado')
+
+    return organziation
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

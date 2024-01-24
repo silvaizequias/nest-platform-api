@@ -7,88 +7,120 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Organization {
-  id          String    @id @default(cuid())
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  deletedAt   DateTime? @map("deleted_at") @db.Date
-  softDeleted Boolean?  @default(false) @map("soft_deleted")
+enum UserProfile {
+  guest
+  consumer
+  member
+  master
+}
 
-  isActive    Boolean?  @default(true) @map("is_active")
-  apiKey      String?   @unique @map("api_key")
-  apiExpireIn DateTime? @map("api_expire_in")
+model User {
+  id String @id @default(cuid())
 
-  name         String
-  image        String?
-  email        String? @unique
-  phone        String? @unique
-  documentCode String  @unique @map("document_code")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
 
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+  subscriber  Boolean? @default(false)
+  suspended   Boolean? @default(false)
+
+  accessCode String?
+  passHash   String? @unique
+
+  profile    UserProfile? @default(guest)
+  name       String?
+  image      String?
+  email      String?      @unique
+  phone      String       @unique
+  document   String?      @unique
   zipCode    String?
   street     String?
   complement String?
-  district   String?
-  city       String?
-  state      String?
-  country    String?
+
+  latitude  Float? @db.DoublePrecision
+  longitude Float? @db.DoublePrecision
+
+  defaultOrganization String?
+  organizations       OrganizationUsers[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  client
+  assistant
+  technician
+  administrator
+  owner
+}
+
+model OrganizationUsers {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+
+  role UserRole? @default(client)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade)
+
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade)
+
+  @@index([userId, organizationId])
+  @@map("organization_users")
+}
+
+model Organization {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+
+  name       String?
+  image      String?
+  email      String? @unique
+  phone      String? @unique
+  document   String  @unique
+  zipCode    String?
+  street     String?
+  complement String?
 
   latitude  Float? @db.DoublePrecision
   longitude Float? @db.DoublePrecision
 
   users OrganizationUsers[]
 
+  apiKey OrganizationKeys?
+
   @@map("organizations")
 }
 
-model OrganizationUsers {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+model OrganizationKeys {
+  id String @id @default(cuid())
 
-  organizationId String       @map("organization_id")
-  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
 
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  organizationId String       @unique @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade)
 
-  isActive Boolean? @default(true) @map("is_active")
-  role     String?
+  expireIn DateTime? @map("expire_in") @db.Date
+  active   Boolean?  @default(true)
 
-  @@index([organizationId, userId])
-  @@map("organization_users")
-}
+  authorizationKey String @unique @map("authorization_key")
 
-model User {
-  id          String    @id @default(cuid())
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  deletedAt   DateTime? @map("deleted_at") @db.Date
-  softDeleted Boolean?  @default(false) @map("soft_deleted")
-
-  isActive Boolean? @default(true) @map("is_active")
-  profile  String?
-
-  name         String
-  image        String?
-  email        String  @unique
-  phone        String  @unique
-  documentCode String? @unique @map("document_code")
-
-  accessCode String? @unique @map("access_Code")
-  passHash   String? @map("pass_hash")
-
-  zipCode    String?
-  street     String?
-  complement String?
-  district   String?
-  city       String?
-  state      String?
-  country    String?
-
-  latitude  Float? @db.DoublePrecision
-  longitude Float? @db.DoublePrecision
-
-  organizations OrganizationUsers[]
-
-  @@map("users")
+  @@map("organization_key")
 }

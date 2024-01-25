@@ -1,7 +1,6 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { ApiPropertyOptional } from '@nestjs/swagger'
 import {
   IsBoolean,
-  IsDate,
   IsEmail,
   IsNumber,
   IsOptional,
@@ -13,20 +12,11 @@ export class CreateOrganizationDto {
   @ApiPropertyOptional({ default: true })
   @IsBoolean()
   @IsOptional()
-  isActive: boolean
+  active: boolean
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  apiKey: string
-
-  @ApiPropertyOptional()
-  @IsDate()
-  @IsOptional()
-  apiExpireIn: string
-
-  @ApiProperty()
-  @IsString()
   name: string
 
   @ApiPropertyOptional()
@@ -43,12 +33,11 @@ export class CreateOrganizationDto {
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  @Length(11)
   phone: string
 
   @ApiPropertyOptional()
   @IsString()
-  documentCode: string
+  document: string
 
   @ApiPropertyOptional()
   @IsString()
@@ -65,26 +54,6 @@ export class CreateOrganizationDto {
   @IsString()
   @IsOptional()
   complement: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  district: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  city: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  state: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  country: string
 
   @ApiPropertyOptional()
   @IsNumber()

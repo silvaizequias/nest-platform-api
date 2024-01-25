@@ -19,7 +19,7 @@ export class AuthController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('signin')
+  @Post('sign-in')
   public async signIn(@Body() signInAuthDto: SignInAuthDto): Promise<any> {
     return this.authService.signIn(signInAuthDto)
   }
@@ -27,7 +27,7 @@ export class AuthController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('signup')
+  @Post('sign-up')
   public async signUp(@Body() signUpAuthDto: SignUpAuthDto): Promise<any> {
     return this.authService.signUp(signUpAuthDto)
   }

@@ -11,22 +11,24 @@ export const passwordResetAuthRepository = async (
   const randomCode = Math.random().toString(32).substr(2, 16)
 
   try {
-    const { email, phone } = passwordResetAuthDto
+    const { phone } = passwordResetAuthDto
 
     const user = await prisma.user.findFirst({
-      where: { email: email, phone: phone },
+      where: { phone: phone },
     })
     if (!user)
       throw new NotFoundException(
-        `a conta com o e-mail ${email} e o telefone ${phone} não foi encontrada no sistema`,
+        `a conta com o telefone ${phone} não foi encontrada no sistema`,
       )
 
     const data: Prisma.UserUpdateInput = {
       passHash: hashSync(randomCode, 10),
     }
-    await prisma.user.update({ where: { email: email }, data })
+    await prisma.user.update({ where: { phone: phone }, data })
 
-    return `${user?.name}, a senha foi redefinida e enviada para o e-mail ${user?.email}`
+    return JSON.stringify(
+      `${user?.name}, a senha foi redefinida e enviada para o e-mail ${user?.email}`,
+    )
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

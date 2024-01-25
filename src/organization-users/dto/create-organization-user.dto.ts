@@ -1,26 +1,26 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsBoolean, IsEmail, IsOptional, IsString } from 'class-validator'
+import { $Enums } from '@prisma/client'
+import { IsBoolean, IsOptional, IsString } from 'class-validator'
 
 export class CreateOrganizationUserDto {
   @ApiProperty()
   @IsString()
-  organizationCode: string
+  organizationDocument: string
 
   @ApiProperty()
   @IsString()
-  @IsEmail()
-  userEmail: string
+  userPhone: string
 
   @ApiPropertyOptional({ default: true })
   @IsBoolean()
   @IsOptional()
-  isActive: boolean
+  active: boolean
 
   @ApiPropertyOptional({
-    default: 'GUEST',
-    enum: ['GUEST', 'CUSTOMER', 'MEMBER', 'ADMINISTRATOR', 'OWNER'],
+    default: 'client',
+    enum: $Enums.UserRole,
   })
   @IsString()
   @IsOptional()
-  role: string
+  role: $Enums.UserRole
 }

@@ -3,7 +3,6 @@ import {
   IsEmail,
   IsOptional,
   IsString,
-  Length,
   MaxLength,
   MinLength,
 } from 'class-validator'
@@ -20,7 +19,6 @@ export class SignUpAuthDto {
 
   @ApiProperty()
   @IsString()
-  @Length(11)
   phone: string
 
   @ApiPropertyOptional()

@@ -1,6 +1,7 @@
-import { HttpException } from '@nestjs/common'
+import { ConflictException, HttpException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateOrganizationDto } from '../dto/create-organization.dto'
+import { Prisma } from '@prisma/client'
 
 export const createOrganizationRepository = async (
   createOrganizationDto: CreateOrganizationDto,
@@ -8,11 +9,21 @@ export const createOrganizationRepository = async (
   const prisma = new PrismaService()
 
   try {
-    const { name } = createOrganizationDto
+    const { name, document } = createOrganizationDto
+    const organization = await prisma.organization.findFirst({
+      where: { document: document },
+    })
+    if (organization)
+      throw new ConflictException(
+        `a organização ${name} já existe na plataforma`,
+      )
 
-    await prisma.organization.create({ data: createOrganizationDto })
+    const data: Prisma.OrganizationCreateInput = {
+      ...createOrganizationDto,
+    }
+    await prisma.organization.create({ data })
 
-    return `a organização ${name} foi criada`
+    return JSON.stringify(`a organização ${name} foi criada no sistema`)
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

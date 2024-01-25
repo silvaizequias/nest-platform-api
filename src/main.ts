@@ -16,14 +16,7 @@ async function bootstrap() {
   )
 
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://sistema.localhost:3000',
-      'https://dedicado.digital',
-      'https://sistema.dedicado.digital',
-      'http://dedicated-support-management-api.sa-east-1.elasticbeanstalk.com',
-      'http://dedicated-service-management-api.sa-east-1.elasticbeanstalk.com',
-    ],
+    origin: ['http://localhost:3210', 'https://dedicado.digital'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   })
 
@@ -46,6 +39,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('', app, document)
 
-  await app.listen(PORT || 3100)
+  await app.listen(PORT || 3000)
 }
 bootstrap()

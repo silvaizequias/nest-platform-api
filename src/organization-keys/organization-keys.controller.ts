@@ -7,12 +7,12 @@ import {
   Param,
   Delete,
   ClassSerializerInterceptor,
-  UseGuards,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common'
-import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
+import { OrganizationKeysService } from './organization-keys.service'
+import { CreateOrganizationKeyDto } from './dto/create-organization-key.dto'
+import { UpdateOrganizationKeyDto } from './dto/update-organization-key.dto'
 import {
   ApiBearerAuth,
   ApiNotFoundResponse,
@@ -21,10 +21,12 @@ import {
 } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 
-@ApiTags('users')
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@ApiTags('organization-keys')
+@Controller('organization-keys')
+export class OrganizationKeysController {
+  constructor(
+    private readonly organizationKeysService: OrganizationKeysService,
+  ) {}
 
   //@UseGuards(JwtAuthGuard)
   //@ApiBearerAuth()
@@ -32,8 +34,8 @@ export class UsersController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
+  create(@Body() createOrganizationKeyDto: CreateOrganizationKeyDto) {
+    return this.organizationKeysService.create(createOrganizationKeyDto)
   }
 
   //@UseGuards(JwtAuthGuard)
@@ -43,7 +45,7 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
-    return this.usersService.findAll()
+    return this.organizationKeysService.findAll()
   }
 
   //@UseGuards(JwtAuthGuard)
@@ -51,9 +53,9 @@ export class UsersController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/email/:email')
-  findByEmail(@Param('email') email: string) {
-    return this.usersService.findByEmail(email)
+  @Get('authorization-key:authorizationKey')
+  findByKey(@Param('key') authorizationKey: string) {
+    return this.organizationKeysService.findByKey(authorizationKey)
   }
 
   //@UseGuards(JwtAuthGuard)
@@ -62,18 +64,8 @@ export class UsersController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.usersService.findById(id)
-  }
-
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
-  @ApiOkResponse()
-  @ApiNotFoundResponse()
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/phone/:phone')
-  findByPhone(@Param('phone') phone: string) {
-    return this.usersService.findByPhone(phone)
+  findOne(@Param('id') id: string) {
+    return this.organizationKeysService.findOne(id)
   }
 
   //@UseGuards(JwtAuthGuard)
@@ -82,8 +74,11 @@ export class UsersController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto)
+  update(
+    @Param('id') id: string,
+    @Body() updateOrganizationKeyDto: UpdateOrganizationKeyDto,
+  ) {
+    return this.organizationKeysService.update(id, updateOrganizationKeyDto)
   }
 
   @UseGuards(JwtAuthGuard)
@@ -93,6 +88,6 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id)
+    return this.organizationKeysService.remove(id)
   }
 }

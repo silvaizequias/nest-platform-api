@@ -28,8 +28,8 @@ export class OrganizationUsersController {
     private readonly organizationUsersService: OrganizationUsersService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -38,8 +38,8 @@ export class OrganizationUsersController {
     return this.organizationUsersService.create(createOrganizationUserDto)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -48,8 +48,8 @@ export class OrganizationUsersController {
     return this.organizationUsersService.findAll()
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -58,8 +58,8 @@ export class OrganizationUsersController {
     return this.organizationUsersService.findByUserId(id)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -68,8 +68,8 @@ export class OrganizationUsersController {
     return this.organizationUsersService.findOne(id)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

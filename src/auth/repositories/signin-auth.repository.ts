@@ -13,26 +13,21 @@ export const signInAuthRepository = async (signInAuthDto: SignInAuthDto) => {
   const jwtService = new JwtService()
 
   try {
-    const { email, password } = signInAuthDto
+    const { phone, password } = signInAuthDto
     const user = await prisma.user.findFirst({
-      where: { email: email },
+      where: { phone: phone },
       select: {
         id: true,
-        isActive: true,
+        active: true,
+        subscriber: true,
         profile: true,
         name: true,
         email: true,
         phone: true,
         passHash: true,
-        organizations: {
-          select: {
-            organizationId: true,
-            role: true,
-          },
-        },
       },
     })
-    if (!user) throw new NotFoundException('o email está incorreto')
+    if (!user) throw new NotFoundException('o número de celular está incorreto')
 
     const comparePassword = compareSync(password, user.passHash)
     if (!comparePassword) throw new ForbiddenException('a senha está incorreta')
@@ -40,11 +35,10 @@ export const signInAuthRepository = async (signInAuthDto: SignInAuthDto) => {
 
     const authorization = await jwtService.signAsync(
       {
-        email: email,
+        phone: phone,
         profile: user.profile,
-        organizations: user?.organizations,
         iat: Math.floor(Date.now() / 1000) - 30,
-        exp: Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60,
+        exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
       },
       {
         secret: process.env.JWT_SECRET_KEY,
@@ -53,7 +47,7 @@ export const signInAuthRepository = async (signInAuthDto: SignInAuthDto) => {
 
     return {
       authorization,
-      expiresIn: Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60,
+      expiresIn: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
       ...user,
     }
   } catch (error) {

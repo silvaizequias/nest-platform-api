@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 export const readUserRepository = async (id?: string) => {
@@ -6,39 +6,33 @@ export const readUserRepository = async (id?: string) => {
 
   try {
     if (id) {
-      return await prisma.user.findFirst({
+      const user = await prisma.user.findFirst({
         where: { id: id, softDeleted: false },
         include: {
           organizations: {
             select: {
-              id: true,
-              isActive: true,
               role: true,
               organization: {
                 select: {
                   id: true,
-                  image: true,
                   name: true,
-                  phone: true,
-                  email: true,
-                  documentCode: true,
-                  zipCode: true,
-                  complement: true,
-                  latitude: true,
-                  longitude: true,
+                  document: true,
                 },
               },
             },
           },
         },
       })
+      if (!user) throw new NotFoundException('usuário não encontrado')
+
+      return user
     }
 
     return await prisma.user.findMany({
       where: { softDeleted: false },
       select: {
         id: true,
-        isActive: true,
+        active: true,
         profile: true,
         image: true,
         name: true,
@@ -47,7 +41,7 @@ export const readUserRepository = async (id?: string) => {
         organizations: {
           select: {
             id: true,
-            isActive: true,
+            active: true,
             role: true,
             organization: {
               select: {
@@ -56,7 +50,7 @@ export const readUserRepository = async (id?: string) => {
                 name: true,
                 phone: true,
                 email: true,
-                documentCode: true,
+                document: true,
                 zipCode: true,
                 complement: true,
                 latitude: true,

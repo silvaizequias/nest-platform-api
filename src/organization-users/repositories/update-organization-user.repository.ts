@@ -10,17 +10,17 @@ export const updateOrganizationUserRepository = async (
   const prisma = new PrismaService()
 
   try {
-    const { userEmail, organizationCode } = updateOrganizationUserDto
-    delete updateOrganizationUserDto?.userEmail
-    delete updateOrganizationUserDto?.organizationCode
+    const { userPhone, organizationDocument } = updateOrganizationUserDto
+    delete updateOrganizationUserDto?.userPhone
+    delete updateOrganizationUserDto?.organizationDocument
 
     const user = await prisma.user.findFirst({
-      where: { email: userEmail },
+      where: { phone: userPhone },
     })
     if (!user) throw new NotFoundException('o usuario não foi encontrado')
 
     const organization = await prisma.organization.findFirst({
-      where: { documentCode: organizationCode },
+      where: { document: organizationDocument },
     })
     if (!organization)
       throw new NotFoundException('a organização não foi encontrada')
@@ -29,18 +29,18 @@ export const updateOrganizationUserRepository = async (
       ...updateOrganizationUserDto,
       user: {
         update: {
-          email: userEmail,
+          phone: userPhone,
         },
       },
       organization: {
         update: {
-          documentCode: organizationCode,
+          document: organizationDocument,
         },
       },
     }
     await prisma.organizationUsers.update({ where: { id: id }, data })
 
-    return `as informações foram atualizadas`
+    return JSON.stringify(`as informações foram atualizadas`)
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

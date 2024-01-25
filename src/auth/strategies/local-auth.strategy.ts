@@ -7,7 +7,7 @@ import { SignInAuthDto } from '../dto/signin-auth.dto'
 @Injectable()
 export class LocalAuthStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
-    super({ email: 'email' })
+    super({ phone: 'phone' })
   }
 
   async validate(signInAuthDto: SignInAuthDto): Promise<any> {

@@ -12,27 +12,30 @@ export const signUpAuthRepository = async (signUpAuthDto: SignUpAuthDto) => {
     const { email, name, password, phone } = signUpAuthDto
     delete signUpAuthDto?.password
 
-    const userEmail = await prisma.user.findFirst({
-      where: { email: email },
-    })
-
     const userPhone = await prisma.user.findFirst({
       where: { phone: phone },
     })
-
-    if (userEmail || userPhone)
+    if (userPhone)
       throw new ConflictException(
-        `o e-mail ${email} ou o telefone ${phone} já estão em uso`,
+        `o email ${phone} já está vinculado a um usuário existente na plataforma`,
+      )
+
+    const userEmail = await prisma.user.findFirst({
+      where: { email: email },
+    })
+    if (userEmail)
+      throw new ConflictException(
+        `o email ${email} já está vinculado a um usuário existente na plataforma`,
       )
 
     const data: Prisma.UserCreateInput = {
       ...signUpAuthDto,
-      profile: 'USER',
+      profile: 'guest',
       passHash: hashSync(password || randomCode, 10),
     }
     await prisma.user.create({ data })
 
-    return `${name}, a sua conta foi criada no sistema`
+    return JSON.stringify(`${name}, a sua conta foi criada no sistema`)
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

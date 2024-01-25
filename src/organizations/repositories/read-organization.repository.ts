@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 export const readOrganizationRepository = async (id?: string) => {
@@ -6,67 +6,53 @@ export const readOrganizationRepository = async (id?: string) => {
 
   try {
     if (id) {
-      return await prisma.organization.findFirst({
+      const organziation = await prisma.organization.findFirst({
         where: { id: id, softDeleted: false },
         include: {
+          apiKey: {
+            select: {
+              expireIn: true,
+              active: true,
+              authorizationKey: true,
+            },
+          },
           users: {
             select: {
               id: true,
+              active: true,
               role: true,
-              isActive: true,
               user: {
                 select: {
                   id: true,
                   profile: true,
-                  isActive: true,
                   name: true,
-                  image: true,
-                  email: true,
                   phone: true,
-                  zipCode: true,
-                  complement: true,
-                  latitude: true,
-                  longitude: true,
                 },
               },
             },
           },
         },
       })
+      if (!organziation)
+        throw new NotFoundException('organização não encontrado')
+
+      return organziation
     }
 
     return await prisma.organization.findMany({
-      where: { softDeleted: false },
-      select: {
-        id: true,
-        isActive: true,
-        image: true,
-        name: true,
-        phone: true,
-        email: true,
-        documentCode: true,
-        zipCode: true,
-        complement: true,
-        latitude: true,
-        longitude: true,
+      where: { id: id, softDeleted: false },
+      include: {
         users: {
           select: {
             id: true,
+            active: true,
             role: true,
-            isActive: true,
             user: {
               select: {
                 id: true,
                 profile: true,
-                isActive: true,
                 name: true,
-                image: true,
-                email: true,
                 phone: true,
-                zipCode: true,
-                complement: true,
-                latitude: true,
-                longitude: true,
               },
             },
           },

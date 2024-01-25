@@ -5,6 +5,7 @@ import { OrganizationsModule } from './organizations/organizations.module'
 import { OrganizationUsersModule } from './organization-users/organization-users.module'
 import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
+import { OrganizationKeysModule } from './organization-keys/organization-keys.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module'
     OrganizationUsersModule,
     UsersModule,
     AuthModule,
+    OrganizationKeysModule,
   ],
   providers: [],
 })

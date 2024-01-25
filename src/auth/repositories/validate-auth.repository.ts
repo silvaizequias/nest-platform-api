@@ -6,12 +6,12 @@ export const validateAuthRepository = async (signInAuthDto: SignInAuthDto) => {
   const prisma = new PrismaService()
 
   try {
-    const { email } = signInAuthDto
+    const { phone } = signInAuthDto
     const user = await prisma.user.findFirst({
-      where: { email: email },
+      where: { phone: phone },
       select: {
         id: true,
-        isActive: true,
+        active: true,
         profile: true,
         name: true,
         email: true,

@@ -7,10 +7,12 @@ import { hashSync } from 'bcrypt'
 export const signUpAuthRepository = async (signUpAuthDto: SignUpAuthDto) => {
   const prisma = new PrismaService()
   const randomCode = Math.random().toString(32).substr(2, 16)
+  const defaultOrganization = '52378516000178' as string
 
   try {
-    const { email, name, password, phone } = signUpAuthDto
+    const { email, name, organizationDocument, password, phone } = signUpAuthDto
     delete signUpAuthDto?.password
+    delete signUpAuthDto.organizationDocument
 
     const userPhone = await prisma.user.findFirst({
       where: { phone: phone },
@@ -28,14 +30,25 @@ export const signUpAuthRepository = async (signUpAuthDto: SignUpAuthDto) => {
         `o email ${email} já está vinculado a um usuário existente na plataforma`,
       )
 
-    const data: Prisma.UserCreateInput = {
-      ...signUpAuthDto,
-      profile: 'guest',
-      passHash: hashSync(password || randomCode, 10),
+    const data: Prisma.OrganizationUsersCreateInput = {
+      role: 'client',
+      active: true,
+      organization: {
+        connect: {
+          document: organizationDocument || defaultOrganization,
+        },
+      },
+      user: {
+        create: {
+          ...signUpAuthDto,
+          profile: 'consumer',
+          passHash: hashSync(password || randomCode, 10),
+        },
+      },
     }
-    await prisma.user.create({ data })
+    await prisma.organizationUsers.create({ data })
 
-    return JSON.stringify(`${name}, a sua conta foi criada no sistema`)
+    return JSON.stringify(`${name}, a sua conta foi criada na plataforma`)
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

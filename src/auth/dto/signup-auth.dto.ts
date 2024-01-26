@@ -9,6 +9,7 @@ import {
 
 export class SignUpAuthDto {
   @ApiPropertyOptional({ default: '52378516000178' })
+  @IsOptional()
   @IsString()
   organizationDocument: string
 

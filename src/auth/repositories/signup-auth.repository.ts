@@ -7,7 +7,7 @@ import { hashSync } from 'bcrypt'
 export const signUpAuthRepository = async (signUpAuthDto: SignUpAuthDto) => {
   const prisma = new PrismaService()
   const randomCode = Math.random().toString(32).substr(2, 16)
-  const defaultOrganization = '52378516000178'
+  const defaultOrganization = '52378516000178' as string
 
   try {
     const { email, name, organizationDocument, password, phone } = signUpAuthDto

@@ -26,8 +26,8 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -36,8 +36,8 @@ export class UsersController {
     return this.usersService.create(createUserDto)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -46,8 +46,8 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -56,8 +56,8 @@ export class UsersController {
     return this.usersService.findByEmail(email)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -66,8 +66,8 @@ export class UsersController {
     return this.usersService.findById(id)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -76,8 +76,8 @@ export class UsersController {
     return this.usersService.findByPhone(phone)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

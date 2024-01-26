@@ -9,7 +9,6 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
   UseInterceptors,
-  Put,
 } from '@nestjs/common'
 import { OrganizationsService } from './organizations.service'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
@@ -27,8 +26,8 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -53,8 +52,8 @@ export class OrganizationsController {
     )
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -63,8 +62,8 @@ export class OrganizationsController {
     return this.organizationsService.findAll()
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -73,8 +72,8 @@ export class OrganizationsController {
     return this.organizationsService.findByDocument(document)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -83,8 +82,8 @@ export class OrganizationsController {
     return this.organizationsService.findOne(id)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

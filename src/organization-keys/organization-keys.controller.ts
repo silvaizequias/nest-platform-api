@@ -28,8 +28,8 @@ export class OrganizationKeysController {
     private readonly organizationKeysService: OrganizationKeysService,
   ) {}
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -38,8 +38,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.create(createOrganizationKeyDto)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -48,8 +48,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findAll()
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -58,8 +58,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findByKey(authorizationKey)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -68,8 +68,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findOne(id)
   }
 
-  //@UseGuards(JwtAuthGuard)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

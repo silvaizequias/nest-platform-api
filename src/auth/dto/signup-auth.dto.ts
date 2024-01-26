@@ -8,6 +8,10 @@ import {
 } from 'class-validator'
 
 export class SignUpAuthDto {
+  @ApiPropertyOptional({ default: '52378516000178' })
+  @IsString()
+  organizationDocument: string
+
   @ApiProperty()
   @IsString()
   name: string

@@ -20,6 +20,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
+import { ProfileAuthGuard } from 'src/auth/guards/profile-auth.guard'
+import { Profiles } from 'src/users/decorators/user.decorator'
+import { UserProfileEnum } from 'src/users/users.enumerator'
 
 @ApiTags('organization-users')
 @Controller('organization-users')
@@ -28,7 +31,12 @@ export class OrganizationUsersController {
     private readonly organizationUsersService: OrganizationUsersService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -38,7 +46,12 @@ export class OrganizationUsersController {
     return this.organizationUsersService.create(createOrganizationUserDto)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -48,7 +61,12 @@ export class OrganizationUsersController {
     return this.organizationUsersService.findAll()
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -58,7 +76,12 @@ export class OrganizationUsersController {
     return this.organizationUsersService.findByUserId(id)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -68,7 +91,12 @@ export class OrganizationUsersController {
     return this.organizationUsersService.findOne(id)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -81,8 +109,8 @@ export class OrganizationUsersController {
     return this.organizationUsersService.update(id, updateOrganizationUserDto)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @Profiles(UserProfileEnum.master)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

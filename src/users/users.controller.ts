@@ -62,7 +62,12 @@ export class UsersController {
     return this.usersService.findByEmail(email)
   }
 
-  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+    UserProfileEnum.guest,
+  )
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
@@ -73,7 +78,12 @@ export class UsersController {
     return this.usersService.findById(id)
   }
 
-  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+    UserProfileEnum.guest,
+  )
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()

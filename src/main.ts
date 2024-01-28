@@ -29,11 +29,6 @@ async function bootstrap() {
       in: 'header',
       description: 'authorization',
     })
-    .addApiKey({
-      type: 'apiKey',
-      in: 'header',
-      description: 'authorization',
-    })
     .build()
 
   const document = SwaggerModule.createDocument(app, options)

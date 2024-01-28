@@ -16,6 +16,16 @@ export class CreateUserDto {
   @IsOptional()
   active: boolean
 
+  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
+  @IsOptional()
+  subscriber: boolean
+
+  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
+  @IsOptional()
+  suspended: boolean
+
   @ApiPropertyOptional({ default: 'guest', enum: $Enums.UserProfile })
   @IsEnum($Enums.UserProfile)
   @IsOptional()

@@ -20,6 +20,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
+import { ProfileAuthGuard } from 'src/auth/guards/profile-auth.guard'
+import { Profiles } from 'src/users/decorators/user.decorator'
+import { UserProfileEnum } from 'src/users/users.enumerator'
 
 @ApiTags('organization-keys')
 @Controller('organization-keys')
@@ -28,7 +31,8 @@ export class OrganizationKeysController {
     private readonly organizationKeysService: OrganizationKeysService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -38,7 +42,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.create(createOrganizationKeyDto)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -48,7 +53,12 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findAll()
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -58,7 +68,12 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findByKey(authorizationKey)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -68,7 +83,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findOne(id)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -81,7 +97,8 @@ export class OrganizationKeysController {
     return this.organizationKeysService.update(id, updateOrganizationKeyDto)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()

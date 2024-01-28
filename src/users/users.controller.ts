@@ -20,13 +20,17 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
+import { ProfileAuthGuard } from 'src/auth/guards/profile-auth.guard'
+import { Profiles } from './decorators/user.decorator'
+import { UserProfileEnum } from './users.enumerator'
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -36,7 +40,8 @@ export class UsersController {
     return this.usersService.create(createUserDto)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -46,7 +51,8 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -56,7 +62,8 @@ export class UsersController {
     return this.usersService.findByEmail(email)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -66,7 +73,8 @@ export class UsersController {
     return this.usersService.findById(id)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -76,7 +84,13 @@ export class UsersController {
     return this.usersService.findByPhone(phone)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+    UserProfileEnum.guest,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -86,7 +100,8 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Profiles(UserProfileEnum.master)
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()

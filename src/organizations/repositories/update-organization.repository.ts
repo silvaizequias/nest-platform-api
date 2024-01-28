@@ -16,7 +16,7 @@ export const updateOrganizationRepository = async (
 
     await prisma.organization.update({
       where: { id: id },
-      data: updateOrganizationDto,
+      data: { ...updateOrganizationDto },
     })
     return JSON.stringify(`as informações da organização foram atualizadas`)
   } catch (error) {

@@ -35,6 +35,7 @@ export class OrganizationUsersController {
     UserProfileEnum.master,
     UserProfileEnum.member,
     UserProfileEnum.consumer,
+    UserProfileEnum.guest,
   )
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
@@ -50,6 +51,7 @@ export class OrganizationUsersController {
     UserProfileEnum.master,
     UserProfileEnum.member,
     UserProfileEnum.consumer,
+    UserProfileEnum.guest,
   )
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
@@ -65,6 +67,7 @@ export class OrganizationUsersController {
     UserProfileEnum.master,
     UserProfileEnum.member,
     UserProfileEnum.consumer,
+    UserProfileEnum.guest,
   )
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()
@@ -80,6 +83,7 @@ export class OrganizationUsersController {
     UserProfileEnum.master,
     UserProfileEnum.member,
     UserProfileEnum.consumer,
+    UserProfileEnum.guest,
   )
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()

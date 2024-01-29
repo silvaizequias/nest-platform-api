@@ -53,17 +53,17 @@ export class OrganizationKeysController {
     return this.organizationKeysService.findAll()
   }
 
-  @Profiles(
-    UserProfileEnum.master,
-    UserProfileEnum.member,
-    UserProfileEnum.consumer,
-  )
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UserProfileEnum.master,
+  //  UserProfileEnum.member,
+  //  UserProfileEnum.consumer,
+  //)
+  //@UseGuards(JwtAuthGuard, ProfileAuthGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('authorization-key:authorizationKey')
+  @Get('authorization-key/:authorizationKey')
   findByKey(@Param('key') authorizationKey: string) {
     return this.organizationKeysService.findByKey(authorizationKey)
   }

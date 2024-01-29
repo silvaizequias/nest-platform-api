@@ -29,8 +29,6 @@ export const passwordResetAuthRepository = async (
     }
     await prisma.user.update({ where: { phone: phone }, data })
 
-    console.log(data)
-
     notification.sendSms({
       to: `+55${phone}`,
       from: TWILIO_PHONE_NUMBER,

@@ -25,6 +25,18 @@ export const signInAuthRepository = async (signInAuthDto: SignInAuthDto) => {
         email: true,
         phone: true,
         passHash: true,
+        defaultOrganization: true,
+        organizations: {
+          select: {
+            role: true,
+            organizationId: true,
+            organization: {
+              select: {
+                document: true,
+              },
+            },
+          },
+        },
       },
     })
     if (!user) throw new NotFoundException('o número de celular está incorreto')

@@ -51,6 +51,22 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+    UserProfileEnum.guest,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/document/:document')
+  findByDocument(@Param('document') document: string) {
+    return this.usersService.findByDocument(document)
+  }
+
   @Profiles(UserProfileEnum.master, UserProfileEnum.member)
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
   @ApiBearerAuth()

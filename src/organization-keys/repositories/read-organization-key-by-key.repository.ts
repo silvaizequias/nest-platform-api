@@ -12,6 +12,12 @@ export const readOrganizationKeyByKeyRepository = async (
       select: {
         active: true,
         expireIn: true,
+        organization: {
+          select: {
+            id: true,
+            document: true,
+          },
+        },
       },
     })
     if (!organizationKey)

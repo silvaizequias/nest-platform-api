@@ -102,7 +102,8 @@ model Organization {
 
   users OrganizationUsers[]
 
-  apiKey OrganizationKeys?
+  authorizationKey OrganizationKeys?
+  subscriptions    Subscription[]
 
   @@map("organizations")
 }
@@ -123,4 +124,36 @@ model OrganizationKeys {
   authorizationKey String @unique @map("authorization_key")
 
   @@map("organization_key")
+}
+
+model Subscription {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade)
+
+  code           String  @unique
+  customerId     String? @map("customer_id")
+  subscriptionId String? @map("subscription_id")
+  status         String?
+  recurrence     String?
+
+  currentPeriodEnd DateTime? @map("current_period_end")
+
+  spendLimit Int? @default(5000) @map("spend_limit")
+  spending   Int? @default(0)
+
+  spendExceeded Boolean? @default(false) @map("spend_exceeded")
+
+  price Float? @default(0) @db.Real
+
+  priceId String? @map("price_id")
+
+  @@map("subscriptions")
 }

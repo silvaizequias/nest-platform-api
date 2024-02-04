@@ -10,7 +10,8 @@ export const readOrganizationByDocumentRepository = async (
     const organziation = await prisma.organization.findFirst({
       where: { document: document, softDeleted: false },
       include: {
-        apiKey: {
+        subscriptions: true,
+        authorizationKey: {
           select: {
             active: true,
             expireIn: true,

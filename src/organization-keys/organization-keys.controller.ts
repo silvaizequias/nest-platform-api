@@ -63,8 +63,8 @@ export class OrganizationKeysController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('authorization-key/:authorizationKey')
-  findByKey(@Param('key') authorizationKey: string) {
+  @Get('/authorization-key/:authorizationKey')
+  findByKey(@Param('authorizationKey') authorizationKey: string) {
     return this.organizationKeysService.findByKey(authorizationKey)
   }
 

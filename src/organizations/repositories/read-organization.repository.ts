@@ -9,7 +9,8 @@ export const readOrganizationRepository = async (id?: string) => {
       const organziation = await prisma.organization.findFirst({
         where: { id: id, softDeleted: false },
         include: {
-          apiKey: {
+          subscriptions: true,
+          authorizationKey: {
             select: {
               expireIn: true,
               active: true,
@@ -42,6 +43,7 @@ export const readOrganizationRepository = async (id?: string) => {
     return await prisma.organization.findMany({
       where: { id: id, softDeleted: false },
       include: {
+        subscriptions: true,
         users: {
           select: {
             id: true,

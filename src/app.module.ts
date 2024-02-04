@@ -6,7 +6,8 @@ import { OrganizationUsersModule } from './organization-users/organization-users
 import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
 import { OrganizationKeysModule } from './organization-keys/organization-keys.module'
-import { NotificationsModule } from './notifications/notifications.module';
+import { NotificationsModule } from './notifications/notifications.module'
+import { SubscriptionsModule } from './subscriptions/subscriptions.module'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     AuthModule,
     OrganizationKeysModule,
     NotificationsModule,
+    SubscriptionsModule,
   ],
   providers: [],
 })

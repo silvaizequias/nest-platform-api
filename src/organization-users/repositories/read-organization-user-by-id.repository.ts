@@ -15,7 +15,7 @@ export const readOrganizationUserByIdRepository = async (id: string) => {
         role: true,
         organization: {
           include: {
-            apiKey: {
+            authorizationKey: {
               select: {
                 active: true,
                 expireIn: true,

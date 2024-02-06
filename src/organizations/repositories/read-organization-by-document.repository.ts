@@ -26,6 +26,7 @@ export const readOrganizationByDocumentRepository = async (
             user: {
               select: {
                 id: true,
+                image: true,
                 profile: true,
                 name: true,
                 phone: true,

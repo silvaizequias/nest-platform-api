@@ -28,7 +28,7 @@ export const createSubscriptionRepository = async (
       },
     }
 
-    return JSON.stringify(await prisma.subscription.create({ data }))
+    return await prisma.subscription.create({ data })
   } catch (error) {
     console.log(error)
     await prisma.$disconnect()

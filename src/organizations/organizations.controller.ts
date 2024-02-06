@@ -75,14 +75,14 @@ export class OrganizationsController {
     return this.organizationsService.findAll()
   }
 
-  //@Profiles(
-  //  UserProfileEnum.master,
-  //  UserProfileEnum.member,
-  //  UserProfileEnum.consumer,
-  //  UserProfileEnum.guest,
-  //)
-  //@UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UserProfileEnum.master,
+    UserProfileEnum.member,
+    UserProfileEnum.consumer,
+    UserProfileEnum.guest,
+  )
+  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

@@ -57,7 +57,7 @@ export const createOrganizationKeyRepository = async (
         <p>É um prazer ter você por aqui!</p>
         `
     notification.sendEmail({
-      to: `${organization?.name}`,
+      to: `${organization?.email}`,
       from: { name: 'dedicado', email: 'master@dedicado.digital' },
       subject: 'chave de autenticação da organização',
       text: message,

@@ -91,6 +91,22 @@ export class OrganizationsController {
     return this.organizationsService.findByDocument(document)
   }
 
+  //@Profiles(
+  //  UserProfileEnum.master,
+  //  UserProfileEnum.member,
+  //  UserProfileEnum.consumer,
+  //  UserProfileEnum.guest,
+  //)
+  //@UseGuards(JwtAuthGuard, ProfileAuthGuard)
+  //@ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/verification/:document')
+  findForVerification(@Param('document') document: string) {
+    return this.organizationsService.findForVerification(document)
+  }
+
   @Profiles(
     UserProfileEnum.master,
     UserProfileEnum.member,

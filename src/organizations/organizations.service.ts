@@ -7,6 +7,7 @@ import { updateOrganizationRepository } from './repositories/update-organization
 import { deleteOrganizationRepository } from './repositories/delete-organization.repository'
 import { readOrganizationByDocumentRepository } from './repositories/read-organization-by-document.repository'
 import { createOrganizationForMe } from './repositories/create-organization-for-me.repository'
+import { readOrganizationForVerificationRepository } from './repositories/read-organization-for-verification.repository'
 
 @Injectable()
 export class OrganizationsService {
@@ -24,6 +25,10 @@ export class OrganizationsService {
 
   findByDocument(document: string) {
     return readOrganizationByDocumentRepository(document)
+  }
+
+  findForVerification(document: string) {
+    return readOrganizationForVerificationRepository(document)
   }
 
   findOne(id: string) {

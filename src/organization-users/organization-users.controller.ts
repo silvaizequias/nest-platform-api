@@ -115,6 +115,7 @@ export class OrganizationUsersController {
 
   @Profiles(UserProfileEnum.master)
   @UseGuards(JwtAuthGuard, ProfileAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

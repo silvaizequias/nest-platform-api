@@ -36,7 +36,7 @@ export const readOrganizationByDocumentRepository = async (
         },
       },
     })
-    if (!organziation) throw new NotFoundException('organização não encontrado')
+    if (!organziation) throw new NotFoundException('organização não encontrada')
 
     return organziation
   } catch (error) {

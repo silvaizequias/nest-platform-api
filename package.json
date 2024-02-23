@@ -1,7 +1,7 @@
 {
-  "name": "platform-management-api",
+  "name": "dedicated-management",
   "version": "1.0.0",
-  "description": "API responsible for management for all platform user",
+  "description": "",
   "author": "Izequias Narcizo dos Santos da Silva",
   "private": true,
   "license": "UNLICENSED",

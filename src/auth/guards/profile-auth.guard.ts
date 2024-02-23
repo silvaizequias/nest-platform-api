@@ -1,7 +1,7 @@
-import { PROFILES_KEY } from './../../users/decorators/user.decorator'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Observable } from 'rxjs'
+import { PROFILES_KEY } from 'src/users/decorators/user.decorator'
 import { UserProfileEnum } from 'src/users/users.enumerator'
 
 @Injectable()

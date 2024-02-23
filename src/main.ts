@@ -21,8 +21,8 @@ async function bootstrap() {
   })
 
   const options = new DocumentBuilder()
-    .setTitle('Platform Management API')
-    .setDescription('Platform Management API')
+    .setTitle('dedicated management')
+    .setDescription('dedicated management')
     .setVersion('1.0')
     .addBearerAuth({
       type: 'http',

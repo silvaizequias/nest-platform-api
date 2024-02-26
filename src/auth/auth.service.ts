@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common'
-import { SignInAuthDto } from './dto/signin-auth.dto'
+import { LoginAuthDto } from './dto/login-auth.dto'
 import { validateAuthRepository } from './repositories/validate-auth.repository'
-import { signInAuthRepository } from './repositories/signin-auth.repository'
-import { SignUpAuthDto } from './dto/signup-auth.dto'
-import { signUpAuthRepository } from './repositories/signup-auth.repository'
+import { loginAuthRepository } from './repositories/login-auth.repository'
+import { registerAuthRepository } from './repositories/register-auth.repository'
 import { PasswordResetAuthDto } from './dto/password-reset-auth.dto'
 import { passwordResetAuthRepository } from './repositories/password-reset-auth.repository'
+import { RegisterAuthDto } from './dto/register-auth.dto'
 
 @Injectable()
 export class AuthService {
   constructor() {}
 
-  async validateUser(signInAuthDto: SignInAuthDto) {
-    return await validateAuthRepository(signInAuthDto)
+  async validateUser(loginAuthDto: LoginAuthDto) {
+    return await validateAuthRepository(loginAuthDto)
   }
 
-  async signIn(signInAuthDto: SignInAuthDto) {
-    return await signInAuthRepository(signInAuthDto)
+  async login(loginAuthDto: LoginAuthDto) {
+    return await loginAuthRepository(loginAuthDto)
   }
 
-  async signUp(signUpAuthDto: SignUpAuthDto) {
-    return await signUpAuthRepository(signUpAuthDto)
+  async register(registerAuthDto: RegisterAuthDto) {
+    return await registerAuthRepository(registerAuthDto)
   }
 
   async passwordReset(passwordResetAuthDto: PasswordResetAuthDto) {

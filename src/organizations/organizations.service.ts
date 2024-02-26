@@ -6,7 +6,7 @@ import { readOrganizationRepository } from './repositories/read-organization.rep
 import { updateOrganizationRepository } from './repositories/update-organization.repository'
 import { deleteOrganizationRepository } from './repositories/delete-organization.repository'
 import { readOrganizationByDocumentRepository } from './repositories/read-organization-by-document.repository'
-import { createOrganizationForMe } from './repositories/create-organization-for-me.repository'
+import { createOrganizationForUser } from './repositories/create-organization-for-user.repository'
 import { readOrganizationForVerificationRepository } from './repositories/read-organization-for-verification.repository'
 
 @Injectable()
@@ -15,8 +15,11 @@ export class OrganizationsService {
     return createOrganizationRepository(createOrganizationDto)
   }
 
-  createForMe(userPhone: string, createOrganizationDto: CreateOrganizationDto) {
-    return createOrganizationForMe(userPhone, createOrganizationDto)
+  createForUser(
+    userPhone: string,
+    createOrganizationDto: CreateOrganizationDto,
+  ) {
+    return createOrganizationForUser(userPhone, createOrganizationDto)
   }
 
   findAll() {

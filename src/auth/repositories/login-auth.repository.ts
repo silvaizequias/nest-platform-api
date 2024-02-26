@@ -1,5 +1,5 @@
 import { PrismaService } from 'src/prisma/prisma.service'
-import { SignInAuthDto } from '../dto/signin-auth.dto'
+import { LoginAuthDto } from '../dto/login-auth.dto'
 import {
   ForbiddenException,
   HttpException,
@@ -8,12 +8,12 @@ import {
 import { compareSync } from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
 
-export const signInAuthRepository = async (signInAuthDto: SignInAuthDto) => {
+export const loginAuthRepository = async (loginAuthDto: LoginAuthDto) => {
   const prisma = new PrismaService()
   const jwtService = new JwtService()
 
   try {
-    const { phone, password } = signInAuthDto
+    const { phone, password } = loginAuthDto
     const user = await prisma.user.findFirst({
       where: { phone: phone },
       select: {

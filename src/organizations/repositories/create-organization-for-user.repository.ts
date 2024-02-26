@@ -4,7 +4,7 @@ import { CreateOrganizationDto } from '../dto/create-organization.dto'
 import { Prisma } from '@prisma/client'
 import { hashSync } from 'bcrypt'
 
-export const createOrganizationForMe = async (
+export const createOrganizationForUser = async (
   userPhone: string,
   createOrganizationDto: CreateOrganizationDto,
 ) => {

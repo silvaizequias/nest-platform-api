@@ -49,12 +49,12 @@ export class OrganizationsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('/for-me/:userPhone')
-  createForMe(
+  @Post('/for-user/:userPhone')
+  createForUser(
     @Param('userPhone') userPhone: string,
     @Body() createOrganizationDto: CreateOrganizationDto,
   ) {
-    return this.organizationsService.createForMe(
+    return this.organizationsService.createForUser(
       userPhone,
       createOrganizationDto,
     )

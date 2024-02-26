@@ -7,29 +7,29 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
-import { SignInAuthDto } from './dto/signin-auth.dto'
-import { SignUpAuthDto } from './dto/signup-auth.dto'
+import { LoginAuthDto } from './dto/login-auth.dto'
 import { PasswordResetAuthDto } from './dto/password-reset-auth.dto'
+import { RegisterAuthDto } from './dto/register-auth.dto'
 
-@ApiTags('auth')
-@Controller('auth')
+@ApiTags('')
+@Controller('')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('sign-in')
-  public async signIn(@Body() signInAuthDto: SignInAuthDto): Promise<any> {
-    return this.authService.signIn(signInAuthDto)
+  @Post('login')
+  public async signIn(@Body() loginAuthDto: LoginAuthDto): Promise<any> {
+    return this.authService.login(loginAuthDto)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('sign-up')
-  public async signUp(@Body() signUpAuthDto: SignUpAuthDto): Promise<any> {
-    return this.authService.signUp(signUpAuthDto)
+  @Post('register')
+  public async signUp(@Body() registerAuthDto: RegisterAuthDto): Promise<any> {
+    return this.authService.register(registerAuthDto)
   }
 
   @ApiOkResponse()

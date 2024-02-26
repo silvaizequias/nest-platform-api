@@ -1,18 +1,21 @@
 import { PrismaService } from 'src/prisma/prisma.service'
-import { SignUpAuthDto } from '../dto/signup-auth.dto'
+import { RegisterAuthDto } from '../dto/register-auth.dto'
 import { ConflictException, HttpException } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { hashSync } from 'bcrypt'
 
-export const signUpAuthRepository = async (signUpAuthDto: SignUpAuthDto) => {
+export const registerAuthRepository = async (
+  registerAuthDto: RegisterAuthDto,
+) => {
   const prisma = new PrismaService()
   const randomCode = Math.random().toString(32).substr(2, 16)
   const defaultOrganization = '52378516000178' as string
 
   try {
-    const { email, name, organizationDocument, password, phone } = signUpAuthDto
-    delete signUpAuthDto?.password
-    delete signUpAuthDto.organizationDocument
+    const { email, name, organizationDocument, password, phone } =
+      registerAuthDto
+    delete registerAuthDto?.password
+    delete registerAuthDto.organizationDocument
 
     const userPhone = await prisma.user.findFirst({
       where: { phone: phone },
@@ -42,7 +45,7 @@ export const signUpAuthRepository = async (signUpAuthDto: SignUpAuthDto) => {
       },
       user: {
         create: {
-          ...signUpAuthDto,
+          ...registerAuthDto,
           profile: 'consumer',
           passHash: hashSync(setPassword, 10),
         },

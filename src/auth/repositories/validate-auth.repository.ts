@@ -1,12 +1,12 @@
 import { HttpException, UnauthorizedException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { SignInAuthDto } from '../dto/signin-auth.dto'
+import { LoginAuthDto } from '../dto/login-auth.dto'
 
-export const validateAuthRepository = async (signInAuthDto: SignInAuthDto) => {
+export const validateAuthRepository = async (loginAuthDto: LoginAuthDto) => {
   const prisma = new PrismaService()
 
   try {
-    const { phone } = signInAuthDto
+    const { phone } = loginAuthDto
     const user = await prisma.user.findFirst({
       where: { phone: phone },
       select: {

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, MaxLength, MinLength } from 'class-validator'
 
-export class SignInAuthDto {
+export class LoginAuthDto {
   @ApiProperty()
   @IsString()
   phone: string

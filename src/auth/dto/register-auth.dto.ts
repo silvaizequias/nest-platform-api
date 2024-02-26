@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator'
 
-export class SignUpAuthDto {
+export class RegisterAuthDto {
   @ApiPropertyOptional({ default: '52378516000178' })
   @IsOptional()
   @IsString()

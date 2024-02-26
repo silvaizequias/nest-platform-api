@@ -21,8 +21,8 @@ async function bootstrap() {
   })
 
   const options = new DocumentBuilder()
-    .setTitle('dedicated management')
-    .setDescription('dedicated management')
+    .setTitle('management')
+    .setDescription('management')
     .setVersion('1.0')
     .addBearerAuth({
       type: 'http',

@@ -7,8 +7,8 @@ import { randomBytes } from 'crypto'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { CreateOrganizationDto } from 'src/organizations/dto/create-organization.dto'
-import { getAddressByZipCode } from 'utils/handle-address'
-import { AddressByZipCodeType } from 'utils/handle-address/types'
+import { getAddressByZipCode } from 'src/utils/handle-address'
+import { AddressByZipCodeType } from 'src/utils/handle-address/types'
 
 const prisma = new PrismaService()
 const randomKey = 'dp.' + randomBytes(32).toString('hex')

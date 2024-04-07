@@ -1,8 +1,8 @@
 import { HttpException, NotFoundException } from '@nestjs/common'
 import { UpdateOrganizationDto } from 'src/organizations/dto/update-organization.dto'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { getAddressByZipCode } from 'utils/handle-address'
-import { AddressByZipCodeType } from 'utils/handle-address/types'
+import { getAddressByZipCode } from 'src/utils/handle-address'
+import { AddressByZipCodeType } from 'src/utils/handle-address/types'
 
 const prisma = new PrismaService()
 

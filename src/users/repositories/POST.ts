@@ -12,8 +12,8 @@ import { Prisma } from '@prisma/client'
 import { LoginUserDto } from '../dto/login-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { compareSync } from 'bcryptjs'
-import { getAddressByZipCode } from 'utils/handle-address'
-import { AddressByZipCodeType } from 'utils/handle-address/types'
+import { getAddressByZipCode } from 'src/utils/handle-address'
+import { AddressByZipCodeType } from 'src/utils/handle-address/types'
 
 export const createUser = async (createUserDto: CreateUserDto) => {
   const prisma = new PrismaService()

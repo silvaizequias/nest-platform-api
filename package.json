@@ -1,10 +1,10 @@
 {
   "name": "management",
   "version": "1.0.0",
-  "description": "",
+  "description": "dedicated management service",
   "author": "Izequias Narcizo dos Santos da Silva",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "LPGL",
   "engines": {
     "node": "20"
   },

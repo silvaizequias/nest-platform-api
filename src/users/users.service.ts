@@ -1,45 +1,54 @@
 import { Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { createUserRepository } from './repositories/create-user.repository'
-import { readUserRepository } from './repositories/read-user.repository'
-import { updateUserRepository } from './repositories/update-user.repository'
-import { deleteUserRepository } from './repositories/delete-user.repository'
-import { readUserByEmailRepository } from './repositories/read-user-by-email.repository'
-import { readUserByPhoneRepository } from './repositories/read-user-by-phone.repository'
-import { readUserByDocumentRepository } from './repositories/read-user-by-document.repository'
+import {
+  findUserByDocument,
+  findUserByEmail,
+  findUserById,
+  findUserByPhone,
+  findUsers,
+} from './repositories/GET'
+import { updateUser } from './repositories/PATCH'
+import { removeUser } from './repositories/DELETE'
+import { createUser, login } from './repositories/POST'
+import { LoginUserDto } from './dto/login-user.dto'
+import { DeleteUserDto } from './dto/delete-user.dto'
 
 @Injectable()
 export class UsersService {
   create(createUserDto: CreateUserDto) {
-    return createUserRepository(createUserDto)
+    return createUser(createUserDto)
+  }
+
+  login(loginUserDto: LoginUserDto) {
+    return login(loginUserDto)
   }
 
   findAll() {
-    return readUserRepository()
+    return findUsers()
   }
 
   findByDocument(document: string) {
-    return readUserByDocumentRepository(document)
+    return findUserByDocument(document)
   }
 
   findByEmail(email: string) {
-    return readUserByEmailRepository(email)
+    return findUserByEmail(email)
   }
 
-  findById(id: string) {
-    return readUserRepository(id)
+  findOne(id: string) {
+    return findUserById(id)
   }
 
   findByPhone(phone: string) {
-    return readUserByPhoneRepository(phone)
+    return findUserByPhone(phone)
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return updateUserRepository(id, updateUserDto)
+    return updateUser(id, updateUserDto)
   }
 
-  remove(id: string) {
-    return deleteUserRepository(id)
+  remove(id: string, deleteUserDto: DeleteUserDto) {
+    return removeUser(id, deleteUserDto)
   }
 }

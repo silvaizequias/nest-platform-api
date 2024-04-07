@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { ApiPropertyOptional } from '@nestjs/swagger'
 import { $Enums } from '@prisma/client'
 import {
   IsBoolean,
@@ -8,25 +8,26 @@ import {
   IsOptional,
   IsString,
   Length,
+  MaxLength,
+  MinLength,
 } from 'class-validator'
 
 export class CreateUserDto {
-  @ApiPropertyOptional({ default: true })
+  @ApiPropertyOptional({ default: true, readOnly: true })
   @IsBoolean()
   @IsOptional()
   active: boolean
 
-  @ApiPropertyOptional({ default: false })
+  @ApiPropertyOptional({ default: false, readOnly: true })
   @IsBoolean()
   @IsOptional()
-  subscriber: boolean
+  available: boolean
 
-  @ApiPropertyOptional({ default: false })
-  @IsBoolean()
-  @IsOptional()
-  suspended: boolean
-
-  @ApiPropertyOptional({ default: 'guest', enum: $Enums.UserProfile })
+  @ApiPropertyOptional({
+    default: 'guest',
+    enum: $Enums.UserProfile,
+    readOnly: true,
+  })
   @IsEnum($Enums.UserProfile)
   @IsOptional()
   profile: $Enums.UserProfile
@@ -47,18 +48,23 @@ export class CreateUserDto {
   @IsEmail()
   email: string
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsString()
+  @IsOptional()
   phone: string
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
+  @MinLength(8)
+  @MaxLength(25)
   password: string
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
+  @MinLength(11)
+  @MaxLength(14)
   document: string
 
   @ApiPropertyOptional()

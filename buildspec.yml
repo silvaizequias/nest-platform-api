@@ -22,7 +22,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 18
       # name: version
     commands:
       - npm i -g yarn

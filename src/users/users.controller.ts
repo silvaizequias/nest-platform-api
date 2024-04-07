@@ -6,32 +6,32 @@ import {
   Patch,
   Param,
   Delete,
-  ClassSerializerInterceptor,
-  UseGuards,
   UseInterceptors,
+  ClassSerializerInterceptor,
+  //UseGuards,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import {
-  ApiBearerAuth,
+  //ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger'
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
-import { ProfileAuthGuard } from 'src/auth/guards/profile-auth.guard'
-import { Profiles } from './decorators/user.decorator'
-import { UserProfileEnum } from './users.enumerator'
+import { LoginUserDto } from './dto/login-user.dto'
+import { DeleteUserDto } from './dto/delete-user.dto'
+//import { Profiles } from './users.decorator'
+//import { UsersEnumerator } from './users.enumerator'
+//import { AuthorizationGuard } from 'src/authorization/authorization.guard'
+//import { UsersGuard } from './users.guard'
+//import { AuthGuard } from '@nestjs/passport'
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Profiles(UserProfileEnum.master)
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -40,9 +40,22 @@ export class UsersController {
     return this.usersService.create(createUserDto)
   }
 
-  @Profiles(UserProfileEnum.master)
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.usersService.login(loginUserDto)
+  }
+
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -51,73 +64,78 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
-  @Profiles(
-    UserProfileEnum.master,
-    UserProfileEnum.member,
-    UserProfileEnum.consumer,
-    UserProfileEnum.guest,
-  )
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/document/:document')
+  @Get('document/:document')
   findByDocument(@Param('document') document: string) {
     return this.usersService.findByDocument(document)
   }
 
-  @Profiles(UserProfileEnum.master, UserProfileEnum.member)
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/email/:email')
+  @Get('email/:email')
   findByEmail(@Param('email') email: string) {
     return this.usersService.findByEmail(email)
   }
 
-  @Profiles(
-    UserProfileEnum.master,
-    UserProfileEnum.member,
-    UserProfileEnum.consumer,
-    UserProfileEnum.guest,
-  )
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.usersService.findById(id)
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(id)
   }
 
-  @Profiles(
-    UserProfileEnum.master,
-    UserProfileEnum.member,
-    UserProfileEnum.consumer,
-    UserProfileEnum.guest,
-  )
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/phone/:phone')
+  @Get('phone/:phone')
   findByPhone(@Param('phone') phone: string) {
     return this.usersService.findByPhone(phone)
   }
 
-  @Profiles(
-    UserProfileEnum.master,
-    UserProfileEnum.member,
-    UserProfileEnum.consumer,
-    UserProfileEnum.guest,
-  )
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -126,14 +144,14 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto)
   }
 
-  @Profiles(UserProfileEnum.master)
-  @UseGuards(JwtAuthGuard, ProfileAuthGuard)
-  @ApiBearerAuth()
+  //@Profiles(UsersEnumerator.master)
+  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
+  //@ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id)
+  remove(@Param('id') id: string, @Body() deleteUserDto: DeleteUserDto) {
+    return this.usersService.remove(id, deleteUserDto)
   }
 }

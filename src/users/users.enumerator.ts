@@ -1,4 +1,4 @@
-export enum UserProfileEnum {
+export enum UsersEnumerator {
   guest = 'guest',
   consumer = 'consumer',
   member = 'member',

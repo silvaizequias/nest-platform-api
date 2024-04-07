@@ -7,11 +7,10 @@ export class UserEntity implements User {
   deletedAt: Date
   softDeleted: boolean
   active: boolean
-  subscriber: boolean
-  suspended: boolean
+  available: boolean
+  profile: $Enums.UserProfile
   accessCode: string
   passHash: string
-  profile: $Enums.UserProfile
   name: string
   image: string
   email: string
@@ -22,5 +21,4 @@ export class UserEntity implements User {
   complement: string
   latitude: number
   longitude: number
-  defaultOrganization: string
 }

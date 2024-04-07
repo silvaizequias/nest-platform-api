@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
   IsBoolean,
   IsEmail,
@@ -9,10 +9,15 @@ import {
 } from 'class-validator'
 
 export class CreateOrganizationDto {
-  @ApiPropertyOptional({ default: true })
+  @ApiPropertyOptional({ default: true, readOnly: true })
   @IsBoolean()
   @IsOptional()
   active: boolean
+
+  @ApiPropertyOptional({ readOnly: true })
+  @IsString()
+  @IsOptional()
+  authorizationKey: string
 
   @ApiPropertyOptional()
   @IsString()
@@ -35,11 +40,12 @@ export class CreateOrganizationDto {
   @IsOptional()
   phone: string
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @IsString()
+  @Length(14)
   document: string
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @IsString()
   @Length(8)
   @IsOptional()

@@ -1,48 +1,51 @@
 import { Injectable } from '@nestjs/common'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
+import { createMyOrganization, createOrganization } from './repositories/POST'
+import {
+  findOrganizationByDocument,
+  findOrganizationById,
+  findOrganizations,
+  verifyOrganizationByDocument,
+} from './repositories/GET'
+import { updateOrganization } from './repositories/PATCH'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
-import { createOrganizationRepository } from './repositories/create-organization.repository'
-import { readOrganizationRepository } from './repositories/read-organization.repository'
-import { updateOrganizationRepository } from './repositories/update-organization.repository'
-import { deleteOrganizationRepository } from './repositories/delete-organization.repository'
-import { readOrganizationByDocumentRepository } from './repositories/read-organization-by-document.repository'
-import { createOrganizationForUser } from './repositories/create-organization-for-user.repository'
-import { readOrganizationForVerificationRepository } from './repositories/read-organization-for-verification.repository'
+import { removeOrganization } from './repositories/DELETE'
+import { DeleteOrganizationDto } from './dto/delete-organization.dto'
 
 @Injectable()
 export class OrganizationsService {
   create(createOrganizationDto: CreateOrganizationDto) {
-    return createOrganizationRepository(createOrganizationDto)
+    return createOrganization(createOrganizationDto)
   }
 
-  createForUser(
-    userPhone: string,
+  createFromMyPhone(
+    phone: string,
     createOrganizationDto: CreateOrganizationDto,
   ) {
-    return createOrganizationForUser(userPhone, createOrganizationDto)
+    return createMyOrganization(phone, createOrganizationDto)
   }
 
   findAll() {
-    return readOrganizationRepository()
+    return findOrganizations()
   }
 
   findByDocument(document: string) {
-    return readOrganizationByDocumentRepository(document)
-  }
-
-  findForVerification(document: string) {
-    return readOrganizationForVerificationRepository(document)
+    return findOrganizationByDocument(document)
   }
 
   findOne(id: string) {
-    return readOrganizationRepository(id)
+    return findOrganizationById(id)
+  }
+
+  verifyByDocument(document: string) {
+    return verifyOrganizationByDocument(document)
   }
 
   update(id: string, updateOrganizationDto: UpdateOrganizationDto) {
-    return updateOrganizationRepository(id, updateOrganizationDto)
+    return updateOrganization(id, updateOrganizationDto)
   }
 
-  remove(id: string) {
-    return deleteOrganizationRepository(id)
+  remove(id: string, deleteOrganizationDto: DeleteOrganizationDto) {
+    return removeOrganization(id, deleteOrganizationDto)
   }
 }

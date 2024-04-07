@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { AuthorizationModule } from './authorization/authorization.module'
+import { MembersModule } from './members/members.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { OrganizationsModule } from './organizations/organizations.module'
-import { OrganizationUsersModule } from './organization-users/organization-users.module'
 import { UsersModule } from './users/users.module'
-import { AuthModule } from './auth/auth.module'
-import { OrganizationKeysModule } from './organization-keys/organization-keys.module'
-import { SubscriptionsModule } from './subscriptions/subscriptions.module'
 
 @Module({
   imports: [
@@ -14,14 +12,13 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module'
       isGlobal: true,
       envFilePath: '.env',
     }),
-    PrismaModule,
+    AuthorizationModule,
+    MembersModule,
     OrganizationsModule,
-    OrganizationUsersModule,
+    PrismaModule,
     UsersModule,
-    AuthModule,
-    OrganizationKeysModule,
-    SubscriptionsModule,
   ],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

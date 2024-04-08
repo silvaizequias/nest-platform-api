@@ -5,7 +5,7 @@ import { AuthorizationDto } from './authorization.dto'
 export class AuthorizationService {
   constructor() {}
 
-  async validation(authorizationKey: string, request: Request): Promise<any> {
+  async validation(authorizationKey?: string, request?: Request): Promise<any> {
     const { method, url, headers } = request
     const { host }: any = headers
     const authorizationDto: AuthorizationDto = {

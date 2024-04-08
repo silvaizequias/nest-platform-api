@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { ValidationPipe } from '@nestjs/common'
-import { NewrelicInterceptor } from './newrelic.interceptor'
+//import { NewrelicInterceptor } from './newrelic.interceptor'
 
 async function main() {
   const PORT = process.env.PORT ?? ''
@@ -15,7 +15,7 @@ async function main() {
     }),
   )
 
-  app.useGlobalInterceptors(new NewrelicInterceptor())
+  //app.useGlobalInterceptors(new NewrelicInterceptor())
 
   app.enableCors({
     origin: ['http://localhost', 'https://dedicado.digital'],

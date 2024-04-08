@@ -14,6 +14,11 @@ import { JwtService } from '@nestjs/jwt'
 import { compareSync } from 'bcryptjs'
 import { getAddressByZipCode } from 'src/utils/handle-address'
 import { AddressByZipCodeType } from 'src/utils/handle-address/types'
+import {
+  emailWelcomeToThePlatform,
+  smsWelcomeToThePlatform,
+} from 'src/utils/send-messages/templates'
+import { sendEmail, sendSms } from 'src/utils/send-messages'
 
 export const createUser = async (createUserDto: CreateUserDto) => {
   const prisma = new PrismaService()
@@ -50,7 +55,28 @@ export const createUser = async (createUserDto: CreateUserDto) => {
       latitude: Number(address?.lat) || null,
       longitude: Number(address?.lng) || null,
     }
-    await prisma.user.create({ data })
+
+    await prisma.user
+      .create({ data })
+      .then(async () => {
+        const emailMessage = emailWelcomeToThePlatform({
+          name: name,
+          password: setPassword,
+          phone: phone,
+        })
+        email &&
+          (await sendEmail({
+            body: emailMessage,
+            subject: 'boas vindas a sua melhor plataforma de serviços',
+            to: email,
+          }))
+        const smsMessage = smsWelcomeToThePlatform({
+          name: name,
+          password: setPassword,
+        })
+        phone && (await sendSms({ content: smsMessage, to: phone }))
+      })
+      .catch((error: any) => console.log(error))
 
     return JSON.stringify(
       `${name} agora faz parte da melhor plataforma de serviços`,

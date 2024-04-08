@@ -2,11 +2,6 @@
 
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { SendEmailType, SendSmsType } from './types'
-import twilio from 'twilio'
-
-const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID ?? ''
-const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN ?? ''
-const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER ?? ''
 
 const ACCESS_KEY_ID = process.env.PLATFORM_AWS_ACCESS_KEY ?? ''
 const SECRET_ACCESS_KEY = process.env.PLATFORM_AWS_PRIVATE_KEY ?? ''
@@ -66,19 +61,9 @@ export const sendEmail = async ({
   }
 }
 
-export const sendSms = ({ content, to }: SendSmsType) => {
-  const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-
+export const sendSms = async ({ content, to }: SendSmsType) => {
   try {
-    return client.messages
-      .create({ to: '+55' + to, from: TWILIO_PHONE_NUMBER, body: content })
-      .then(async () => {
-        //console.log('TWILIO: ', message?.sid)
-      })
-      .catch((error: any) => {
-        console.log(error)
-        console.error('TWILIO ERROR: ', error?.status)
-      })
+    console.log(content, to)
   } catch (error: any) {
     return error?.message || 'ocorreu um erro inesperado'
   }

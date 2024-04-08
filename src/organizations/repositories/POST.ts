@@ -1,3 +1,4 @@
+import { emailNewOrganization } from './../../utils/send-messages/templates/index'
 import {
   ConflictException,
   HttpException,
@@ -9,6 +10,7 @@ import { Prisma } from '@prisma/client'
 import { CreateOrganizationDto } from 'src/organizations/dto/create-organization.dto'
 import { getAddressByZipCode } from 'src/utils/handle-address'
 import { AddressByZipCodeType } from 'src/utils/handle-address/types'
+import { sendEmail } from 'src/utils/send-messages'
 
 const prisma = new PrismaService()
 const randomKey = 'dp.' + randomBytes(32).toString('hex')
@@ -17,7 +19,7 @@ export const createOrganization = async (
   createOrganizationDto: CreateOrganizationDto,
 ) => {
   try {
-    const { name, document, zipCode } = createOrganizationDto
+    const { email, name, document, zipCode } = createOrganizationDto
     const organization = await prisma.organization.findFirst({
       where: { document: document },
     })
@@ -35,7 +37,17 @@ export const createOrganization = async (
       latitude: Number(address?.lat) || null,
       longitude: Number(address?.lng) || null,
     }
-    await prisma.organization.create({ data })
+    await prisma.organization.create({ data }).then(async () => {
+      const emailMessage = emailNewOrganization({
+        name: '',
+        organization: name,
+      })
+      await sendEmail({
+        body: emailMessage,
+        subject: `sua organização ${name.toLowerCase()} foi criada`,
+        to: email,
+      })
+    })
 
     return JSON.stringify(`a organização ${name} agora faz parte da plataforma`)
   } catch (error: any) {
@@ -51,7 +63,7 @@ export const createMyOrganization = async (
   createOrganizationDto: CreateOrganizationDto,
 ) => {
   try {
-    const { name, document, zipCode } = createOrganizationDto
+    const { email, name, document, zipCode } = createOrganizationDto
 
     const organization = await prisma.organization.findFirst({
       where: { document: document },
@@ -86,7 +98,17 @@ export const createMyOrganization = async (
         },
       },
     }
-    await prisma.member.create({ data })
+    await prisma.member.create({ data }).then(async () => {
+      const emailMessage = emailNewOrganization({
+        name: user?.name,
+        organization: name,
+      })
+      await sendEmail({
+        body: emailMessage,
+        subject: `${user?.name.toLowerCase()} sua organização ${name.toLowerCase()} foi criada`,
+        to: email,
+      })
+    })
 
     return JSON.stringify(
       `a sua organização ${name} agora faz parte da plataforma`,

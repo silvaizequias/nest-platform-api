@@ -8,37 +8,36 @@ import {
   Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
-  //UseGuards,
+  UseGuards,
 } from '@nestjs/common'
 import { OrganizationsService } from './organizations.service'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
 import {
-  //ApiBearerAuth,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger'
 import { DeleteOrganizationDto } from './dto/delete-organization.dto'
-//import { AuthGuard } from '@nestjs/passport'
-//import { AuthorizationGuard } from 'src/authorization/authorization.guard'
-//import { Profiles } from 'src/users/users.decorator'
-//import { UsersEnumerator } from 'src/users/users.enumerator'
-//import { UsersGuard } from 'src/users/users.guard'
+import { AuthorizationGuard } from 'src/authorization/authorization.guard'
+import { Profiles } from 'src/users/users.decorator'
+import { UsersEnumerator } from 'src/users/users.enumerator'
+import { UsersGuard } from 'src/users/users.guard'
 
 @ApiTags('organizations')
 @Controller('organizations')
 export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
-  //@Profiles(
-  //  UsersEnumerator.master,
-  //  UsersEnumerator.member,
-  //  UsersEnumerator.consumer,
-  //  UsersEnumerator.guest,
-  //)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -47,14 +46,14 @@ export class OrganizationsController {
     return this.organizationsService.create(createOrganizationDto)
   }
 
-  //@Profiles(
-  //  UsersEnumerator.master,
-  //  UsersEnumerator.member,
-  //  UsersEnumerator.consumer,
-  //  UsersEnumerator.guest,
-  //)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -70,14 +69,14 @@ export class OrganizationsController {
     )
   }
 
-  //@Profiles(
-  //  UsersEnumerator.master,
-  //  UsersEnumerator.member,
-  //  UsersEnumerator.consumer,
-  //  UsersEnumerator.guest,
-  //)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -86,14 +85,14 @@ export class OrganizationsController {
     return this.organizationsService.findAll()
   }
 
-  //@Profiles(
-  //  UsersEnumerator.master,
-  //  UsersEnumerator.member,
-  //  UsersEnumerator.consumer,
-  //  UsersEnumerator.guest,
-  //)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -102,14 +101,14 @@ export class OrganizationsController {
     return this.organizationsService.findByDocument(document)
   }
 
-  //@Profiles(
-  //  UsersEnumerator.master,
-  //  UsersEnumerator.member,
-  //  UsersEnumerator.consumer,
-  //  UsersEnumerator.guest,
-  //)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -126,14 +125,14 @@ export class OrganizationsController {
     return this.organizationsService.verifyByDocument(document)
   }
 
-  //@Profiles(
-  //  UsersEnumerator.master,
-  //  UsersEnumerator.member,
-  //  UsersEnumerator.consumer,
-  //  UsersEnumerator.guest,
-  //)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -145,9 +144,13 @@ export class OrganizationsController {
     return this.organizationsService.update(id, updateOrganizationDto)
   }
 
-  //@Profiles(UsersEnumerator.master)
-  //@UseGuards(AuthGuard('authorizationKey'), AuthorizationGuard, UsersGuard)
-  //@ApiBearerAuth()
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+  )
+  @UseGuards(AuthorizationGuard, UsersGuard)
+  @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)

@@ -18,8 +18,7 @@ async function main() {
   app.useGlobalInterceptors(new NewrelicInterceptor())
 
   app.enableCors({
-    origin: ['*'],
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    origin: '*',
   })
 
   const options = new DocumentBuilder()

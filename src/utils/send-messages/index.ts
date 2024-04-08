@@ -1,6 +1,7 @@
 'use server'
 
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 import { SendEmailType, SendSmsType } from './types'
 
 const ACCESS_KEY_ID = process.env.PLATFORM_AWS_ACCESS_KEY ?? ''
@@ -62,8 +63,27 @@ export const sendEmail = async ({
 }
 
 export const sendSms = async ({ content, to }: SendSmsType) => {
+  const snsClient = new SNSClient({
+    region: 'sa-east-1',
+    credentials: {
+      accessKeyId: ACCESS_KEY_ID,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    },
+  })
   try {
-    console.log(content, to)
+    return await snsClient
+      .send(
+        new PublishCommand({
+          Message: content,
+          PhoneNumber: '+' + to,
+        }),
+      )
+      .then(() => {
+        //console.log('succeeded')
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
   } catch (error: any) {
     return error?.message || 'ocorreu um erro inesperado'
   }

@@ -5,11 +5,11 @@ import { AuthorizationDto } from './authorization.dto'
 export class AuthorizationService {
   constructor() {}
 
-  async validation(authorizationKey?: string, request?: Request): Promise<any> {
+  async validation(Authorization?: string, request?: Request): Promise<any> {
     const { method, url, headers } = request
     const { host }: any = headers
     const authorizationDto: AuthorizationDto = {
-      key: authorizationKey,
+      key: Authorization,
       host: host,
       method: method,
       url: url,

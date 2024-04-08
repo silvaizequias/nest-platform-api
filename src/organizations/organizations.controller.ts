@@ -20,10 +20,14 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { DeleteOrganizationDto } from './dto/delete-organization.dto'
-import { AuthorizationGuard } from 'src/authorization/authorization.guard'
+import {
+  AuthorizationApiKeyGuard,
+  AuthorizationJWTGuard,
+} from 'src/authorization/authorization.guard'
 import { Profiles } from 'src/users/users.decorator'
 import { UsersEnumerator } from 'src/users/users.enumerator'
 import { UsersGuard } from 'src/users/users.guard'
+import { AuthGuard } from '@nestjs/passport'
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -36,7 +40,7 @@ export class OrganizationsController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -52,7 +56,7 @@ export class OrganizationsController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -75,7 +79,7 @@ export class OrganizationsController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -85,14 +89,15 @@ export class OrganizationsController {
     return this.organizationsService.findAll()
   }
 
-  @Profiles(
-    UsersEnumerator.master,
-    UsersEnumerator.member,
-    UsersEnumerator.consumer,
-    UsersEnumerator.guest,
-  )
-  @UseGuards(AuthorizationGuard, UsersGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthorizationJWTGuard, UsersGuard)
+  //@ApiBearerAuth()
+  @UseGuards(AuthorizationApiKeyGuard)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -107,7 +112,7 @@ export class OrganizationsController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -117,6 +122,7 @@ export class OrganizationsController {
     return this.organizationsService.findOne(id)
   }
 
+  @UseGuards(AuthGuard('Authorization'))
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -131,7 +137,7 @@ export class OrganizationsController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -149,7 +155,7 @@ export class OrganizationsController {
     UsersEnumerator.member,
     UsersEnumerator.consumer,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()

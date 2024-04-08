@@ -20,7 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { DeleteMemberDto } from './dto/delete-member.dto'
-import { AuthorizationGuard } from 'src/authorization/authorization.guard'
+import { AuthorizationJWTGuard } from 'src/authorization/authorization.guard'
 import { Profiles } from 'src/users/users.decorator'
 import { UsersEnumerator } from 'src/users/users.enumerator'
 import { UsersGuard } from 'src/users/users.guard'
@@ -36,7 +36,7 @@ export class MembersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -52,7 +52,7 @@ export class MembersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -68,7 +68,7 @@ export class MembersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -84,7 +84,7 @@ export class MembersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -100,7 +100,7 @@ export class MembersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -115,7 +115,7 @@ export class MembersController {
     UsersEnumerator.member,
     UsersEnumerator.consumer,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()

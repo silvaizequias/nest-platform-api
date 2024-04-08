@@ -23,7 +23,10 @@ import { LoginUserDto } from './dto/login-user.dto'
 import { DeleteUserDto } from './dto/delete-user.dto'
 import { Profiles } from './users.decorator'
 import { UsersEnumerator } from './users.enumerator'
-import { AuthorizationGuard } from 'src/authorization/authorization.guard'
+import {
+  AuthorizationApiKeyGuard,
+  AuthorizationJWTGuard,
+} from 'src/authorization/authorization.guard'
 import { UsersGuard } from './users.guard'
 
 @ApiTags('users')
@@ -53,7 +56,7 @@ export class UsersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -63,14 +66,15 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
-  @Profiles(
-    UsersEnumerator.master,
-    UsersEnumerator.member,
-    UsersEnumerator.consumer,
-    UsersEnumerator.guest,
-  )
-  @UseGuards(AuthorizationGuard, UsersGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthorizationJWTGuard, UsersGuard)
+  //@ApiBearerAuth()
+  @UseGuards(AuthorizationApiKeyGuard)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -85,7 +89,7 @@ export class UsersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -101,7 +105,7 @@ export class UsersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -111,14 +115,15 @@ export class UsersController {
     return this.usersService.findOne(id)
   }
 
-  @Profiles(
-    UsersEnumerator.master,
-    UsersEnumerator.member,
-    UsersEnumerator.consumer,
-    UsersEnumerator.guest,
-  )
-  @UseGuards(AuthorizationGuard, UsersGuard)
-  @ApiBearerAuth()
+  //@Profiles(
+  //  UsersEnumerator.master,
+  //  UsersEnumerator.member,
+  //  UsersEnumerator.consumer,
+  //  UsersEnumerator.guest,
+  //)
+  //@UseGuards(AuthorizationJWTGuard, UsersGuard)
+  //@ApiBearerAuth()
+  @UseGuards(AuthorizationApiKeyGuard)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -133,7 +138,7 @@ export class UsersController {
     UsersEnumerator.consumer,
     UsersEnumerator.guest,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()
@@ -148,7 +153,7 @@ export class UsersController {
     UsersEnumerator.member,
     UsersEnumerator.consumer,
   )
-  @UseGuards(AuthorizationGuard, UsersGuard)
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
   @ApiBearerAuth()
   @ApiOkResponse()
   @ApiNotFoundResponse()

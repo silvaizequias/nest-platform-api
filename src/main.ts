@@ -29,7 +29,12 @@ async function main() {
     .addBearerAuth({
       type: 'http',
       in: 'header',
-      description: 'authorization',
+      description: 'Authorization',
+    })
+    .addApiKey({
+      type: 'apiKey',
+      in: 'header',
+      description: 'Authorization',
     })
     .build()
 

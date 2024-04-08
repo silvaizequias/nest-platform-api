@@ -1,5 +1,3 @@
-'use server'
-
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 import { SendEmailType, SendSmsType } from './types'

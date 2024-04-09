@@ -18,7 +18,8 @@ async function main() {
   app.useGlobalInterceptors(new NewrelicInterceptor())
 
   app.enableCors({
-    origin: '*',
+    origin: ['http://localhost:3000', 'https://dedicado.digital'],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   })
 
   const options = new DocumentBuilder()

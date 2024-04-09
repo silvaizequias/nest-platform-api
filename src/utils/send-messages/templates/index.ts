@@ -10,7 +10,7 @@ export const emailWelcomeToThePlatform = ({
   phone,
 }: WelcomeToThePlatformTemplateType) => {
   return `<div>
-            <h4>olá <strong>${name.toLowerCase()}</strong>, muito bem vindo a plataforma dedicado!</h4>
+            <h4>olá <strong>${name.toLowerCase()}</strong>, boas vindas a plataforma dedicado!</h4>
             <p>sua conta foi criada e a partir de agora poderá ter acesso a melhor plataforma de serviços.</p>
             <p>com o seu número de telefone <strong>${phone}</strong> acesse <strong>https://dedicado.digital</strong> usando a senha <strong>${password}</strong></p>
             <p>é um prazer ter você por aqui!</p>
@@ -30,7 +30,7 @@ export const emailInviteMemberToOrganization = ({
   role,
 }: InviteMemberToOrganizationTemplateType) => {
   return `<div>
-            <p><strong>${member.toLowerCase()}</strong>, você foi convidado para participar da organização <strong>${organization.toLowerCase()}</strong> como <strong>${role}</strong>.</p>
+            <p><strong>${member.toLowerCase()}</strong>, este é um convite para participar da organização <strong>${organization.toLowerCase()}</strong> como <strong>${role}</strong>.</p>
             <p>acesse <strong>https://dedicado.digital</strong></p>
         </div>`
 }
@@ -40,7 +40,7 @@ export const smsInviteMemberToOrganization = ({
   organization,
   role,
 }: InviteMemberToOrganizationTemplateType) => {
-  return `${member.toLowerCase()}, você foi convidado para participar da organização ${organization.toLowerCase()} como ${role}. acesse https://dedicado.digital`
+  return `${member.toLowerCase()}, este é um convite para participar da organização ${organization.toLowerCase()} como ${role}. acesse https://dedicado.digital`
 }
 
 export const emailNewOrganization = ({

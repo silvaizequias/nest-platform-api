@@ -17,10 +17,11 @@ async function main() {
 
   app.useGlobalInterceptors(new NewrelicInterceptor())
 
-  app.enableCors({
-    origin: ['http://localhost:3000', 'https://dedicado.digital'],
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  })
+  //app.enableCors({
+  //  origin: ['http://localhost:3000', 'https://dedicado.digital'],
+  //  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  //  credentials: true
+  //})
 
   const options = new DocumentBuilder()
     .setTitle('management')

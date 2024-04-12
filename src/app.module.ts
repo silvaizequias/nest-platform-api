@@ -5,6 +5,7 @@ import { MembersModule } from './members/members.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { OrganizationsModule } from './organizations/organizations.module'
 import { UsersModule } from './users/users.module'
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UsersModule } from './users/users.module'
     OrganizationsModule,
     PrismaModule,
     UsersModule,
+    SubscriptionsModule,
   ],
   controllers: [],
   providers: [],

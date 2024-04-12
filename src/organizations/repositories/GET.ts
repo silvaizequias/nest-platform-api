@@ -13,6 +13,12 @@ export const findOrganizations = async () => {
           take: 100,
           orderBy: { role: 'asc' },
         },
+        subscription: {
+          select: {
+            credit: true,
+            unlimited: true,
+          },
+        },
       },
     })
   } catch (error) {
@@ -50,6 +56,7 @@ export const findOrganizationByDocument = async (document: string) => {
             },
           },
         },
+        subscription: true,
       },
     })
     if (!organziation) throw new NotFoundException('organização não encontrada')
@@ -90,6 +97,7 @@ export const findOrganizationById = async (id?: string) => {
             },
           },
         },
+        subscription: true,
       },
     })
     if (!organziation) throw new NotFoundException('organização não encontrado')
@@ -111,6 +119,12 @@ export const verifyOrganizationByDocument = async (document: string) => {
         active: true,
         document: true,
         name: true,
+        subscription: {
+          select: {
+            credit: true,
+            unlimited: true,
+          },
+        },
       },
     })
     if (!organziation) throw new NotFoundException('organização não encontrada')

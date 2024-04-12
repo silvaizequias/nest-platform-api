@@ -27,7 +27,16 @@ export const findUsers = async () => {
         organizations: {
           take: 50,
           include: {
-            organization: true,
+            organization: {
+              include: {
+                subscription: {
+                  select: {
+                    credit: true,
+                    unlimited: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -64,7 +73,16 @@ export const findUserByDocument = async (document: string) => {
           take: 50,
           orderBy: { role: 'asc' },
           include: {
-            organization: true,
+            organization: {
+              include: {
+                subscription: {
+                  select: {
+                    credit: true,
+                    unlimited: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -104,7 +122,16 @@ export const findUserByEmail = async (email: string) => {
           take: 50,
           orderBy: { role: 'asc' },
           include: {
-            organization: true,
+            organization: {
+              include: {
+                subscription: {
+                  select: {
+                    credit: true,
+                    unlimited: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -131,7 +158,16 @@ export const findUserById = async (id?: string) => {
           take: 50,
           orderBy: { role: 'asc' },
           include: {
-            organization: true,
+            organization: {
+              include: {
+                subscription: {
+                  select: {
+                    credit: true,
+                    unlimited: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -171,7 +207,16 @@ export const findUserByPhone = async (phone: string) => {
           take: 50,
           orderBy: { role: 'asc' },
           include: {
-            organization: true,
+            organization: {
+              include: {
+                subscription: {
+                  select: {
+                    credit: true,
+                    unlimited: true,
+                  },
+                },
+              },
+            },
           },
         },
       },

@@ -1,6 +1,7 @@
 import {
   InviteMemberToOrganizationTemplateType,
   NewOrganizationTemplateType,
+  UpdateSubscriptionTemplateType,
   WelcomeToThePlatformTemplateType,
 } from '../types'
 
@@ -49,7 +50,17 @@ export const emailNewOrganization = ({
 }: NewOrganizationTemplateType) => {
   return `<div>
     <h4>olá <string>${name.toLowerCase()}</string>!</h4>
-    <p>sua organização <string>${organization.toLowerCase()}</string> foi criada na plataforma dedicado e agora está pronta para você adiconar membros e utilizar nossas melhores soluções.</p>
-    <p>estamos felizes em ter você por aqui!</p>
+    <p>sua organização <string>${organization.toLowerCase()}</string> foi criada na plataforma dedicado</p>
+    <p>oferecemos 100 créditos como cortesia para você adiconar membros e utilizar nossas melhores soluções.</p>
+    <p>estamos muito felizes em ter você por aqui!</p>
     </div>`
+}
+
+export const emailUpdateSubscription = ({
+  organization,
+  credit,
+}: UpdateSubscriptionTemplateType) => {
+  return `<div>
+  <p>foram adicionados ${credit} créditos para a organização ${organization} utilizar as soluções da melhor plataforma de serviços!</p>
+  </div>`
 }

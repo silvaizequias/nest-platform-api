@@ -16,6 +16,12 @@ export const findMembers = async () => {
             name: true,
             image: true,
             document: true,
+            subscription: {
+              select: {
+                credit: true,
+                unlimited: true,
+              },
+            },
           },
         },
         user: {
@@ -46,7 +52,16 @@ export const findMemberById = async (id?: string) => {
     const member = await prisma.member.findFirst({
       where: { id: id, softDeleted: false },
       include: {
-        organization: true,
+        organization: {
+          include: {
+            subscription: {
+              select: {
+                credit: true,
+                unlimited: true,
+              },
+            },
+          },
+        },
         user: true,
       },
     })
@@ -72,7 +87,16 @@ export const findMemberByPhone = async (phone?: string) => {
       take: 100,
       where: { userId: user?.id, softDeleted: false, active: true },
       include: {
-        organization: true,
+        organization: {
+          include: {
+            subscription: {
+              select: {
+                credit: true,
+                unlimited: true,
+              },
+            },
+          },
+        },
         user: {
           select: {
             id: true,

@@ -27,3 +27,8 @@ export type NewOrganizationTemplateType = {
   name: string
   organization: string
 }
+
+export type UpdateSubscriptionTemplateType = {
+  organization: string
+  credit: number
+}

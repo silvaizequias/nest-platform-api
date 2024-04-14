@@ -8,9 +8,9 @@ export class SubscriptionEntity implements Subscription {
   organizationId: string
   softDeleted: boolean
   active: boolean
-  stripeCustomerId: string
-  stripeSubscriptionId: string
-  stripePriceId: string
+  paymentCustomerId: string
+  paymentSubscriptionId: string
+  paymentPriceId: string
   credit: number
   unlimited: boolean
 }

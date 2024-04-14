@@ -21,17 +21,17 @@ export class CreateSubscriptionDto {
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  stripeCustomerId: string
+  paymentCustomerId: string
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  stripeSubscriptionId: string
+  paymentSubscriptionId: string
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  stripePriceId: string
+  paymentPriceId: string
 
   @ApiPropertyOptional({ default: 100 })
   @IsNumber()

@@ -33,7 +33,10 @@ export const updateSubscription = async (
     await prisma.subscription
       .update({
         where: { id: id },
-        data: { ...updateSubscriptionDto, credit: adds },
+        data: {
+          ...updateSubscriptionDto,
+          credit: credit ? adds : subscription?.credit,
+        },
       })
       .then(async () => {
         if (!unlimited) {

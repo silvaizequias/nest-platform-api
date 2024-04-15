@@ -36,11 +36,6 @@ export const createOrganization = async (
       street: address?.address || null,
       latitude: Number(address?.lat) || null,
       longitude: Number(address?.lng) || null,
-      subscription: {
-        create: {
-          credit: 100,
-        },
-      },
     }
     await prisma.organization.create({ data }).then(async () => {
       const emailMessage = emailNewOrganization({
@@ -95,11 +90,6 @@ export const createMyOrganization = async (
           street: address?.address || null,
           latitude: Number(address?.lat) || null,
           longitude: Number(address?.lng) || null,
-          subscription: {
-            create: {
-              credit: 100,
-            },
-          },
         },
       },
       user: {

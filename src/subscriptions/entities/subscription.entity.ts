@@ -1,4 +1,4 @@
-import { Subscription } from '@prisma/client'
+import { $Enums, Subscription } from '@prisma/client'
 
 export class SubscriptionEntity implements Subscription {
   id: string
@@ -8,6 +8,7 @@ export class SubscriptionEntity implements Subscription {
   organizationId: string
   softDeleted: boolean
   active: boolean
+  paymentGateway: $Enums.SubscriptionPaymentGateway
   paymentCustomerId: string
   paymentSubscriptionId: string
   paymentPriceId: string

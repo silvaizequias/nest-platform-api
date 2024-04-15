@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { $Enums } from '@prisma/client'
 import {
   IsBoolean,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -17,6 +19,10 @@ export class CreateSubscriptionDto {
   @IsBoolean()
   @IsOptional()
   active: boolean
+
+  @ApiProperty({ default: 'stripe', enum: $Enums.SubscriptionPaymentGateway })
+  @IsEnum($Enums.SubscriptionPaymentGateway)
+  paymentGateway: $Enums.SubscriptionPaymentGateway
 
   @ApiPropertyOptional()
   @IsString()

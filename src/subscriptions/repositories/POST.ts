@@ -109,7 +109,7 @@ export const checkoutSubscription = async (
   checkoutSubscriptionDto: CheckoutSubscriptionDto,
 ) => {
   try {
-    const { credit, document } = checkoutSubscriptionDto
+    const { credit, document, url } = checkoutSubscriptionDto
     const organization = await prisma.organization.findFirst({
       where: { document: document },
     })
@@ -132,6 +132,7 @@ export const checkoutSubscription = async (
       document: document,
       paymentCustomerId: subscription?.paymentCustomerId,
       subscriptionId: subscription?.id,
+      url: url,
     })
       .then((data) => data)
       .catch((error) => error)

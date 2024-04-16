@@ -15,4 +15,5 @@ export type PaymentCheckoutType = {
   document: string
   paymentCustomerId: string
   subscriptionId: string
+  url: string
 }

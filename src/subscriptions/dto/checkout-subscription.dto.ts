@@ -11,4 +11,8 @@ export class CheckoutSubscriptionDto {
   @ApiProperty({ default: 100 })
   @IsNumber()
   credit: number
+
+  @ApiProperty({ default: 'https://dedicado.digital' })
+  @IsString()
+  url: string
 }

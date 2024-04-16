@@ -40,7 +40,7 @@ export const createPaymentCustomer = async (
 }
 
 export const paymentCheckout = async (options: PaymentCheckoutType) => {
-  const { credit, document, paymentCustomerId, subscriptionId } = options
+  const { credit, document, paymentCustomerId, subscriptionId, url } = options
 
   return await stripe.checkout.sessions
     .create({
@@ -62,8 +62,8 @@ export const paymentCheckout = async (options: PaymentCheckoutType) => {
           },
         },
       ],
-      success_url: `https://dedicado.digital/${document}`,
-      cancel_url: `https://dedicado.digital/${document}`,
+      success_url: `${url}/${document}`,
+      cancel_url: `${url}/${document}`,
       metadata: {
         credit,
         subscriptionId,

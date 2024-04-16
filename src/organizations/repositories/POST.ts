@@ -1,4 +1,3 @@
-import { emailNewOrganization } from './../../utils/send-messages/templates/index'
 import {
   ConflictException,
   HttpException,
@@ -11,6 +10,8 @@ import { CreateOrganizationDto } from 'src/organizations/dto/create-organization
 import { getAddressByZipCode } from 'src/utils/handle-address'
 import { AddressByZipCodeType } from 'src/utils/handle-address/types'
 import { sendEmail } from 'src/utils/send-messages'
+import { emailNewOrganization } from 'src/utils/send-messages/templates'
+import { createPaymentCustomer } from 'src/utils/handle-subscriptions'
 
 const prisma = new PrismaService()
 const randomKey = 'dp.' + randomBytes(32).toString('hex')
@@ -19,7 +20,8 @@ export const createOrganization = async (
   createOrganizationDto: CreateOrganizationDto,
 ) => {
   try {
-    const { email, name, document, zipCode } = createOrganizationDto
+    const { email, name, phone, document, zipCode, complement } =
+      createOrganizationDto
     const organization = await prisma.organization.findFirst({
       where: { document: document },
     })
@@ -30,12 +32,31 @@ export const createOrganization = async (
 
     const address: AddressByZipCodeType = await getAddressByZipCode(zipCode)
 
+    const paymentCustomerId = await createPaymentCustomer({
+      name: name,
+      email: email,
+      phone: phone,
+      document: document,
+      zipCode: zipCode,
+      street: address?.address,
+      complement: complement,
+      city: address?.city,
+      state: address?.state,
+    }).then((data) => data.id)
+
     const data: Prisma.OrganizationCreateInput = {
       ...createOrganizationDto,
       authorizationKey: randomKey,
       street: address?.address || null,
       latitude: Number(address?.lat) || null,
       longitude: Number(address?.lng) || null,
+      subscription: {
+        create: {
+          paymentCustomerId: paymentCustomerId,
+          credit: 100,
+          unlimited: false,
+        },
+      },
     }
     await prisma.organization.create({ data }).then(async () => {
       const emailMessage = emailNewOrganization({
@@ -63,7 +84,7 @@ export const createMyOrganization = async (
   createOrganizationDto: CreateOrganizationDto,
 ) => {
   try {
-    const { email, name, document, zipCode } = createOrganizationDto
+    const { email, name, document, zipCode, complement } = createOrganizationDto
 
     const organization = await prisma.organization.findFirst({
       where: { document: document },
@@ -80,6 +101,18 @@ export const createMyOrganization = async (
 
     const address: AddressByZipCodeType = await getAddressByZipCode(zipCode)
 
+    const paymentCustomerId = await createPaymentCustomer({
+      name: name,
+      email: email,
+      phone: createOrganizationDto?.phone,
+      document: document,
+      zipCode: zipCode,
+      street: address?.address,
+      complement: complement,
+      city: address?.city,
+      state: address?.state,
+    }).then((data) => data.id)
+
     const data: Prisma.MemberCreateInput = {
       role: 'owner',
       active: true,
@@ -90,6 +123,13 @@ export const createMyOrganization = async (
           street: address?.address || null,
           latitude: Number(address?.lat) || null,
           longitude: Number(address?.lng) || null,
+          subscription: {
+            create: {
+              paymentCustomerId: paymentCustomerId,
+              credit: 100,
+              unlimited: false,
+            },
+          },
         },
       },
       user: {

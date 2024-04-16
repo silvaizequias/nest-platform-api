@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { CreateSubscriptionDto } from './dto/create-subscription.dto'
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto'
 import { SpendSubscriptionDto } from './dto/spend-subscription.dto'
-import { createSubscription, spendSubscription } from './repositories/POST'
+import {
+  checkoutSubscription,
+  createSubscription,
+  spendSubscription,
+} from './repositories/POST'
 import {
   findSubscriptionById,
   findSubscriptionByOrganization,
@@ -11,9 +15,18 @@ import {
 import { updateSubscription } from './repositories/PATCH'
 import { removeSubscription } from './repositories/DELETE'
 import { DeleteSubscriptionDto } from './dto/delete-subscription.dto'
+import Stripe from 'stripe'
+import { STRIPE_CLIENT } from 'src/stripe/stripe.constants'
+import { CheckoutSubscriptionDto } from './dto/checkout-subscription.dto'
 
 @Injectable()
 export class SubscriptionsService {
+  constructor(@Inject(STRIPE_CLIENT) private readonly stripe: Stripe) {}
+
+  checkout(checkoutSubscriptionDto: CheckoutSubscriptionDto) {
+    return checkoutSubscription(checkoutSubscriptionDto)
+  }
+
   create(createSubscriptionDto: CreateSubscriptionDto) {
     return createSubscription(createSubscriptionDto)
   }

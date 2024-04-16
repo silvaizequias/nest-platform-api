@@ -25,11 +25,28 @@ import { Profiles } from 'src/users/users.decorator'
 import { UsersEnumerator } from 'src/users/users.enumerator'
 import { UsersGuard } from 'src/users/users.guard'
 import { SpendSubscriptionDto } from './dto/spend-subscription.dto'
+import { CheckoutSubscriptionDto } from './dto/checkout-subscription.dto'
 
 @ApiTags('subscriptions')
 @Controller('subscriptions')
 export class SubscriptionsController {
   constructor(private readonly subscriptionsService: SubscriptionsService) {}
+
+  @Profiles(
+    UsersEnumerator.master,
+    UsersEnumerator.member,
+    UsersEnumerator.consumer,
+    UsersEnumerator.guest,
+  )
+  @UseGuards(AuthorizationJWTGuard, UsersGuard)
+  @ApiBearerAuth()
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('checkout')
+  checkout(@Body() checkoutSubscriptionDto: CheckoutSubscriptionDto) {
+    return this.subscriptionsService.checkout(checkoutSubscriptionDto)
+  }
 
   @Profiles(
     UsersEnumerator.master,

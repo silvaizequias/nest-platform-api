@@ -5,7 +5,8 @@ import { MembersModule } from './members/members.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { OrganizationsModule } from './organizations/organizations.module'
 import { UsersModule } from './users/users.module'
-import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module'
+import { StripeModule } from './stripe/stripe.module'
 
 @Module({
   imports: [
@@ -18,6 +19,9 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
     OrganizationsModule,
     PrismaModule,
     UsersModule,
+    StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-04-10',
+    }),
     SubscriptionsModule,
   ],
   controllers: [],

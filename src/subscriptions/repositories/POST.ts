@@ -24,7 +24,7 @@ export const createSubscription = async (
     if (!organization)
       throw new NotFoundException('a organização não foi encontrada')
 
-    if (credit <= 100)
+    if (credit < 100)
       throw new HttpException(`o valor ${credit} não é aceitável`, 400)
 
     const paymentCustomerId = await createPaymentCustomer({

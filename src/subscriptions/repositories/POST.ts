@@ -7,6 +7,7 @@ import { CheckoutSubscriptionDto } from '../dto/checkout-subscription.dto'
 import {
   createPaymentCustomer,
   paymentCheckout,
+  paymentWebhook,
 } from 'src/utils/handle-subscriptions'
 
 const prisma = new PrismaService()
@@ -141,5 +142,21 @@ export const checkoutSubscription = async (
     throw new HttpException(error, error.status)
   } finally {
     await prisma.$disconnect()
+  }
+}
+
+export const webhookSubscription = async (
+  request: Request,
+  signature: string,
+) => {
+  try {
+    const body = request.text()
+    if (!body) throw new HttpException(`informações inválidas`, 400)
+
+    await paymentWebhook({ body: body, signature: signature })
+      .then((data) => data)
+      .catch((error) => error)
+  } catch (error) {
+    throw new HttpException(error, error.status)
   }
 }

@@ -9,6 +9,8 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
   UseInterceptors,
+  Headers,
+  Req,
 } from '@nestjs/common'
 import { SubscriptionsService } from './subscriptions.service'
 import { CreateSubscriptionDto } from './dto/create-subscription.dto'
@@ -31,6 +33,17 @@ import { CheckoutSubscriptionDto } from './dto/checkout-subscription.dto'
 @Controller('subscriptions')
 export class SubscriptionsController {
   constructor(private readonly subscriptionsService: SubscriptionsService) {}
+
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('webhook')
+  async webhook(
+    @Req() request: Request,
+    @Headers('Stripe-Signature') signature: string,
+  ) {
+    return this.subscriptionsService.webhook(request, signature)
+  }
 
   @Profiles(
     UsersEnumerator.master,

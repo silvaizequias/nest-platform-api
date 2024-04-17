@@ -6,6 +6,7 @@ import {
   checkoutSubscription,
   createSubscription,
   spendSubscription,
+  webhookSubscription,
 } from './repositories/POST'
 import {
   findSubscriptionById,
@@ -22,6 +23,10 @@ import { CheckoutSubscriptionDto } from './dto/checkout-subscription.dto'
 @Injectable()
 export class SubscriptionsService {
   constructor(@Inject(STRIPE_CLIENT) private readonly stripe: Stripe) {}
+
+  async webhook(request: Request, signature: string) {
+    return webhookSubscription(request, signature)
+  }
 
   checkout(checkoutSubscriptionDto: CheckoutSubscriptionDto) {
     return checkoutSubscription(checkoutSubscriptionDto)

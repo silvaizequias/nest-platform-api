@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import { IsNumber, IsString, MaxLength, Min, MinLength } from 'class-validator'
 
 export class CheckoutSubscriptionDto {
   @ApiProperty()
@@ -9,6 +9,7 @@ export class CheckoutSubscriptionDto {
   document: string
 
   @ApiProperty({ default: 100 })
+  @Min(100)
   @IsNumber()
   credit: number
 

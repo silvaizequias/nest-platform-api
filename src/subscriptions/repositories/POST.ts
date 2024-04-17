@@ -125,7 +125,7 @@ export const checkoutSubscription = async (
     if (!subscription)
       throw new NotFoundException('a assinatura não foi encontrada')
 
-    if (credit <= 100)
+    if (credit < 100)
       throw new HttpException(`o valor ${credit} não é aceitável`, 400)
 
     return await paymentCheckout({

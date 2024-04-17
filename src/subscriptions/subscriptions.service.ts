@@ -1,4 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common'
+import {
+  HttpException,
+  Inject,
+  Injectable,
+  RawBodyRequest,
+} from '@nestjs/common'
 import { CreateSubscriptionDto } from './dto/create-subscription.dto'
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto'
 import { SpendSubscriptionDto } from './dto/spend-subscription.dto'
@@ -6,7 +11,6 @@ import {
   checkoutSubscription,
   createSubscription,
   spendSubscription,
-  webhookSubscription,
 } from './repositories/POST'
 import {
   findSubscriptionById,
@@ -19,44 +23,112 @@ import { DeleteSubscriptionDto } from './dto/delete-subscription.dto'
 import Stripe from 'stripe'
 import { STRIPE_CLIENT } from 'src/stripe/stripe.constants'
 import { CheckoutSubscriptionDto } from './dto/checkout-subscription.dto'
+import { BadRequestError } from 'passport-headerapikey'
 
 @Injectable()
 export class SubscriptionsService {
   constructor(@Inject(STRIPE_CLIENT) private readonly stripe: Stripe) {}
 
-  async webhook(request: Request, signature: string) {
-    return webhookSubscription(request, signature)
+  async webhook(request: RawBodyRequest<Request>, signature: string) {
+    try {
+      const event = this.stripe.webhooks.constructEvent(
+        request.rawBody,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET ?? '',
+      )
+
+      const session = event.data.object as Stripe.Checkout.Session
+      const metadata = session?.metadata
+
+      if (!metadata)
+        throw new BadRequestError('as informações de metadata são necessárias')
+
+      switch (event.type) {
+        case 'checkout.session.completed':
+          await updateSubscription(metadata?.subscriptionId, {
+            credit: Number(metadata?.credit),
+            unlimited: false,
+          }).then((data) => console.log(data))
+          break
+
+        case 'invoice.payment_succeeded':
+          await updateSubscription(metadata?.subscriptionId, {
+            credit: Number(metadata?.credit),
+            unlimited: false,
+          }).then((data) => console.log(data))
+          break
+
+        default:
+          console.log(`unhandled event type ${event.type}`)
+      }
+
+      return JSON.stringify(null)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   checkout(checkoutSubscriptionDto: CheckoutSubscriptionDto) {
-    return checkoutSubscription(checkoutSubscriptionDto)
+    try {
+      return checkoutSubscription(checkoutSubscriptionDto)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   create(createSubscriptionDto: CreateSubscriptionDto) {
-    return createSubscription(createSubscriptionDto)
+    try {
+      return createSubscription(createSubscriptionDto)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   spend(spendSubscriptionDto: SpendSubscriptionDto) {
-    return spendSubscription(spendSubscriptionDto)
+    try {
+      return spendSubscription(spendSubscriptionDto)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   findAll() {
-    return findSubscriptions()
+    try {
+      return findSubscriptions()
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   findOne(id: string) {
-    return findSubscriptionById(id)
+    try {
+      return findSubscriptionById(id)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   findByOrganization(document: string) {
-    return findSubscriptionByOrganization(document)
+    try {
+      return findSubscriptionByOrganization(document)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return updateSubscription(id, updateSubscriptionDto)
+    try {
+      return updateSubscription(id, updateSubscriptionDto)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 
   remove(id: string, deleteSubscriptionDto: DeleteSubscriptionDto) {
-    return removeSubscription(id, deleteSubscriptionDto)
+    try {
+      return removeSubscription(id, deleteSubscriptionDto)
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
   }
 }

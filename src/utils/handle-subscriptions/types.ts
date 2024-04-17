@@ -17,8 +17,3 @@ export type PaymentCheckoutType = {
   subscriptionId: string
   url: string
 }
-
-export type PaymentWebhookType = {
-  body: any
-  signature: string
-}

@@ -6,7 +6,7 @@ import { ValidationPipe } from '@nestjs/common'
 async function main() {
   const PORT = process.env.PORT ?? ''
 
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, { rawBody: true })
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

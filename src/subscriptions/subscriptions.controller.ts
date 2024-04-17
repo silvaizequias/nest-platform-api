@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   Headers,
   Req,
+  RawBodyRequest,
 } from '@nestjs/common'
 import { SubscriptionsService } from './subscriptions.service'
 import { CreateSubscriptionDto } from './dto/create-subscription.dto'
@@ -38,8 +39,8 @@ export class SubscriptionsController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('webhook')
-  async webhook(
-    @Req() request: Request,
+  webhook(
+    @Req() request: RawBodyRequest<Request>,
     @Headers('Stripe-Signature') signature: string,
   ) {
     return this.subscriptionsService.webhook(request, signature)

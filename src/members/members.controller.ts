@@ -46,6 +46,17 @@ export class MembersController {
     return this.membersService.create(createMemberDto)
   }
 
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('import/:organization')
+  import(
+    @Param('organization') organization: string,
+    @Body() importMemberDto: [],
+  ) {
+    return this.membersService.import(organization, importMemberDto)
+  }
+
   @Profiles(
     UsersEnumerator.master,
     UsersEnumerator.member,

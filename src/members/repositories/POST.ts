@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   HttpException,
   NotFoundException,
@@ -15,10 +16,10 @@ import {
 } from 'src/utils/send-messages/templates'
 import { sendEmail, sendSms } from 'src/utils/send-messages'
 
-export const createMember = async (createMemberDto: CreateMemberDto) => {
-  const prisma = new PrismaService()
-  const randomCode = Math.random().toString(32).substr(2, 14).toUpperCase()
+const prisma = new PrismaService()
+const randomCode = Math.random().toString(32).substr(2, 14).toUpperCase()
 
+export const createMember = async (createMemberDto: CreateMemberDto) => {
   try {
     const { userPhone, organizationDocument, role } = createMemberDto
 
@@ -116,6 +117,87 @@ export const createMember = async (createMemberDto: CreateMemberDto) => {
     return JSON.stringify(
       `${user?.name} agora faz parte da organização ${organization?.name} na plataforma`,
     )
+  } catch (error) {
+    await prisma.$disconnect()
+    throw new HttpException(error, error.status)
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+export const importMembers = async (
+  organizationDocument: string,
+  importMemberDto: [],
+) => {
+  const memberPhones = importMemberDto.map((member: any) => member?.phone)
+
+  try {
+    const organization = await prisma.organization.findFirst({
+      where: { document: organizationDocument },
+      include: {
+        members: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    })
+    if (!organization)
+      throw new NotFoundException('a organização não foi encontrada')
+
+    const organizationUsers = organization?.members
+      ?.map((member) => {
+        return member?.userId
+      })
+      .filter((userId) => userId)
+
+    await prisma.user.createMany({
+      data: importMemberDto,
+      skipDuplicates: true,
+    })
+
+    const users = await prisma.user
+      .findMany({
+        where: { softDeleted: false },
+        include: {
+          organizations: true,
+        },
+      })
+      .then((data) =>
+        data
+          .map((user) => {
+            return organizationUsers.includes(user?.id)
+              ? null
+              : memberPhones.includes(user?.phone) && {
+                  role: 'client',
+                  userId: user?.id,
+                  organizationId: organization?.id,
+                }
+          })
+          .filter((userId) => userId),
+      )
+
+    if (!users[0])
+      throw new BadRequestException(
+        'todos os membros da lista já foram importados',
+      )
+
+    return users
+      ?.map(async (data: any) => {
+        return await prisma.member.createMany({
+          data: data,
+          skipDuplicates: true,
+        })
+      })
+      .map((data) => {
+        return !data[0] && users?.length > 1
+          ? JSON.stringify(
+              `${users?.length} membros foram adicionados na organização ${organization?.name}`,
+            )
+          : JSON.stringify(
+              `${users?.length} membro foi adicionado na organização ${organization?.name}`,
+            )
+      })[0]
   } catch (error) {
     await prisma.$disconnect()
     throw new HttpException(error, error.status)

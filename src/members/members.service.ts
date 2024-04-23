@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { CreateMemberDto } from './dto/create-member.dto'
 import { UpdateMemberDto } from './dto/update-member.dto'
-import { createMember } from './repositories/POST'
+import { createMember, importMembers } from './repositories/POST'
 import {
   findMemberById,
   findMemberByPhone,
@@ -15,6 +15,10 @@ import { DeleteMemberDto } from './dto/delete-member.dto'
 export class MembersService {
   create(createMemberDto: CreateMemberDto) {
     return createMember(createMemberDto)
+  }
+
+  import(organizationDocument: string, importMemberDto: []) {
+    return importMembers(organizationDocument, importMemberDto)
   }
 
   findAll() {

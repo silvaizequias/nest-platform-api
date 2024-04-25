@@ -26,6 +26,22 @@ enum SubscriptionPaymentGateway {
   stripe
 }
 
+enum TaskPriority {
+  low
+  normal
+  medium
+  higth
+}
+
+enum TaskStatus {
+  planning
+  open
+  doing
+  pending
+  done
+  closed
+}
+
 model Member {
   id String @id @default(cuid())
 
@@ -104,6 +120,29 @@ model Subscription {
   @@map("subscriptions")
 }
 
+model Task {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  code     String        @unique
+  priority TaskPriority? @default(normal)
+  status   TaskStatus?   @default(planning)
+  subject  String
+  content  String?
+
+  deadline DateTime? @db.Timestamp()
+
+  @@map("tasks")
+}
+
 model User {
   id String @id @default(cuid())
 
@@ -134,6 +173,7 @@ model User {
   longitude Float? @db.DoublePrecision
 
   organizations Member[]
+  tasks         Task[]
 
   @@map("users")
 }

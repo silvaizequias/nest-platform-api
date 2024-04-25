@@ -20,10 +20,11 @@ import {
 } from 'src/utils/send-messages/templates'
 import { sendEmail, sendSms } from 'src/utils/send-messages'
 
-export const createUser = async (createUserDto: CreateUserDto) => {
-  const prisma = new PrismaService()
-  const randomCode = Math.random().toString(32).substr(2, 14).toUpperCase()
+const prisma = new PrismaService()
+const jwtService = new JwtService()
+const randomCode = Math.random().toString(32).substr(2, 14).toUpperCase()
 
+export const createUser = async (createUserDto: CreateUserDto) => {
   try {
     const { name, email, phone, password, zipCode } = createUserDto
     delete createUserDto.password
@@ -90,9 +91,6 @@ export const createUser = async (createUserDto: CreateUserDto) => {
 }
 
 export const login = async (loginUserDto: LoginUserDto) => {
-  const prisma = new PrismaService()
-  const jwtService = new JwtService()
-
   try {
     const { phone, password } = loginUserDto
     const user = await prisma.user.findFirst({

@@ -7,6 +7,7 @@ import { OrganizationsModule } from './organizations/organizations.module'
 import { UsersModule } from './users/users.module'
 import { SubscriptionsModule } from './subscriptions/subscriptions.module'
 import { StripeModule } from './stripe/stripe.module'
+import { TasksModule } from './tasks/tasks.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { StripeModule } from './stripe/stripe.module'
       apiVersion: '2024-04-10',
     }),
     SubscriptionsModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [],

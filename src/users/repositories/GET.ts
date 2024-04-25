@@ -1,9 +1,9 @@
 import { HttpException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
-export const findUsers = async () => {
-  const prisma = new PrismaService()
+const prisma = new PrismaService()
 
+export const findUsers = async () => {
   try {
     return await prisma.user.findMany({
       take: 100,
@@ -39,6 +39,10 @@ export const findUsers = async () => {
             },
           },
         },
+        tasks: {
+          take: 50,
+          orderBy: { updatedAt: 'desc' },
+        },
       },
     })
   } catch (error) {
@@ -50,8 +54,6 @@ export const findUsers = async () => {
 }
 
 export const findUserByDocument = async (document: string) => {
-  const prisma = new PrismaService()
-
   try {
     const user = await prisma.user.findFirst({
       where: { document: document, softDeleted: false },
@@ -85,6 +87,10 @@ export const findUserByDocument = async (document: string) => {
             },
           },
         },
+        tasks: {
+          take: 50,
+          orderBy: { updatedAt: 'desc' },
+        },
       },
     })
     if (!user) throw new NotFoundException('usuário não encontrado')
@@ -99,8 +105,6 @@ export const findUserByDocument = async (document: string) => {
 }
 
 export const findUserByEmail = async (email: string) => {
-  const prisma = new PrismaService()
-
   try {
     const user = await prisma.user.findFirst({
       where: { email: email, softDeleted: false },
@@ -134,6 +138,10 @@ export const findUserByEmail = async (email: string) => {
             },
           },
         },
+        tasks: {
+          take: 50,
+          orderBy: { updatedAt: 'desc' },
+        },
       },
     })
     if (!user) throw new NotFoundException('usuário não encontrado')
@@ -148,8 +156,6 @@ export const findUserByEmail = async (email: string) => {
 }
 
 export const findUserById = async (id?: string) => {
-  const prisma = new PrismaService()
-
   try {
     const user = await prisma.user.findFirst({
       where: { id: id, softDeleted: false },
@@ -170,6 +176,10 @@ export const findUserById = async (id?: string) => {
             },
           },
         },
+        tasks: {
+          take: 50,
+          orderBy: { updatedAt: 'desc' },
+        },
       },
     })
     if (!user) throw new NotFoundException('usuário não encontrado')
@@ -184,8 +194,6 @@ export const findUserById = async (id?: string) => {
 }
 
 export const findUserByPhone = async (phone: string) => {
-  const prisma = new PrismaService()
-
   try {
     const user = await prisma.user.findFirst({
       where: { phone: phone, softDeleted: false },
@@ -218,6 +226,10 @@ export const findUserByPhone = async (phone: string) => {
               },
             },
           },
+        },
+        tasks: {
+          take: 50,
+          orderBy: { updatedAt: 'desc' },
         },
       },
     })

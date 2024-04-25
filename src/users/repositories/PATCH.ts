@@ -3,9 +3,9 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { hashSync } from 'bcryptjs'
 
-export const updateUser = async (id: string, updateUserDto: UpdateUserDto) => {
-  const prisma = new PrismaService()
+const prisma = new PrismaService()
 
+export const updateUser = async (id: string, updateUserDto: UpdateUserDto) => {
   try {
     const { password } = updateUserDto
     delete updateUserDto.password

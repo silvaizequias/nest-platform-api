@@ -30,7 +30,6 @@ export class CreateUserDto {
   })
   @IsEnum($Enums.UserProfile)
   @IsOptional()
-  @IsEnum($Enums.UserProfile)
   profile: $Enums.UserProfile
 
   @ApiPropertyOptional()

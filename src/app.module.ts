@@ -8,6 +8,8 @@ import { UsersModule } from './users/users.module'
 import { SubscriptionsModule } from './subscriptions/subscriptions.module'
 import { StripeModule } from './stripe/stripe.module'
 import { TasksModule } from './tasks/tasks.module'
+import { UploadsModule } from './uploads/uploads.module'
+import { AiModule } from './ai/ai.module'
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { TasksModule } from './tasks/tasks.module'
     }),
     SubscriptionsModule,
     TasksModule,
+    UploadsModule,
+    AiModule,
   ],
   controllers: [],
   providers: [],

@@ -2,8 +2,8 @@ import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 import { SendEmailType, SendSmsType } from './types'
 
-const ACCESS_KEY_ID = process.env.PLATFORM_AWS_ACCESS_KEY ?? ''
-const SECRET_ACCESS_KEY = process.env.PLATFORM_AWS_PRIVATE_KEY ?? ''
+const ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY ?? ''
+const SECRET_ACCESS_KEY = process.env.AWS_PRIVATE_KEY ?? ''
 
 export const sendEmail = async ({
   bbc,

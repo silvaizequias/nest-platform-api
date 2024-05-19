@@ -1,42 +1,70 @@
-import { HttpException, Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { BedrockChat } from '@langchain/community/chat_models/bedrock'
-import { HumanMessage, SystemMessage } from '@langchain/core/messages'
-import { awsBedrockModel } from 'src/helpers'
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common'
+import { BaseMessageFields, SystemMessage } from '@langchain/core/messages'
+import {
+  ChatPromptTemplate,
+  SystemMessagePromptTemplate,
+} from '@langchain/core/prompts'
 import { ChatAiDto } from './dto/chat-ai.dto'
+import { AiModel } from './ai.model'
+import { AiPrompt } from './ai.prompt'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class AiService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly aiModel: AiModel,
+    private readonly aiPrompt: AiPrompt,
+    private readonly prismaService: PrismaService,
+  ) {}
 
-  private readonly bedrockChat = new BedrockChat({
-    model: awsBedrockModel.titanTextPremier,
-    region: this.configService.getOrThrow('AWS_BEDROCK_REGION'),
-    credentials: {
-      accessKeyId: this.configService.getOrThrow('AWS_ACCESS_KEY'),
-      secretAccessKey: this.configService.getOrThrow('AWS_PRIVATE_KEY'),
-    },
-    maxTokens: 1024,
-    temperature: 0.7,
-    streaming: false,
-  })
+  private readonly message = SystemMessagePromptTemplate.fromTemplate('{text}')
+  private readonly history = new Array<BaseMessageFields>()
+  private readonly chat = this.aiModel.bedrockChat()
 
   async aiChat(chatAiDto: ChatAiDto) {
     try {
-      const ai = await this.bedrockChat.invoke([
-        new SystemMessage({
-          content:
-            'Você é um Assistente Virtual chamado Dedicado e deverá responder as dúvidas de forma descontraída com um tom bem humorado.',
-          name: 'Assistente Dedicado',
-        }),
-        new HumanMessage({
-          content: chatAiDto?.content,
-          name: chatAiDto?.user,
-        }),
+      const userId = chatAiDto?.userId
+      const userContent = chatAiDto?.content
+
+      const user = await this.prismaService.user.findFirst({
+        where: { id: userId },
+      })
+      if (!user) throw new NotFoundException(`user not found`)
+
+      const assistantContent = this.aiPrompt.assistant(user?.name)
+
+      const chatPrompt = ChatPromptTemplate.fromMessages([
+        ['assistant', assistantContent],
+        ['user', userContent],
       ])
+      await this.message
+        .format({
+          text: userContent,
+        })
+        .then((data) =>
+          this.history.push({
+            content: data.content,
+            name: user?.name,
+            additional_kwargs: {
+              userId,
+            },
+          }),
+        )
+
+      const formattedChatPrompt = await chatPrompt.invoke(this.history)
+
+      const systemContent = await this.chat.invoke(formattedChatPrompt)
+
+      await this.message
+        .format({
+          text: systemContent.content,
+        })
+        .then((data) =>
+          this.history.push({ content: data.content, name: 'assistant' }),
+        )
 
       return new SystemMessage({
-        content: ai.content,
+        content: systemContent.content,
         name: 'Assistente Dedicado',
       }).lc_kwargs
     } catch (error) {

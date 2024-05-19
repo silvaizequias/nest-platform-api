@@ -1,12 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsString } from 'class-validator'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { IsOptional, IsString, MinLength } from 'class-validator'
 
 export class ChatAiDto {
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
-  user: string
+  userId: string
 
   @ApiProperty()
+  @MinLength(5)
   @IsString()
   content: string
 }

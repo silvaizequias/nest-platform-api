@@ -9,5 +9,5 @@ export class AuthLoginDto {
   @IsString()
   @MinLength(6)
   @MaxLength(6)
-  code: string
+  secret: string
 }

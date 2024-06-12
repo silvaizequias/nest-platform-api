@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
 import { SendersService } from './senders.service'
 import { SendersController } from './senders.controller'
+import { AWSService } from 'src/aws/aws.service'
 
 @Module({
-  providers: [SendersService],
+  providers: [SendersService, AWSService],
   controllers: [SendersController],
 })
 export class SendersModule {}

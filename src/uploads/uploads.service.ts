@@ -12,26 +12,23 @@ export class UploadsService {
   ) {}
 
   async uploadFile(file: Express.Multer.File, uploadFileDto: UploadFileDto) {
-    try {
-      const params = {
-        Bucket: uploadFileDto?.bucket,
-        Key: uploadFileDto?.name,
-        ContentType: file.mimetype,
-        ContentLength: file.size,
-        Body: file.buffer,
-      }
-      const putObjectCommand = new PutObjectCommand(params)
+    const { bucket, name, path } = uploadFileDto
 
-      const url = `https://s3.${this.configService.getOrThrow('AWS_S3_REGION')}.amazonaws.com/${uploadFileDto?.bucket}/${encodeURIComponent(params.Key)}`
+    const putObjectCommand = new PutObjectCommand({
+      Bucket: bucket,
+      Key: path ? `${path}/${name}` : name,
+      ContentType: file.mimetype,
+      ContentLength: file.size,
+      Body: file.buffer,
+    })
 
-      return await this.awsService.s3Client
-        .send(putObjectCommand)
-        .then(() => {
-          return { url: url }
-        })
-        .catch((error: any) => error?.message)
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    }
+    const url = `https://s3.${this.configService.getOrThrow('AWS_S3_REGION')}.amazonaws.com/${uploadFileDto?.bucket}/${encodeURIComponent(path ? `${path}/${name}` : name)}`
+
+    return await this.awsService.s3Client
+      .send(putObjectCommand)
+      .then(() => {
+        return { url: url }
+      })
+      .catch((error: any) => new HttpException(error?.message, error?.status))
   }
 }

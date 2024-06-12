@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsString } from 'class-validator'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { IsOptional, IsString } from 'class-validator'
 
 export class UploadFileDto {
   @ApiProperty()
@@ -9,4 +9,9 @@ export class UploadFileDto {
   @ApiProperty()
   @IsString()
   bucket: string
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  path: string
 }

@@ -1,19 +1,15 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { HttpException, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { UploadFileDto } from './uploads.dto'
+import { AWSService } from 'src/aws/aws.service'
 
 @Injectable()
 export class UploadsService {
-  constructor(private readonly configService: ConfigService) {}
-
-  private readonly s3Client = new S3Client({
-    region: this.configService.getOrThrow('AWS_S3_REGION'),
-    credentials: {
-      accessKeyId: this.configService.getOrThrow('AWS_ACCESS_KEY'),
-      secretAccessKey: this.configService.getOrThrow('AWS_PRIVATE_KEY'),
-    },
-  })
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly awsService: AWSService,
+  ) {}
 
   async uploadFile(file: Express.Multer.File, uploadFileDto: UploadFileDto) {
     try {
@@ -28,7 +24,7 @@ export class UploadsService {
 
       const url = `https://s3.${this.configService.getOrThrow('AWS_S3_REGION')}.amazonaws.com/${uploadFileDto?.bucket}/${encodeURIComponent(params.Key)}`
 
-      return await this.s3Client
+      return await this.awsService.s3Client
         .send(putObjectCommand)
         .then(() => {
           return { url: url }

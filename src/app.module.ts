@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from '@nestjs/config'
 import { UploadsModule } from './uploads/uploads.module'
-import { GenerativesModule } from './generatives/generatives.module'
+import { AWSModule } from './aws/aws.module'
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { GenerativesModule } from './generatives/generatives.module'
     }),
     AuthModule,
     UploadsModule,
-    GenerativesModule,
+    AWSModule,
   ],
   providers: [],
 })

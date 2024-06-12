@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config'
 import { UploadsModule } from './uploads/uploads.module'
 import { AWSModule } from './aws/aws.module'
 import { StripeModule } from './stripe/stripe.module'
+import { SendersModule } from './senders/senders.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { StripeModule } from './stripe/stripe.module'
     StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
       apiVersion: '2024-04-10',
     }),
+    SendersModule,
   ],
   providers: [],
 })

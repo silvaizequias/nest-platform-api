@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from '@nestjs/config'
 import { UploadsModule } from './uploads/uploads.module'
+import { GenerativesModule } from './generatives/generatives.module'
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { UploadsModule } from './uploads/uploads.module'
     }),
     AuthModule,
     UploadsModule,
+    GenerativesModule,
   ],
   providers: [],
 })

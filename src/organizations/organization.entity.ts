@@ -1,4 +1,4 @@
-export class Company {
+export class Organization {
   id: string
   createdAt: Date
   updatedAt: Date

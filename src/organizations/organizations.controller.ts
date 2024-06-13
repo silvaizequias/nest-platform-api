@@ -9,21 +9,24 @@ import {
   ClassSerializerInterceptor,
   UseInterceptors,
 } from '@nestjs/common'
-import { CompaniesService } from './companies.service'
+import { OrganizationsService } from './organizations.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
-import { CreateCompanyDto, UpdateCompanyDto } from './companies.dto'
+import {
+  CreateOrganizationDto,
+  UpdateOrganizationDto,
+} from './organizations.dto'
 
-@ApiTags('companies')
-@Controller('companies')
-export class CompaniesController {
-  constructor(private readonly companiesService: CompaniesService) {}
+@ApiTags('organizations')
+@Controller('organizations')
+export class OrganizationsController {
+  constructor(private readonly organizationsService: OrganizationsService) {}
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createCompanyDto: CreateCompanyDto) {
-    return this.companiesService.create(createCompanyDto)
+  create(@Body() createOrganizationDto: CreateOrganizationDto) {
+    return this.organizationsService.create(createOrganizationDto)
   }
 
   @ApiOkResponse()
@@ -31,7 +34,7 @@ export class CompaniesController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
-    return this.companiesService.findAll()
+    return this.organizationsService.findAll()
   }
 
   @ApiOkResponse()
@@ -39,15 +42,18 @@ export class CompaniesController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.companiesService.findOne(id)
+    return this.organizationsService.findOne(id)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
-    return this.companiesService.update(id, updateCompanyDto)
+  update(
+    @Param('id') id: string,
+    @Body() updateOrganizationDto: UpdateOrganizationDto,
+  ) {
+    return this.organizationsService.update(id, updateOrganizationDto)
   }
 
   @ApiOkResponse()
@@ -55,6 +61,6 @@ export class CompaniesController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.companiesService.remove(id)
+    return this.organizationsService.remove(id)
   }
 }

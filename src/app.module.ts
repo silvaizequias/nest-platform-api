@@ -6,8 +6,8 @@ import { AWSModule } from './aws/aws.module'
 import { StripeModule } from './stripe/stripe.module'
 import { SendersModule } from './senders/senders.module'
 import { AccountsModule } from './accounts/accounts.module'
-import { CompaniesModule } from './companies/companies.module';
-import { MembersModule } from './members/members.module';
+import { OrganizationsModule } from './organizations/organizations.module'
+import { MembersModule } from './members/members.module'
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { MembersModule } from './members/members.module';
     }),
     SendersModule,
     AccountsModule,
-    CompaniesModule,
+    OrganizationsModule,
     MembersModule,
   ],
   providers: [],

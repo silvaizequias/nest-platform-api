@@ -7,7 +7,7 @@ import {
   IsNumber,
 } from 'class-validator'
 
-export class CreateCompanyDto {
+export class CreateOrganizationDto {
   @ApiPropertyOptional({ default: true })
   @IsOptional()
   @IsBoolean()
@@ -80,4 +80,4 @@ export class CreateCompanyDto {
   longitude: number
 }
 
-export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {}
+export class UpdateOrganizationDto extends PartialType(CreateOrganizationDto) {}

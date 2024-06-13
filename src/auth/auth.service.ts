@@ -15,7 +15,7 @@ export class AuthService {
 
   async login(authLoginDto: AuthLoginDto) {
     const { phone } = authLoginDto
-    console.log(authLoginDto)
+
     try {
       const token = await this.jwtService.signAsync(
         {

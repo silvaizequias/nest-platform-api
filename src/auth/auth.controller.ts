@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { AuthLoginDto } from './auth.dto'
+import { AuthCodeDto, AuthLoginDto } from './auth.dto'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('auth')
@@ -20,5 +20,13 @@ export class AuthController {
   @Post('login')
   async login(@Body() authLoginDto: AuthLoginDto) {
     return this.authService.login(authLoginDto)
+  }
+
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('code')
+  async code(@Body() authCodeDto: AuthCodeDto) {
+    return this.authService.code(authCodeDto)
   }
 }

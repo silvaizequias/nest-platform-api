@@ -3,16 +3,14 @@ import { CreateAccountDto, UpdateAccountDto } from './accounts.dto'
 
 @Injectable()
 export class AccountsService {
+  randomCode = Math.random().toString(32).substr(2, 6).toUpperCase()
+
   create(createAccountDto: CreateAccountDto) {
     return createAccountDto
   }
 
   findAll() {
     return []
-  }
-
-  findByPhone(phone: string) {
-    return phone
   }
 
   findOne(id: string) {

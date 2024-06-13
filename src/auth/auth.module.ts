@@ -4,10 +4,18 @@ import { AuthController } from './auth.controller'
 import { AuthJwtStrategy } from './auth.strategy'
 import { JwtService } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
+import { SendersService } from 'src/senders/senders.service'
+import { AWSService } from 'src/aws/aws.service'
 
 @Module({
   imports: [PassportModule],
-  providers: [AuthService, AuthJwtStrategy, JwtService],
+  providers: [
+    AuthService,
+    AuthJwtStrategy,
+    JwtService,
+    AWSService,
+    SendersService,
+  ],
   controllers: [AuthController],
   exports: [AuthService],
 })

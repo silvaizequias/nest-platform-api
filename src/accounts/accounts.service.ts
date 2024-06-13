@@ -11,6 +11,10 @@ export class AccountsService {
     return []
   }
 
+  findByPhone(phone: string) {
+    return phone
+  }
+
   findOne(id: string) {
     return id
   }

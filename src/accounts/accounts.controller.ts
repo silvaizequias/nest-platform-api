@@ -37,6 +37,14 @@ export class AccountsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get(':phone')
+  findByPhone(@Param('phone') phone: string) {
+    return this.accountsService.findByPhone(phone)
+  }
+
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.accountsService.findOne(id)

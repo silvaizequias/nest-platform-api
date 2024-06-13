@@ -5,6 +5,7 @@ import { UploadsModule } from './uploads/uploads.module'
 import { AWSModule } from './aws/aws.module'
 import { StripeModule } from './stripe/stripe.module'
 import { SendersModule } from './senders/senders.module'
+import { AccountsModule } from './accounts/accounts.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SendersModule } from './senders/senders.module'
       apiVersion: '2024-04-10',
     }),
     SendersModule,
+    AccountsModule,
   ],
   providers: [],
 })

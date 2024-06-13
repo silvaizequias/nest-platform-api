@@ -1,4 +1,4 @@
-export enum AccountRole {
+export enum MemberRole {
   master = 'master',
   owner = 'owner',
   administrator = 'administrator',

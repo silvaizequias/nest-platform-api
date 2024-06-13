@@ -6,6 +6,8 @@ import { AWSModule } from './aws/aws.module'
 import { StripeModule } from './stripe/stripe.module'
 import { SendersModule } from './senders/senders.module'
 import { AccountsModule } from './accounts/accounts.module'
+import { CompaniesModule } from './companies/companies.module';
+import { MembersModule } from './members/members.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { AccountsModule } from './accounts/accounts.module'
     }),
     SendersModule,
     AccountsModule,
+    CompaniesModule,
+    MembersModule,
   ],
   providers: [],
 })

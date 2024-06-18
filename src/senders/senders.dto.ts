@@ -17,10 +17,6 @@ export class SendEmailDto {
 
   @ApiProperty()
   @IsString()
-  from: string
-
-  @ApiProperty()
-  @IsString()
   message: string
 }
 

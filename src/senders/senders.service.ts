@@ -3,13 +3,17 @@ import { AWSService } from 'src/aws/aws.service'
 import { SendEmailDto, SendSMSDto } from './senders.dto'
 import { SendEmailCommand } from '@aws-sdk/client-ses'
 import { PublishCommand } from '@aws-sdk/client-sns'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class SendersService {
-  constructor(private awsService: AWSService) {}
+  constructor(
+    private awsService: AWSService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async sendEmail(sendEmailDto: SendEmailDto) {
-    const { to, bcc, from, subject, message } = sendEmailDto
+    const { to, bcc, subject, message } = sendEmailDto
 
     const sendEmailCommand = new SendEmailCommand({
       Destination: {
@@ -32,7 +36,7 @@ export class SendersService {
           },
         },
       },
-      Source: from,
+      Source: this.configService.getOrThrow('SENDING_EMAIL_FROM'),
     })
     return await this.awsService.sesClient
       .send(sendEmailCommand)

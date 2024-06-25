@@ -8,7 +8,7 @@ export class UsersService {
   }
 
   findAll() {
-    return {}
+    return [{}]
   }
 
   findOne(id: string) {

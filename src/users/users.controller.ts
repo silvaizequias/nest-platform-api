@@ -9,21 +9,21 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common'
-import { AccountsService } from './accounts.service'
+import { UsersService } from './users.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
-import { CreateAccountDto, UpdateAccountDto } from './accounts.dto'
+import { CreateUserDto, UpdateUserDto } from './users.dto'
 
-@ApiTags('accounts')
-@Controller('accounts')
-export class AccountsController {
-  constructor(private readonly accountsService: AccountsService) {}
+@ApiTags('users')
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createAccountDto: CreateAccountDto) {
-    return this.accountsService.create(createAccountDto)
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto)
   }
 
   @ApiOkResponse()
@@ -31,7 +31,7 @@ export class AccountsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
-    return this.accountsService.findAll()
+    return this.usersService.findAll()
   }
 
   @ApiOkResponse()
@@ -39,15 +39,15 @@ export class AccountsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.accountsService.findOne(id)
+    return this.usersService.findOne(id)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
-    return this.accountsService.update(id, updateAccountDto)
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto)
   }
 
   @ApiOkResponse()
@@ -55,6 +55,6 @@ export class AccountsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.accountsService.remove(id)
+    return this.usersService.remove(id)
   }
 }

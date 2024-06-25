@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger'
-import { AccountRole } from './account.enum'
+
 import {
   IsBoolean,
   IsEmail,
@@ -8,18 +8,19 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator'
+import { UserRole } from './user.enum'
 
-export class CreateAccountDto {
+export class CreateUserDto {
   @ApiPropertyOptional({ default: true })
   @IsOptional()
   @IsBoolean()
   active: boolean
 
-  @ApiPropertyOptional({ enum: AccountRole, default: 'guest' })
+  @ApiPropertyOptional({ enum: UserRole, default: 'guest' })
   @IsOptional()
-  @IsEnum(AccountRole)
+  @IsEnum(UserRole)
   @IsString()
-  role: AccountRole
+  role: UserRole
 
   @ApiProperty()
   @IsString()
@@ -94,4 +95,4 @@ export class CreateAccountDto {
   longitude: number
 }
 
-export class UpdateAccountDto extends PartialType(CreateAccountDto) {}
+export class UpdateUserDto extends PartialType(CreateUserDto) {}

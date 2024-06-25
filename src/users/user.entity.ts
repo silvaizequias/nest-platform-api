@@ -1,13 +1,13 @@
-import { AccountRole } from './account.enum'
+import { UserRole } from './user.enum'
 
-export class AccountEntity {
+export class User {
   id: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
   softDeleted: boolean
   active: boolean
-  role: AccountRole
+  role: UserRole
   name: string
   image: string
   email: string

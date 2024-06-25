@@ -5,9 +5,9 @@ import { UploadsModule } from './uploads/uploads.module'
 import { AWSModule } from './aws/aws.module'
 import { StripeModule } from './stripe/stripe.module'
 import { SendersModule } from './senders/senders.module'
-import { AccountsModule } from './accounts/accounts.module'
 import { OrganizationsModule } from './organizations/organizations.module'
 import { MembersModule } from './members/members.module'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -22,9 +22,9 @@ import { MembersModule } from './members/members.module'
       apiVersion: '2024-04-10',
     }),
     SendersModule,
-    AccountsModule,
     OrganizationsModule,
     MembersModule,
+    UsersModule,
   ],
   providers: [],
 })

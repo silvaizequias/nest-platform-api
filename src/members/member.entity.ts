@@ -6,6 +6,6 @@ export class Member {
   updatedAt: Date
   role: MemberRole
   active: boolean
-  accountId: string
+  userId: string
   companyId: string
 }

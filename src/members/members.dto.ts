@@ -14,7 +14,7 @@ export class CreateMemberDto {
 
   @ApiProperty()
   @IsString()
-  accountId: string
+  userId: string
 
   @ApiProperty()
   @IsString()

@@ -28,10 +28,12 @@ export class AuthService {
         },
       )
 
-      return {
+      const payload = {
         token,
         expiresIn: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
       }
+
+      return payload
     } catch (error) {
       throw new HttpException(error, error.status)
     }

@@ -1,6 +1,6 @@
 {
-  "name": "platform-api",
-  "version": "0.0.1",
+  "name": "control-api",
+  "version": "1.0.0",
   "description": "dedicated platform management service",
   "author": "Izequias Narcizo dos Santos da Silva",
   "private": true,

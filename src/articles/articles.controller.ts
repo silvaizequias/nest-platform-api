@@ -9,21 +9,21 @@ import {
   ClassSerializerInterceptor,
   UseInterceptors,
 } from '@nestjs/common'
-import { PostsService } from './posts.service'
-import { CreatePostDto, UpdatePostDto } from './posts.dto'
+import { ArticlesService } from './articles.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { CreateArticleDto, UpdateArticleDto } from './articles.dto'
 
-@ApiTags('posts')
-@Controller('posts')
-export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+@ApiTags('articles')
+@Controller('articles')
+export class ArticlesController {
+  constructor(private readonly articlesService: ArticlesService) {}
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto)
+  create(@Body() createArticleDto: CreateArticleDto) {
+    return this.articlesService.create(createArticleDto)
   }
 
   @ApiOkResponse()
@@ -31,7 +31,7 @@ export class PostsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
-    return this.postsService.findAll()
+    return this.articlesService.findAll()
   }
 
   @ApiOkResponse()
@@ -39,15 +39,23 @@ export class PostsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.postsService.findOne(id)
+    return this.articlesService.findOne(id)
+  }
+
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('slug/:slug')
+  findBySlug(@Param('slug') slug: string) {
+    return this.articlesService.findBySlug(slug)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(id, updatePostDto)
+  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
+    return this.articlesService.update(id, updateArticleDto)
   }
 
   @ApiOkResponse()
@@ -55,6 +63,6 @@ export class PostsController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.postsService.remove(id)
+    return this.articlesService.remove(id)
   }
 }

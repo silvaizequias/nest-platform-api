@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger'
 import { IsBoolean, IsOptional, IsString } from 'class-validator'
 
-export class CreatePostDto {
+export class CreateArticleDto {
   @ApiPropertyOptional({ default: true })
   @IsOptional()
   @IsBoolean()
@@ -43,4 +43,4 @@ export class CreatePostDto {
   tags: string
 }
 
-export class UpdatePostDto extends PartialType(CreatePostDto) {}
+export class UpdateArticleDto extends PartialType(CreateArticleDto) {}

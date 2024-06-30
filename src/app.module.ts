@@ -8,25 +8,25 @@ import { SendersModule } from './senders/senders.module'
 import { OrganizationsModule } from './organizations/organizations.module'
 import { MembersModule } from './members/members.module'
 import { UsersModule } from './users/users.module'
-import { PostsModule } from './posts/posts.module'
+import { ArticlesModule } from './articles/articles.module'
 
 @Module({
   imports: [
+    ArticlesModule,
+    AuthModule,
+    AWSModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
-    AuthModule,
-    UploadsModule,
-    AWSModule,
+    MembersModule,
+    OrganizationsModule,
+    SendersModule,
     StripeModule.forRoot(process.env.STRIPE_SECRET_KEY, {
       apiVersion: '2024-04-10',
     }),
-    SendersModule,
-    OrganizationsModule,
-    MembersModule,
+    UploadsModule,
     UsersModule,
-    PostsModule,
   ],
   providers: [],
 })

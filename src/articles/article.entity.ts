@@ -1,4 +1,4 @@
-export class Post {
+export class Article {
   id: string
   createdAt: Date
   updatedAt: Date

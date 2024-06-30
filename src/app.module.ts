@@ -8,6 +8,7 @@ import { SendersModule } from './senders/senders.module'
 import { OrganizationsModule } from './organizations/organizations.module'
 import { MembersModule } from './members/members.module'
 import { UsersModule } from './users/users.module'
+import { PostsModule } from './posts/posts.module'
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module'
     OrganizationsModule,
     MembersModule,
     UsersModule,
+    PostsModule,
   ],
   providers: [],
 })

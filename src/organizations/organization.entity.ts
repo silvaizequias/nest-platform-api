@@ -1,4 +1,4 @@
-export class Organization {
+export class OrganizationEntity {
   id: string
   createdAt: Date
   updatedAt: Date

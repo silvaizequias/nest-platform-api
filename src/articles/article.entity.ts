@@ -1,4 +1,4 @@
-export class Article {
+export class ArticleEntity {
   id: string
   createdAt: Date
   updatedAt: Date

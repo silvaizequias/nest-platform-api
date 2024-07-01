@@ -1,6 +1,6 @@
 import { MemberRole } from './member.enum'
 
-export class Member {
+export class MemberEntity {
   id: string
   createdAt: Date
   updatedAt: Date

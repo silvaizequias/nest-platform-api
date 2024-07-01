@@ -36,6 +36,7 @@ export class AuthService {
       return payload
     } catch (error) {
       throw new HttpException(error, error.status)
+    } finally {
     }
   }
 
@@ -57,6 +58,7 @@ export class AuthService {
       })
     } catch (error) {
       throw new HttpException(error, error.status)
+    } finally {
     }
   }
 }

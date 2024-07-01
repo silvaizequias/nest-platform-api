@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, Injectable } from '@nestjs/common'
 import {
   CreateOrganizationDto,
   UpdateOrganizationDto,
@@ -7,22 +7,47 @@ import {
 @Injectable()
 export class OrganizationsService {
   create(createOrganizationDto: CreateOrganizationDto) {
-    return createOrganizationDto
+    try {
+      return createOrganizationDto
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   findAll() {
-    return []
+    try {
+      return []
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   findOne(id: string) {
-    return id
+    try {
+      return id
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   update(id: string, updateOrganizationDto: UpdateOrganizationDto) {
-    return { id, updateOrganizationDto }
+    try {
+      return { id, updateOrganizationDto }
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   remove(id: string) {
-    return id
+    try {
+      return id
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 }

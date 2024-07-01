@@ -1,25 +1,51 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, Injectable } from '@nestjs/common'
 import { CreateUserDto, UpdateUserDto } from './users.dto'
 
 @Injectable()
 export class UsersService {
   create(createUserDto: CreateUserDto) {
-    return createUserDto
+    const {} = createUserDto
+    try {
+      return createUserDto
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   findAll() {
-    return [{}]
+    try {
+      return []
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   findOne(id: string) {
-    return id
+    try {
+      return id
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return { id, updateUserDto }
+    try {
+      return { id, updateUserDto }
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 
   remove(id: string) {
-    return id
+    try {
+      return id
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    } finally {
+    }
   }
 }

@@ -9,6 +9,7 @@ import { OrganizationsModule } from './organizations/organizations.module'
 import { MembersModule } from './members/members.module'
 import { UsersModule } from './users/users.module'
 import { ArticlesModule } from './articles/articles.module'
+import { PrismaModule } from './prisma/prisma.module'
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ArticlesModule } from './articles/articles.module'
     }),
     UploadsModule,
     UsersModule,
+    PrismaModule,
   ],
   providers: [],
 })

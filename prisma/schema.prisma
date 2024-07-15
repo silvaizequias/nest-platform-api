@@ -1,0 +1,153 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+
+  active    Boolean? @default(true)
+  spotlight Boolean? @default(false)
+  private   Boolean? @default(false)
+
+  slug    String?
+  title   String
+  image   String?
+  subject String?
+  resume  String?
+  content String
+  tags    String?
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("articles")
+}
+
+model Member {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+
+  role String?
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("members")
+}
+
+model Organization {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+
+  key      String?
+  name     String?
+  image    String?
+  email    String? @unique
+  phone    String? @unique
+  document String  @unique
+
+  zipCode    String?
+  street     String?
+  complement String?
+  district   String?
+  city       String?
+  state      String?
+  country    String?
+
+  latitude  Float? @db.DoublePrecision
+  longitude Float? @db.DoublePrecision
+
+  members      Member[]
+  subscription Subscription?
+
+  @@map("organizations")
+}
+
+model Subscription {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  organizationId String       @unique @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+
+  paymentGateway        String? @map("payment_gateway")
+  paymentCustomerId     String? @unique @map(name: "payment_customer_id")
+  paymentSubscriptionId String? @unique @map(name: "payment_subscription_id")
+  paymentPriceId        String? @map(name: "payment_price_id")
+
+  credit Int? @default(100)
+
+  unlimited Boolean? @default(false)
+
+  @@map("subscriptions")
+}
+
+model User {
+  id String @id @default(cuid())
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Date
+
+  softDeleted Boolean? @default(false) @map("soft_deleted")
+  active      Boolean? @default(true)
+
+  lastLogin DateTime? @map("last_login") @db.Timestamp()
+
+  role     String?
+  name     String?
+  image    String?
+  email    String? @unique
+  phone    String  @unique
+  secret   String?
+  document String? @unique
+
+  zipCode    String?
+  street     String?
+  complement String?
+  district   String?
+  city       String?
+  state      String?
+  country    String?
+
+  latitude  Float? @db.DoublePrecision
+  longitude Float? @db.DoublePrecision
+
+  articles      Article[]
+  organizations Member[]
+
+  @@map("users")
+}

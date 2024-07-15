@@ -9,6 +9,7 @@ export class ArticleEntity {
   private: boolean
   slug: string
   title: string
+  image: string
   subject: string
   resume: string
   content: string

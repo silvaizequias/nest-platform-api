@@ -1,13 +1,14 @@
-import { UserRole } from './user.enum'
+import { User } from '@prisma/client'
 
-export class UserEntity {
+export class UserEntity implements User {
   id: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
   softDeleted: boolean
   active: boolean
-  role: UserRole
+  lastLogin: Date
+  role: string
   name: string
   image: string
   email: string

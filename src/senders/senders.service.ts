@@ -36,7 +36,7 @@ export class SendersService {
           },
         },
       },
-      Source: this.configService.getOrThrow('SENDING_EMAIL_FROM'),
+      Source: this.configService.getOrThrow('EMAIL_SENDER'),
     })
     return await this.awsService.sesClient
       .send(sendEmailCommand)

@@ -26,6 +26,11 @@ export class CreateArticleDto {
   @IsString()
   title: string
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  image: string
+
   @ApiProperty()
   @IsString()
   subject: string

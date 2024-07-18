@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { AuthCodeDto, AuthLoginDto } from './auth.dto'
+import { AuthCodeValidator, AuthLoginValidator } from './auth.validator'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('auth')
@@ -18,15 +18,15 @@ export class AuthController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
-  async login(@Body() authLoginDto: AuthLoginDto) {
-    return this.authService.login(authLoginDto)
+  async login(@Body() authLoginValidator: AuthLoginValidator) {
+    return this.authService.login(authLoginValidator)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('code')
-  async code(@Body() authCodeDto: AuthCodeDto) {
-    return this.authService.code(authCodeDto)
+  async code(@Body() authCodeValidator: AuthCodeValidator) {
+    return this.authService.code(authCodeValidator)
   }
 }

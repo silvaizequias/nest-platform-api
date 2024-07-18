@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common'
 import { AWSService } from 'src/aws/aws.service'
-import { SendEmailDto, SendSMSDto } from './senders.dto'
+import { SendEmailValidator, SendSMSValidator } from './senders.validator'
 import { SendEmailCommand } from '@aws-sdk/client-ses'
 import { PublishCommand } from '@aws-sdk/client-sns'
 import { ConfigService } from '@nestjs/config'
@@ -12,8 +12,8 @@ export class SendersService {
     private readonly configService: ConfigService,
   ) {}
 
-  async sendEmail(sendEmailDto: SendEmailDto) {
-    const { to, bcc, subject, message } = sendEmailDto
+  async sendEmail(sendEmailValidator: SendEmailValidator) {
+    const { to, bcc, subject, message } = sendEmailValidator
 
     const sendEmailCommand = new SendEmailCommand({
       Destination: {
@@ -46,8 +46,8 @@ export class SendersService {
       .catch((error) => new HttpException(error?.message, error?.status))
   }
 
-  async sendSMS(sendSMSDto: SendSMSDto) {
-    const { to, message } = sendSMSDto
+  async sendSMS(sendSMSValidator: SendSMSValidator) {
+    const { to, message } = sendSMSValidator
 
     const publishCommand = new PublishCommand({
       Message: message,

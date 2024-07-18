@@ -1,39 +1,7 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger'
-import {
-  IsOptional,
-  IsBoolean,
-  IsString,
-  IsEmail,
-  IsNumber,
-} from 'class-validator'
+import { ApiPropertyOptional } from '@nestjs/swagger'
+import { IsNumber, IsOptional, IsString } from 'class-validator'
 
-export class CreateOrganizationDto {
-  @ApiPropertyOptional({ default: true })
-  @IsOptional()
-  @IsBoolean()
-  active: boolean
-
-  @ApiProperty()
-  @IsString()
-  name: string
-
-  @ApiPropertyOptional()
-  @IsString()
-  image: string
-
-  @ApiPropertyOptional()
-  @IsEmail()
-  @IsString()
-  email: string
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  phone: string
-
-  @ApiProperty()
-  @IsString()
-  document: string
-
+export class AddressValidator {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -79,5 +47,3 @@ export class CreateOrganizationDto {
   @IsNumber()
   longitude: number
 }
-
-export class UpdateOrganizationDto extends PartialType(CreateOrganizationDto) {}

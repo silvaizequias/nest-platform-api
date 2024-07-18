@@ -4,6 +4,7 @@ import { SESClient } from '@aws-sdk/client-ses'
 import { SNSClient } from '@aws-sdk/client-sns'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { AWSCredential } from './aws.interface'
 
 @Injectable()
 export class AWSService {
@@ -11,7 +12,7 @@ export class AWSService {
 
   private readonly defaultRegion = 'sa-east-1'
 
-  private readonly credentials = {
+  private readonly credentials: AWSCredential = {
     accessKeyId: this.configService.getOrThrow('AWS_ACCESS_KEY'),
     secretAccessKey: this.configService.getOrThrow('AWS_PRIVATE_KEY'),
   }

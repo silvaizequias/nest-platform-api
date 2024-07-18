@@ -1,20 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   UseInterceptors,
 } from '@nestjs/common'
 import { OrganizationsService } from './organizations.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 import {
-  CreateOrganizationDto,
-  UpdateOrganizationDto,
-} from './organizations.dto'
+  CreateOrganizationValidator,
+  RemoveOrganizationValidator,
+  UpdateOrganizationValidator,
+} from './organization.validator'
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -25,16 +26,24 @@ export class OrganizationsController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createOrganizationDto: CreateOrganizationDto) {
-    return this.organizationsService.create(createOrganizationDto)
+  create(@Body() createOrganizationValidator: CreateOrganizationValidator) {
+    return this.organizationsService.create(createOrganizationValidator)
+  }
+
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('document/:document')
+  findByDocument(@Param('document') document: string) {
+    return this.organizationsService.findByDocument(document)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
-  findAll() {
-    return this.organizationsService.findAll()
+  findMany() {
+    return this.organizationsService.findMany()
   }
 
   @ApiOkResponse()
@@ -51,16 +60,19 @@ export class OrganizationsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateOrganizationDto: UpdateOrganizationDto,
+    @Body() updateOrganizationValidator: UpdateOrganizationValidator,
   ) {
-    return this.organizationsService.update(id, updateOrganizationDto)
+    return this.organizationsService.update(id, updateOrganizationValidator)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.organizationsService.remove(id)
+  remove(
+    @Param('id') id: string,
+    @Body() removeOrganizationValidator: RemoveOrganizationValidator,
+  ) {
+    return this.organizationsService.remove(id, removeOrganizationValidator)
   }
 }

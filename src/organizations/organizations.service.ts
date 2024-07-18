@@ -1,53 +1,47 @@
-import { HttpException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import {
-  CreateOrganizationDto,
-  UpdateOrganizationDto,
-} from './organizations.dto'
+  CreateOrganizationValidator,
+  RemoveOrganizationValidator,
+  UpdateOrganizationValidator,
+} from './organization.validator'
+import { createOrganizationRepository } from 'src/repositories/organizations/create-organization.repository'
+import {
+  findByDocumentOrganizationRepository,
+  findManyOrganizationRepository,
+  findOneOrganizationRepository,
+} from 'src/repositories/organizations/find-organization.repository'
+import { updateOrganizationRepository } from 'src/repositories/organizations/update-organization.repository'
+import { removeOrganizationRepository } from 'src/repositories/organizations/remove-organization.repository'
 
 @Injectable()
 export class OrganizationsService {
-  create(createOrganizationDto: CreateOrganizationDto) {
-    try {
-      return createOrganizationDto
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async create(createOrganizationValidator: CreateOrganizationValidator) {
+    return await createOrganizationRepository(createOrganizationValidator)
   }
 
-  findAll() {
-    try {
-      return []
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async findByDocument(document: string) {
+    return await findByDocumentOrganizationRepository(document)
   }
 
-  findOne(id: string) {
-    try {
-      return id
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async findMany() {
+    return await findManyOrganizationRepository()
   }
 
-  update(id: string, updateOrganizationDto: UpdateOrganizationDto) {
-    try {
-      return { id, updateOrganizationDto }
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async findOne(id: string) {
+    return await findOneOrganizationRepository(id)
   }
 
-  remove(id: string) {
-    try {
-      return id
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async update(
+    id: string,
+    updateOrganizationValidator: UpdateOrganizationValidator,
+  ) {
+    return await updateOrganizationRepository(id, updateOrganizationValidator)
+  }
+
+  async remove(
+    id: string,
+    removeOrganizationValidator: RemoveOrganizationValidator,
+  ) {
+    return await removeOrganizationRepository(id, removeOrganizationValidator)
   }
 }

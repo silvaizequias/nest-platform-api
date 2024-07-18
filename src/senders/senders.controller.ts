@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import { SendersService } from './senders.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
-import { SendEmailDto, SendSMSDto } from './senders.dto'
+import { SendEmailValidator, SendSMSValidator } from './senders.validator'
 
 @ApiTags('senders')
 @Controller('senders')
@@ -18,15 +18,15 @@ export class SendersController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('email')
-  email(@Body() sendEmailDto: SendEmailDto) {
-    return this.sendersService.sendEmail(sendEmailDto)
+  email(@Body() sendEmailValidator: SendEmailValidator) {
+    return this.sendersService.sendEmail(sendEmailValidator)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('sms')
-  sms(@Body() sendSMSDto: SendSMSDto) {
-    return this.sendersService.sendSMS(sendSMSDto)
+  sms(@Body() sendSMSValidator: SendSMSValidator) {
+    return this.sendersService.sendSMS(sendSMSValidator)
   }
 }

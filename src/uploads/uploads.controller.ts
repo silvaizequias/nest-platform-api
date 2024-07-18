@@ -16,7 +16,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { UploadFileDto } from './uploads.dto'
+import { UploadFileValidator } from './uploads.validator'
 
 @ApiTags('uploads')
 @Controller('uploads')
@@ -35,8 +35,8 @@ export class UploadsController {
       }),
     )
     file: Express.Multer.File,
-    @Body() uploadFileDto: UploadFileDto,
+    @Body() uploadFileValidator: UploadFileValidator,
   ) {
-    return this.uploadService.uploadFile(file, uploadFileDto)
+    return this.uploadService.uploadFile(file, uploadFileValidator)
   }
 }

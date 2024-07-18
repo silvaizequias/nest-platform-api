@@ -1,7 +1,7 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { HttpException, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { UploadFileDto } from './uploads.dto'
+import { UploadFileValidator } from './uploads.validator'
 import { AWSService } from 'src/aws/aws.service'
 
 @Injectable()
@@ -11,8 +11,11 @@ export class UploadsService {
     private readonly awsService: AWSService,
   ) {}
 
-  async uploadFile(file: Express.Multer.File, uploadFileDto: UploadFileDto) {
-    const { bucket, name, path } = uploadFileDto
+  async uploadFile(
+    file: Express.Multer.File,
+    uploadFileValidator: UploadFileValidator,
+  ) {
+    const { bucket, name, path } = uploadFileValidator
 
     const putObjectCommand = new PutObjectCommand({
       Bucket: bucket,
@@ -22,7 +25,7 @@ export class UploadsService {
       Body: file.buffer,
     })
 
-    const url = `https://s3.${this.configService.getOrThrow('AWS_S3_REGION')}.amazonaws.com/${uploadFileDto?.bucket}/${encodeURIComponent(path ? `${path}/${name}` : name)}`
+    const url = `https://s3.sa-east-1.amazonaws.com/${uploadFileValidator?.bucket}/${encodeURIComponent(path ? `${path}/${name}` : name)}`
 
     return await this.awsService.s3Client
       .send(putObjectCommand)

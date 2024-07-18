@@ -1,51 +1,36 @@
-import { HttpException, Injectable } from '@nestjs/common'
-import { CreateUserDto, UpdateUserDto } from './users.dto'
+import { Injectable } from '@nestjs/common'
+import {
+  CreateUserValidator,
+  RemoveUserValidator,
+  UpdateUserValidator,
+} from './user.validator'
+import { createUserRepository } from 'src/repositories/users/create-user.repository'
+import {
+  findManyUserRepository,
+  findOneUserRepository,
+} from 'src/repositories/users/find-user.repository'
+import { updateUserRepository } from 'src/repositories/users/update-user.repository'
+import { removeUserRepository } from 'src/repositories/users/remove-user.repository'
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    const {} = createUserDto
-    try {
-      return createUserDto
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async create(createUserValidator: CreateUserValidator) {
+    return await createUserRepository(createUserValidator)
   }
 
-  findAll() {
-    try {
-      return []
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async findMany() {
+    return await findManyUserRepository()
   }
 
-  findOne(id: string) {
-    try {
-      return id
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async findOne(id: string) {
+    return await findOneUserRepository(id)
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    try {
-      return { id, updateUserDto }
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async update(id: string, updateUserValidator: UpdateUserValidator) {
+    return await updateUserRepository(id, updateUserValidator)
   }
 
-  remove(id: string) {
-    try {
-      return id
-    } catch (error) {
-      throw new HttpException(error, error.status)
-    } finally {
-    }
+  async remove(id: string, removeUserValidator: RemoveUserValidator) {
+    return await removeUserRepository(id, removeUserValidator)
   }
 }

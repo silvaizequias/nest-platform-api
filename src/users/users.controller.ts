@@ -1,17 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
   ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseInterceptors,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
-import { CreateUserDto, UpdateUserDto } from './users.dto'
+import {
+  CreateUserValidator,
+  RemoveUserValidator,
+  UpdateUserValidator,
+} from './user.validator'
 
 @ApiTags('users')
 @Controller('users')
@@ -22,16 +26,16 @@ export class UsersController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
+  create(@Body() createUserValidator: CreateUserValidator) {
+    return this.usersService.create(createUserValidator)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
-  findAll() {
-    return this.usersService.findAll()
+  findMany() {
+    return this.usersService.findMany()
   }
 
   @ApiOkResponse()
@@ -46,15 +50,21 @@ export class UsersController {
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto)
+  update(
+    @Param('id') id: string,
+    @Body() updateUserValidator: UpdateUserValidator,
+  ) {
+    return this.usersService.update(id, updateUserValidator)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id)
+  remove(
+    @Param('id') id: string,
+    @Body() removeUserValidator: RemoveUserValidator,
+  ) {
+    return this.usersService.remove(id, removeUserValidator)
   }
 }

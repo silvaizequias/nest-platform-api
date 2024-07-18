@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsString } from 'class-validator'
 
-export class SendEmailDto {
+export class SendEmailValidator {
   @ApiProperty()
   @IsString()
   to: string
@@ -20,7 +20,7 @@ export class SendEmailDto {
   message: string
 }
 
-export class SendSMSDto {
+export class SendSMSValidator {
   @ApiProperty()
   @IsString()
   to: string

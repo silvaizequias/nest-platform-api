@@ -1,5 +1,5 @@
 import { BadRequestException, HttpException, Injectable } from '@nestjs/common'
-import { AuthCodeDto, AuthLoginDto } from './auth.dto'
+import { AuthCodeValidator, AuthLoginValidator } from './auth.validator'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { hashSync } from 'bcryptjs'
@@ -13,8 +13,8 @@ export class AuthService {
     private readonly sendersService: SendersService,
   ) {}
 
-  async login(authLoginDto: AuthLoginDto) {
-    const { phone } = authLoginDto
+  async login(authLoginValidator: AuthLoginValidator) {
+    const { phone } = authLoginValidator
 
     try {
       const token = await this.jwtService.signAsync(
@@ -40,9 +40,9 @@ export class AuthService {
     }
   }
 
-  async code(authCodeDto: AuthCodeDto) {
+  async code(authCodeValidator: AuthCodeValidator) {
     const code = Math.random().toString(32).substr(2, 6).toUpperCase()
-    const { phone } = authCodeDto
+    const { phone } = authCodeValidator
 
     try {
       if (!phone) throw new BadRequestException('phone is required')

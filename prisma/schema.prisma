@@ -8,34 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Article {
-  id String @id @default(cuid())
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at") @db.Date
-
-  softDeleted Boolean? @default(false) @map("soft_deleted")
-
-  active    Boolean? @default(true)
-  spotlight Boolean? @default(false)
-  private   Boolean? @default(false)
-
-  slug    String?
-  title   String
-  image   String?
-  subject String?
-  resume  String?
-  content String
-  tags    String?
-
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-
-  @@map("articles")
-}
-
-model Member {
+model Membership {
   id String @id @default(cuid())
 
   createdAt DateTime  @default(now()) @map("created_at")
@@ -53,7 +26,7 @@ model Member {
   organizationId String       @map("organization_id")
   organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  @@map("members")
+  @@map("membership")
 }
 
 model Organization {
@@ -84,7 +57,7 @@ model Organization {
   latitude  Float? @db.DoublePrecision
   longitude Float? @db.DoublePrecision
 
-  members      Member[]
+  membership   Membership[]
   subscription Subscription?
 
   @@map("organizations")
@@ -146,8 +119,7 @@ model User {
   latitude  Float? @db.DoublePrecision
   longitude Float? @db.DoublePrecision
 
-  articles      Article[]
-  organizations Member[]
+  membership Membership[]
 
   @@map("users")
 }

@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsString } from 'class-validator'
 
-export class UploadFileDto {
+export class UploadFileValidator {
   @ApiProperty()
   @IsString()
   name: string

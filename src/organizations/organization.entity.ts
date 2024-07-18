@@ -1,10 +1,13 @@
-export class OrganizationEntity {
+import { Organization } from '@prisma/client'
+
+export class OrganizationEntity implements Organization {
   id: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
   softDeleted: boolean
   active: boolean
+  key: string
   name: string
   image: string
   email: string

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import {
   CreateUserValidator,
   RemoveUserValidator,
@@ -7,6 +7,7 @@ import {
 import { createUserRepository } from 'src/repositories/users/create-user.repository'
 import {
   findManyUserRepository,
+  findOneUserByPhoneRepository,
   findOneUserRepository,
 } from 'src/repositories/users/find-user.repository'
 import { updateUserRepository } from 'src/repositories/users/update-user.repository'
@@ -16,7 +17,10 @@ import { LocationService } from 'src/location/location.service'
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly locationService: LocationService) {}
+  constructor(
+    @Inject(forwardRef(() => LocationService))
+    private readonly locationService: LocationService,
+  ) {}
 
   async create(createUserValidator: CreateUserValidator) {
     const { zipCode } = createUserValidator
@@ -39,6 +43,10 @@ export class UsersService {
     } else {
       return await createUserRepository(createUserValidator)
     }
+  }
+
+  async findByPhone(phone: string) {
+    return await findOneUserByPhoneRepository(phone)
   }
 
   async findMany() {

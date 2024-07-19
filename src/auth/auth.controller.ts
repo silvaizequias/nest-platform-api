@@ -2,11 +2,12 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Param,
   Post,
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { AuthCodeValidator, AuthLoginValidator } from './auth.validator'
+import { AuthLoginValidator } from './auth.validator'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('auth')
@@ -17,7 +18,7 @@ export class AuthController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('login')
+  @Post()
   async login(@Body() authLoginValidator: AuthLoginValidator) {
     return this.authService.login(authLoginValidator)
   }
@@ -25,8 +26,8 @@ export class AuthController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('code')
-  async code(@Body() authCodeValidator: AuthCodeValidator) {
-    return this.authService.code(authCodeValidator)
+  @Post(':phone')
+  async validate(@Param('phone') phone: string) {
+    return this.authService.validate(phone)
   }
 }

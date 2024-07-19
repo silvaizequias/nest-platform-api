@@ -24,6 +24,7 @@ export class OrganizationsService {
   constructor(
     @Inject(forwardRef(() => LocationService))
     private readonly locationService: LocationService,
+    @Inject(forwardRef(() => StripeService))
     private readonly stripeService: StripeService,
   ) {}
 
@@ -157,6 +158,18 @@ export class OrganizationsService {
     id: string,
     removeOrganizationValidator: RemoveOrganizationValidator,
   ) {
-    return await removeOrganizationRepository(id, removeOrganizationValidator)
+    const { definitely } = removeOrganizationValidator
+
+    if (definitely) {
+      const { document } = await findOneOrganizationRepository(id)
+      return await this.stripeService
+        .removeCustomer(document)
+        .then(
+          async () =>
+            await removeOrganizationRepository(id, removeOrganizationValidator),
+        )
+    } else {
+      return await removeOrganizationRepository(id, removeOrganizationValidator)
+    }
   }
 }

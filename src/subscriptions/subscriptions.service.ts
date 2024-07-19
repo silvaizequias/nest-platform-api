@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common'
+import { forwardRef, HttpException, Inject, Injectable } from '@nestjs/common'
 import {
   CreateSubscriptionValidator,
   RemoveSubscriptionValidator,
@@ -19,7 +19,9 @@ import { StripeService } from 'src/stripe/stripe.service'
 @Injectable()
 export class SubscriptionsService {
   constructor(
+    @Inject(forwardRef(() => OrganizationsService))
     private readonly organizationsService: OrganizationsService,
+    @Inject(forwardRef(() => StripeService))
     private readonly stripeService: StripeService,
   ) {}
 
@@ -31,7 +33,7 @@ export class SubscriptionsService {
         .then(async () => {
           return await this.stripeService
             .createCustomer(organizationId)
-            .then(async (data) => {
+            .then(async (data: any) => {
               return await createSubscriptionRepository({
                 ...createSubscriptionValidator,
                 paymentCustomerId: data?.id,

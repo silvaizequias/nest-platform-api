@@ -1,4 +1,5 @@
 import {
+  forwardRef,
   HttpException,
   Inject,
   Injectable,
@@ -17,7 +18,9 @@ export class StripeService {
   constructor(
     @Inject(STRIPE_CLIENT) private readonly stripe: Stripe,
     private readonly configService: ConfigService,
+    @Inject(forwardRef(() => OrganizationsService))
     private readonly organizationsService: OrganizationsService,
+    @Inject(forwardRef(() => SubscriptionsService))
     private readonly subscriptionsService: SubscriptionsService,
   ) {}
 
@@ -109,6 +112,12 @@ export class StripeService {
     } catch (error) {
       throw new HttpException(error, error.status)
     }
+  }
+
+  async removeCustomer(organizationDocument: string) {
+    const { paymentCustomerId } =
+      await this.subscriptionsService.findByOrganization(organizationDocument)
+    return await this.stripe.customers.del(paymentCustomerId)
   }
 
   async webhook(request: RawBodyRequest<Request>, signature: string) {

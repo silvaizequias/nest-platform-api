@@ -26,8 +26,6 @@ export async function updateOrganizationRepository(
           `As informações da organização ${data?.name ?? ''} foram atualizadas!`,
         )
       })
-
-    return id
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

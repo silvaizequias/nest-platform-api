@@ -20,7 +20,7 @@ export class StripeController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post()
+  @Post('checkout')
   create(@Body() checkoutValidator: CheckoutValidator) {
     return this.stripeService.checkout(checkoutValidator)
   }

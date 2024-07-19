@@ -6,6 +6,8 @@ import { JwtService } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { SendersService } from 'src/senders/senders.service'
 import { AWSService } from 'src/aws/aws.service'
+import { UsersService } from 'src/users/users.service'
+import { LocationService } from 'src/location/location.service'
 
 @Module({
   imports: [PassportModule],
@@ -15,6 +17,8 @@ import { AWSService } from 'src/aws/aws.service'
     JwtService,
     AWSService,
     SendersService,
+    UsersService,
+    LocationService,
   ],
   controllers: [AuthController],
   exports: [AuthService],

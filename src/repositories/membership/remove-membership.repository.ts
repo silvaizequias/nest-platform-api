@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, NotFoundException } from '@nestjs/common'
 import { RemoveMembershipValidator } from 'src/membership/membership.validator'
 import { PrismaService } from 'src/prisma/prisma.service'
 
@@ -10,7 +10,33 @@ export async function removeMembershipRepository(
 ) {
   const { definitely } = removeMembershipValidator
   try {
-    return definitely
+    const membership = await prisma.membership.findFirst({
+      where: { id: id },
+      include: {
+        organization: true,
+        user: true,
+      },
+    })
+    if (!membership) throw new NotFoundException('O membro não foi encontrado!')
+
+    if (definitely) {
+      return await prisma.membership.delete({ where: { id: id } }).then(() => {
+        return JSON.stringify(
+          `O membro ${membership?.user?.name ?? ''} foi removido definitivamente da organização!`,
+        )
+      })
+    } else {
+      return await prisma.membership
+        .update({
+          where: { id: id },
+          data: { softDeleted: true, active: false },
+        })
+        .then(() => {
+          return JSON.stringify(
+            `O membro ${membership?.user?.name ?? ''} foi removido!`,
+          )
+        })
+    }
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

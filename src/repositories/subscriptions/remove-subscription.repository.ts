@@ -16,7 +16,29 @@ export async function removeSubscriptionRepository(
     if (!subscription)
       throw new NotFoundException('A assinatura não foi encontrada!')
 
-    return definitely
+    if (definitely) {
+      return await prisma.subscription
+        .delete({ where: { id: id } })
+        .then(() => {
+          return JSON.stringify(
+            `A assinatura ${subscription?.code ?? ''} foi removida definitivamente da plataforma!`,
+          )
+        })
+    } else {
+      return await prisma.subscription
+        .update({
+          where: { id: id },
+          data: {
+            softDeleted: true,
+            active: false,
+          },
+        })
+        .then((data) => {
+          return JSON.stringify(
+            `A assinatura ${data?.code ?? ''} foi removida!`,
+          )
+        })
+    }
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

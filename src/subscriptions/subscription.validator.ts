@@ -8,6 +8,11 @@ import {
 } from 'class-validator'
 
 export class CreateSubscriptionValidator {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  code: string
+
   @ApiProperty()
   @IsNotEmpty()
   @IsString()

@@ -5,7 +5,17 @@ const prisma = new PrismaService()
 
 export async function findManyUserRepository() {
   try {
-    return []
+    return await prisma.user.findMany({
+      take: 100,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        membership: {
+          include: {
+            organization: true,
+          },
+        },
+      },
+    })
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {
@@ -15,10 +25,19 @@ export async function findManyUserRepository() {
 
 export async function findOneUserRepository(id: string) {
   try {
-    const user = await prisma.user.findFirst({ where: { id: id } })
+    const user = await prisma.user.findFirst({
+      where: { id: id },
+      include: {
+        membership: {
+          include: {
+            organization: true,
+          },
+        },
+      },
+    })
     if (!user) throw new NotFoundException('O usuário não foi encontrado!')
 
-    return id
+    return user
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

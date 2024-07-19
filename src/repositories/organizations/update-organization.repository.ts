@@ -16,6 +16,17 @@ export async function updateOrganizationRepository(
     if (!organization)
       throw new NotFoundException('A organização não foi encontrada!')
 
+    return await prisma.organization
+      .update({
+        where: { id: id },
+        data: { ...updateOrganizationValidator },
+      })
+      .then((data) => {
+        return JSON.stringify(
+          `As informações da organização ${data?.name ?? ''} foram atualizadas!`,
+        )
+      })
+
     return id
   } catch (error) {
     throw new HttpException(error, error.status)

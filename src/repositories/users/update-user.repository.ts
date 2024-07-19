@@ -8,12 +8,20 @@ export async function updateUserRepository(
   id: string,
   updateUserValidator: UpdateUserValidator,
 ) {
-  const {} = updateUserValidator
   try {
     const user = await prisma.user.findFirst({ where: { id: id } })
     if (!user) throw new NotFoundException('O usuário não foi encontrado!')
 
-    return id
+    return await prisma.user
+      .update({
+        where: { id: id },
+        data: { ...updateUserValidator },
+      })
+      .then((data) => {
+        return JSON.stringify(
+          `As informações do usuário ${data?.name ?? ''} foram atualizadas!`,
+        )
+      })
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

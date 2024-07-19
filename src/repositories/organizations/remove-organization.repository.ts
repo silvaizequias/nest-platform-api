@@ -16,7 +16,29 @@ export async function removeOrganizationRepository(
     if (!organization)
       throw new NotFoundException('A organização não foi encontrada!')
 
-    return definitely
+    if (definitely) {
+      return await prisma.organization
+        .delete({ where: { id: id } })
+        .then(() => {
+          return JSON.stringify(
+            `A organização ${organization?.name ?? ''} foi removida definitivamente da plataforma!`,
+          )
+        })
+    } else {
+      return await prisma.organization
+        .update({
+          where: { id: id },
+          data: {
+            softDeleted: true,
+            active: false,
+          },
+        })
+        .then((data) => {
+          return JSON.stringify(
+            `A organização ${data?.name ?? ''} foi removida!`,
+          )
+        })
+    }
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

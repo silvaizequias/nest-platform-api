@@ -33,6 +33,21 @@ export class OrganizationsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Post('user/:userId')
+  createFromMyPhone(
+    @Param('userId') userId: string,
+    @Body()
+    createOrganizationValidator: CreateOrganizationValidator,
+  ) {
+    return this.organizationsService.createForUser(
+      userId,
+      createOrganizationValidator,
+    )
+  }
+
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('document/:document')
   findByDocument(@Param('document') document: string) {
     return this.organizationsService.findByDocument(document)

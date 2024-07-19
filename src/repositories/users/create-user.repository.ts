@@ -21,7 +21,13 @@ export async function createUserRepository(
         `Não é possível criar um usuário com esse telefone ${phone}!`,
       )
 
-    return createUserValidator
+    return await prisma.user
+      .create({ data: createUserValidator })
+      .then((data) => {
+        return JSON.stringify(
+          `${data?.name ?? 'O usuário'} agora faz parte da melhor plataforma de serviços!`,
+        )
+      })
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

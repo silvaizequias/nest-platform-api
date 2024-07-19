@@ -15,7 +15,7 @@ export class CreateMembershipValidator {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  userId: string
+  userPhone: string
 
   @ApiProperty()
   @IsNotEmpty()

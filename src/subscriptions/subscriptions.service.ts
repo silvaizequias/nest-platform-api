@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, Injectable } from '@nestjs/common'
 import {
   CreateSubscriptionValidator,
   RemoveSubscriptionValidator,
@@ -6,17 +6,45 @@ import {
 } from './subscription.validator'
 import { createSubscriptionRepository } from 'src/repositories/subscriptions/create-subscription.repository'
 import {
+  findByCodeSubscriptionRepository,
   findByOrganizationSubscriptionRepository,
   findManySubscriptionRepository,
   findOneSubscriptionRepository,
 } from 'src/repositories/subscriptions/find-subscription.repository'
 import { updateSubscriptionRepository } from 'src/repositories/subscriptions/update-subscription.repository'
 import { removeSubscriptionRepository } from 'src/repositories/subscriptions/remove-subscription.repository'
+import { OrganizationsService } from 'src/organizations/organizations.service'
+import { StripeService } from 'src/stripe/stripe.service'
 
 @Injectable()
 export class SubscriptionsService {
+  constructor(
+    private readonly organizationsService: OrganizationsService,
+    private readonly stripeService: StripeService,
+  ) {}
+
   async create(createSubscriptionValidator: CreateSubscriptionValidator) {
-    return await createSubscriptionRepository(createSubscriptionValidator)
+    const { organizationId } = createSubscriptionValidator
+    try {
+      return await this.organizationsService
+        .findOne(organizationId)
+        .then(async () => {
+          return await this.stripeService
+            .createCustomer(organizationId)
+            .then(async (data) => {
+              return await createSubscriptionRepository({
+                ...createSubscriptionValidator,
+                paymentCustomerId: data?.id,
+              })
+            })
+        })
+    } catch (error) {
+      throw new HttpException(error, error.status)
+    }
+  }
+
+  async findByCode(code: string) {
+    return await findByCodeSubscriptionRepository(code)
   }
 
   async findByOrganization(organizationId: string) {

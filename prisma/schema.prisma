@@ -76,6 +76,7 @@ model Subscription {
   softDeleted Boolean? @default(false) @map("soft_deleted")
   active      Boolean? @default(true)
 
+  code                  String?
   paymentGateway        String? @map("payment_gateway")
   paymentCustomerId     String? @unique @map(name: "payment_customer_id")
   paymentSubscriptionId String? @unique @map(name: "payment_subscription_id")

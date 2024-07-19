@@ -7,6 +7,7 @@ export class SubscriptionEntity implements Subscription {
   deletedAt: Date
   organizationId: string
   softDeleted: boolean
+  code: string
   active: boolean
   paymentGateway: string
   paymentCustomerId: string

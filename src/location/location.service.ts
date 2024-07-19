@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { AwesomeApiAddress } from './location.interface'
 
 @Injectable()
 export class LocationService {
@@ -7,7 +8,7 @@ export class LocationService {
 
   private url = this.configService.getOrThrow('ZIPCODE_API_URL')
 
-  async addressByZipCode(zipCode: string) {
+  async addressByZipCode(zipCode: string): Promise<AwesomeApiAddress | any> {
     return await fetch(`${this.url}/${zipCode}`, {
       method: 'GET',
       headers: {

@@ -6,13 +6,11 @@ import {
   Get,
   Param,
   Patch,
-  Post,
   UseInterceptors,
 } from '@nestjs/common'
 import { SubscriptionsService } from './subscriptions.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 import {
-  CreateSubscriptionValidator,
   RemoveSubscriptionValidator,
   UpdateSubscriptionValidator,
 } from './subscription.validator'
@@ -25,9 +23,9 @@ export class SubscriptionsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post()
-  create(@Body() createSubscriptionValidator: CreateSubscriptionValidator) {
-    return this.subscriptionsService.create(createSubscriptionValidator)
+  @Get('code/:code')
+  findByCode(@Param('code') code: string) {
+    return this.subscriptionsService.findByCode(code)
   }
 
   @ApiOkResponse()

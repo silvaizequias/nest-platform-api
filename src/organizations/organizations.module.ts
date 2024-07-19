@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { OrganizationsService } from './organizations.service'
 import { OrganizationsController } from './organizations.controller'
+import { LocationModule } from 'src/location/location.module'
+import { LocationService } from 'src/location/location.service'
 
 @Module({
-  imports: [],
+  imports: [forwardRef(() => LocationModule)],
   controllers: [OrganizationsController],
-  providers: [OrganizationsService],
+  providers: [OrganizationsService, LocationService],
   exports: [OrganizationsService],
 })
 export class OrganizationsModule {}

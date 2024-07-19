@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common'
+import { forwardRef, HttpException, Inject, Injectable } from '@nestjs/common'
 import {
   CreateOrganizationValidator,
   RemoveOrganizationValidator,
@@ -17,35 +17,23 @@ import { updateOrganizationRepository } from 'src/repositories/organizations/upd
 import { removeOrganizationRepository } from 'src/repositories/organizations/remove-organization.repository'
 import { AwesomeApiAddress } from 'src/location/location.interface'
 import { StripeService } from 'src/stripe/stripe.service'
-import { ConfigService } from '@nestjs/config'
+import { LocationService } from 'src/location/location.service'
 
 @Injectable()
 export class OrganizationsService {
   constructor(
-    private readonly configService: ConfigService,
+    @Inject(forwardRef(() => LocationService))
+    private readonly locationService: LocationService,
     private readonly stripeService: StripeService,
   ) {}
-
-  private url = this.configService.getOrThrow('ZIPCODE_API_URL')
-  private async addressByZipCode(
-    zipCode: string,
-  ): Promise<AwesomeApiAddress | any> {
-    return await fetch(`${this.url}/${zipCode}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(async (data) => await data.json())
-      .catch((error) => error)
-  }
 
   async create(createOrganizationValidator: CreateOrganizationValidator) {
     const { document, zipCode } = createOrganizationValidator
     try {
       if (zipCode) {
-        return await this.addressByZipCode(zipCode).then(
-          async (location: AwesomeApiAddress) => {
+        return await this.locationService
+          .addressByZipCode(zipCode)
+          .then(async (location: AwesomeApiAddress) => {
             if (!location)
               return await createOrganizationRepository(
                 createOrganizationValidator,
@@ -64,8 +52,7 @@ export class OrganizationsService {
             }).then(
               async () => await this.stripeService.createCustomer(document),
             )
-          },
-        )
+          })
       } else {
         return await createOrganizationRepository(
           createOrganizationValidator,
@@ -83,8 +70,9 @@ export class OrganizationsService {
     const { document, zipCode } = createOrganizationValidator
     try {
       if (zipCode) {
-        return await this.addressByZipCode(zipCode).then(
-          async (location: AwesomeApiAddress) => {
+        return await this.locationService
+          .addressByZipCode(zipCode)
+          .then(async (location: AwesomeApiAddress) => {
             if (!location)
               return await createOrganizationForUserRepository(
                 userId,
@@ -104,8 +92,7 @@ export class OrganizationsService {
             }).then(
               async () => await this.stripeService.createCustomer(document),
             )
-          },
-        )
+          })
       } else {
         return await createOrganizationForUserRepository(
           userId,
@@ -136,23 +123,25 @@ export class OrganizationsService {
     const { zipCode } = updateOrganizationValidator
     try {
       if (zipCode) {
-        return await this.addressByZipCode(zipCode).then(async (location) => {
-          if (!location)
-            return await updateOrganizationRepository(
-              id,
-              updateOrganizationValidator,
-            )
+        return await this.locationService
+          .addressByZipCode(zipCode)
+          .then(async (location) => {
+            if (!location)
+              return await updateOrganizationRepository(
+                id,
+                updateOrganizationValidator,
+              )
 
-          return await updateOrganizationRepository(id, {
-            ...updateOrganizationValidator,
-            street: location?.address,
-            district: location?.district,
-            city: location?.city,
-            state: location?.state,
-            latitude: Number(location?.lat),
-            longitude: Number(location?.lng),
+            return await updateOrganizationRepository(id, {
+              ...updateOrganizationValidator,
+              street: location?.address,
+              district: location?.district,
+              city: location?.city,
+              state: location?.state,
+              latitude: Number(location?.lat),
+              longitude: Number(location?.lng),
+            })
           })
-        })
       } else {
         return await updateOrganizationRepository(
           id,

@@ -9,7 +9,7 @@ import { PrismaModule } from './prisma/prisma.module'
 import { LocationModule } from './location/location.module'
 import { UsersModule } from './users/users.module'
 import { OrganizationsModule } from './organizations/organizations.module'
-import { MembershipModule } from './membership/membership.module'
+import { MembershipsModule } from './memberships/memberships.module'
 import { SubscriptionsModule } from './subscriptions/subscriptions.module'
 
 @Module({
@@ -29,7 +29,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module'
     LocationModule,
     UsersModule,
     OrganizationsModule,
-    MembershipModule,
+    MembershipsModule,
     SubscriptionsModule,
   ],
   providers: [],

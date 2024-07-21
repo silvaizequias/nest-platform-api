@@ -1,5 +1,5 @@
 import { HttpException, NotFoundException } from '@nestjs/common'
-import { UpdateMembershipValidator } from 'src/membership/membership.validator'
+import { UpdateMembershipValidator } from 'src/memberships/membership.validator'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 const prisma = new PrismaService()

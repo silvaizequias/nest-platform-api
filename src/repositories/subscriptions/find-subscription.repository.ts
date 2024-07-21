@@ -21,17 +21,17 @@ export async function findByCodeSubscriptionRepository(code: string) {
 }
 
 export async function findByOrganizationSubscriptionRepository(
-  organizationId: string,
+  document: string,
 ) {
   try {
     const organization = await prisma.organization.findFirst({
-      where: { id: organizationId },
+      where: { document: document },
     })
     if (!organization)
       throw new NotFoundException('A organização não foi encontrada!')
 
     return await prisma.subscription.findFirst({
-      where: { organizationId: organizationId },
+      where: { organizationId: organization?.id },
       include: { organization: true },
     })
   } catch (error) {

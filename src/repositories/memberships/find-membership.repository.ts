@@ -3,10 +3,15 @@ import { PrismaService } from 'src/prisma/prisma.service'
 
 const prisma = new PrismaService()
 
-export async function findByUserMembershipRepository(userId: string) {
+export async function findByUserMembershipRepository(phone: string) {
   try {
+    const user = await prisma.user.findFirst({
+      where: { phone: phone },
+    })
+    if (!user) throw new NotFoundException('O usuário não foi encontrado!')
+
     const membership = await prisma.membership.findMany({
-      where: { userId: userId },
+      where: { userId: user?.id },
       take: 100,
       orderBy: { createdAt: 'desc' },
       include: {
@@ -24,20 +29,24 @@ export async function findByUserMembershipRepository(userId: string) {
   }
 }
 
-export async function findByOrganizationMembershipRepository(
-  organizationId: string,
-) {
+export async function findByOrganizationMembershipRepository(document: string) {
   try {
-    const organization = await prisma.membership.findFirst({
-      where: { organizationId: organizationId },
-      include: {
-        user: true,
-      },
+    const organization = await prisma.organization.findFirst({
+      where: { document: document },
     })
     if (!organization)
       throw new NotFoundException('A organização não foi encontrada!')
 
-    return organization
+    const membership = await prisma.membership.findFirst({
+      where: { organizationId: organization?.id },
+      include: {
+        user: true,
+      },
+    })
+    if (!membership)
+      throw new NotFoundException('A organização não foi encontrada!')
+
+    return membership
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {
@@ -45,7 +54,7 @@ export async function findByOrganizationMembershipRepository(
   }
 }
 
-export async function findManyMembershipRepository() {
+export async function findManyMembershipsRepository() {
   try {
     return await prisma.membership.findMany({
       take: 100,

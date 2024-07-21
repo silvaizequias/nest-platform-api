@@ -65,7 +65,7 @@ export class OrganizationsService {
   }
 
   async createForUser(
-    userId: string,
+    phone: string,
     createOrganizationValidator: CreateOrganizationValidator,
   ) {
     const { document, zipCode } = createOrganizationValidator
@@ -76,13 +76,13 @@ export class OrganizationsService {
           .then(async (location: AwesomeApiAddress) => {
             if (!location)
               return await createOrganizationForUserRepository(
-                userId,
+                phone,
                 createOrganizationValidator,
               ).then(
                 async () => await this.stripeService.createCustomer(document),
               )
 
-            return await createOrganizationForUserRepository(userId, {
+            return await createOrganizationForUserRepository(phone, {
               ...createOrganizationValidator,
               street: location?.address,
               district: location?.district,
@@ -96,7 +96,7 @@ export class OrganizationsService {
           })
       } else {
         return await createOrganizationForUserRepository(
-          userId,
+          phone,
           createOrganizationValidator,
         ).then(async () => await this.stripeService.createCustomer(document))
       }

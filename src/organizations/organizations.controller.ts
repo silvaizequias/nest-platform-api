@@ -33,14 +33,14 @@ export class OrganizationsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('user/:userId')
-  createFromMyPhone(
-    @Param('userId') userId: string,
+  @Post('user/:phone')
+  createForUser(
+    @Param('phone') phone: string,
     @Body()
     createOrganizationValidator: CreateOrganizationValidator,
   ) {
     return this.organizationsService.createForUser(
-      userId,
+      phone,
       createOrganizationValidator,
     )
   }

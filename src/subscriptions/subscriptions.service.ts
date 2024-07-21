@@ -49,8 +49,8 @@ export class SubscriptionsService {
     return await findByCodeSubscriptionRepository(code)
   }
 
-  async findByOrganization(organizationId: string) {
-    return await findByOrganizationSubscriptionRepository(organizationId)
+  async findByOrganization(document: string) {
+    return await findByOrganizationSubscriptionRepository(document)
   }
 
   async findMany() {

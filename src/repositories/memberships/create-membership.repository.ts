@@ -3,7 +3,7 @@ import {
   HttpException,
   NotFoundException,
 } from '@nestjs/common'
-import { CreateMembershipValidator } from 'src/membership/membership.validator'
+import { CreateMembershipValidator } from 'src/memberships/membership.validator'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 const prisma = new PrismaService()
@@ -11,10 +11,10 @@ const prisma = new PrismaService()
 export async function createMembershipRepository(
   createMembershipValidator: CreateMembershipValidator,
 ) {
-  const { organizationId, role, userPhone } = createMembershipValidator
+  const { organizationDocument, role, userPhone } = createMembershipValidator
   try {
     const organization = await prisma.organization.findFirst({
-      where: { id: organizationId },
+      where: { document: organizationDocument },
     })
     if (!organization)
       throw new NotFoundException('A organização não foi encontrada!')
@@ -28,7 +28,7 @@ export async function createMembershipRepository(
             user: { create: { role: 'customer', phone: userPhone } },
             organization: {
               connect: {
-                id: organizationId,
+                id: organization?.id,
               },
             },
           },
@@ -45,7 +45,7 @@ export async function createMembershipRepository(
       })
       if (membership) {
         membership.map((data) => {
-          if (data?.organizationId == organizationId)
+          if (data?.organizationId == organization?.id)
             throw new ConflictException(
               `O usuário ${user?.name ?? ''} já faz parte da organização ${organization?.name}!`,
             )

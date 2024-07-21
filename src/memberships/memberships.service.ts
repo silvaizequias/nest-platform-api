@@ -4,32 +4,32 @@ import {
   RemoveMembershipValidator,
   UpdateMembershipValidator,
 } from './membership.validator'
-import { createMembershipRepository } from 'src/repositories/membership/create-membership.repository'
+import { createMembershipRepository } from 'src/repositories/memberships/create-membership.repository'
 import {
   findByOrganizationMembershipRepository,
   findByUserMembershipRepository,
-  findManyMembershipRepository,
+  findManyMembershipsRepository,
   findOneMembershipRepository,
-} from 'src/repositories/membership/find-membership.repository'
-import { updateMembershipRepository } from 'src/repositories/membership/update-membership.repository'
-import { removeMembershipRepository } from 'src/repositories/membership/remove-membership.repository'
+} from 'src/repositories/memberships/find-membership.repository'
+import { updateMembershipRepository } from 'src/repositories/memberships/update-membership.repository'
+import { removeMembershipRepository } from 'src/repositories/memberships/remove-membership.repository'
 
 @Injectable()
-export class MembershipService {
+export class MembershipsService {
   async create(createMembershipValidator: CreateMembershipValidator) {
     return await createMembershipRepository(createMembershipValidator)
   }
 
-  async findByOrganization(organizationId: string) {
-    return await findByOrganizationMembershipRepository(organizationId)
+  async findByOrganization(document: string) {
+    return await findByOrganizationMembershipRepository(document)
   }
 
-  async findByUser(userId: string) {
-    return await findByUserMembershipRepository(userId)
+  async findByUser(phone: string) {
+    return await findByUserMembershipRepository(phone)
   }
 
   async findMany() {
-    return await findManyMembershipRepository()
+    return await findManyMembershipsRepository()
   }
 
   async findOne(id: string) {

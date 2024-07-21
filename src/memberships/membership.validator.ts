@@ -20,7 +20,7 @@ export class CreateMembershipValidator {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  organizationId: string
+  organizationDocument: string
 }
 
 export class UpdateMembershipValidator extends PartialType(

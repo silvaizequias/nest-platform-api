@@ -31,9 +31,9 @@ export class SubscriptionsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('organization/:organizationId')
-  findByOrganization(@Param('organizationId') organizationId: string) {
-    return this.subscriptionsService.findByOrganization(organizationId)
+  @Get('organization/:document')
+  findByOrganization(@Param('document') document: string) {
+    return this.subscriptionsService.findByOrganization(document)
   }
 
   @ApiOkResponse()

@@ -9,7 +9,7 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common'
-import { MembershipService } from './membership.service'
+import { MembershipsService } from './memberships.service'
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 import {
   CreateMembershipValidator,
@@ -17,33 +17,33 @@ import {
   UpdateMembershipValidator,
 } from './membership.validator'
 
-@ApiTags('membership')
-@Controller('membership')
-export class MembershipController {
-  constructor(private readonly membershipService: MembershipService) {}
+@ApiTags('memberships')
+@Controller('memberships')
+export class MembershipsController {
+  constructor(private readonly membershipsService: MembershipsService) {}
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createMembershipValidator: CreateMembershipValidator) {
-    return this.membershipService.create(createMembershipValidator)
+    return this.membershipsService.create(createMembershipValidator)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('organization/:organizationId')
-  findByOrganization(@Param('organizationId') organizationId: string) {
-    return this.membershipService.findByOrganization(organizationId)
+  @Get('organization/:document')
+  findByOrganization(@Param('document') document: string) {
+    return this.membershipsService.findByOrganization(document)
   }
 
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('user/:userId')
-  findByUser(@Param('userId') userId: string) {
-    return this.membershipService.findByUser(userId)
+  @Get('user/:phone')
+  findByUser(@Param('phone') phone: string) {
+    return this.membershipsService.findByUser(phone)
   }
 
   @ApiOkResponse()
@@ -51,7 +51,7 @@ export class MembershipController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findMany() {
-    return this.membershipService.findMany()
+    return this.membershipsService.findMany()
   }
 
   @ApiOkResponse()
@@ -59,7 +59,7 @@ export class MembershipController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.membershipService.findOne(id)
+    return this.membershipsService.findOne(id)
   }
 
   @ApiOkResponse()
@@ -70,7 +70,7 @@ export class MembershipController {
     @Param('id') id: string,
     @Body() updateMembershipValidator: UpdateMembershipValidator,
   ) {
-    return this.membershipService.update(id, updateMembershipValidator)
+    return this.membershipsService.update(id, updateMembershipValidator)
   }
 
   @ApiOkResponse()
@@ -81,6 +81,6 @@ export class MembershipController {
     @Param('id') id: string,
     @Body() removeMembershipValidator: RemoveMembershipValidator,
   ) {
-    return this.membershipService.remove(id, removeMembershipValidator)
+    return this.membershipsService.remove(id, removeMembershipValidator)
   }
 }

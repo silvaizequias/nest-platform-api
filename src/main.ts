@@ -16,6 +16,8 @@ async function main() {
 
   app.enableCors({
     origin: [
+      'http://localhost:3210',
+      'http://127.0.0.1:3210',
       'http://localhost:4200',
       'http://127.0.0.1:4200',
       'https://dedicado.digital',

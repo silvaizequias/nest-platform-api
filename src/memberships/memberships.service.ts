@@ -24,8 +24,8 @@ export class MembershipsService {
     return await findByOrganizationMembershipRepository(document)
   }
 
-  async findByUser(phone: string) {
-    return await findByUserMembershipRepository(phone)
+  async findByUser(userId: string) {
+    return await findByUserMembershipRepository(userId)
   }
 
   async findMany() {

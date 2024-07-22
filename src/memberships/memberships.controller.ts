@@ -41,9 +41,9 @@ export class MembershipsController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('user/:phone')
-  findByUser(@Param('phone') phone: string) {
-    return this.membershipsService.findByUser(phone)
+  @Get('user/:id')
+  findByUser(@Param('id') id: string) {
+    return this.membershipsService.findByUser(id)
   }
 
   @ApiOkResponse()

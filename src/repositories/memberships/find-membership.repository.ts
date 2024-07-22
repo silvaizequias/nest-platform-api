@@ -3,15 +3,10 @@ import { PrismaService } from 'src/prisma/prisma.service'
 
 const prisma = new PrismaService()
 
-export async function findByUserMembershipRepository(phone: string) {
+export async function findByUserMembershipRepository(userId: string) {
   try {
-    const user = await prisma.user.findFirst({
-      where: { phone: phone },
-    })
-    if (!user) throw new NotFoundException('O usuário não foi encontrado!')
-
     const membership = await prisma.membership.findMany({
-      where: { userId: user?.id },
+      where: { userId: userId },
       take: 100,
       orderBy: { createdAt: 'desc' },
       include: {

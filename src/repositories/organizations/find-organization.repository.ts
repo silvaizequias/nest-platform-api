@@ -10,7 +10,19 @@ export async function findByDocumentOrganizationRepository(document: string) {
       take: 100,
       orderBy: { createdAt: 'desc' },
       include: {
-        membership: true,
+        membership: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                role: true,
+                image: true,
+                name: true,
+                phone: true,
+              },
+            },
+          },
+        },
         subscription: true,
       },
     })

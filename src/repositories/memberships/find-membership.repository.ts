@@ -32,16 +32,16 @@ export async function findByOrganizationMembershipRepository(document: string) {
     if (!organization)
       throw new NotFoundException('A organização não foi encontrada!')
 
-    const membership = await prisma.membership.findFirst({
+    const memberships = await prisma.membership.findMany({
       where: { organizationId: organization?.id },
       include: {
         user: true,
       },
     })
-    if (!membership)
+    if (!memberships)
       throw new NotFoundException('A organização não foi encontrada!')
 
-    return membership
+    return memberships
   } catch (error) {
     throw new HttpException(error, error.status)
   } finally {

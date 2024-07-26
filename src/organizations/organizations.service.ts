@@ -65,7 +65,7 @@ export class OrganizationsService {
   }
 
   async createForUser(
-    phone: string,
+    userId: string,
     createOrganizationValidator: CreateOrganizationValidator,
   ) {
     const { document, zipCode } = createOrganizationValidator
@@ -76,13 +76,13 @@ export class OrganizationsService {
           .then(async (location: AwesomeApiAddress) => {
             if (!location)
               return await createOrganizationForUserRepository(
-                phone,
+                userId,
                 createOrganizationValidator,
               ).then(
                 async () => await this.stripeService.createCustomer(document),
               )
 
-            return await createOrganizationForUserRepository(phone, {
+            return await createOrganizationForUserRepository(userId, {
               ...createOrganizationValidator,
               street: location?.address,
               district: location?.district,
@@ -96,7 +96,7 @@ export class OrganizationsService {
           })
       } else {
         return await createOrganizationForUserRepository(
-          phone,
+          userId,
           createOrganizationValidator,
         ).then(async () => await this.stripeService.createCustomer(document))
       }
@@ -158,18 +158,19 @@ export class OrganizationsService {
     id: string,
     removeOrganizationValidator: RemoveOrganizationValidator,
   ) {
-    const { definitely } = removeOrganizationValidator
+    //const { definitely } = removeOrganizationValidator
+    return await removeOrganizationRepository(id, removeOrganizationValidator)
 
-    if (definitely) {
-      const { document } = await findOneOrganizationRepository(id)
-      return await this.stripeService
-        .removeCustomer(document)
-        .then(
-          async () =>
-            await removeOrganizationRepository(id, removeOrganizationValidator),
-        )
-    } else {
-      return await removeOrganizationRepository(id, removeOrganizationValidator)
-    }
+    //if (definitely) {
+    //  const { document } = await findOneOrganizationRepository(id)
+    //  return await this.stripeService
+    //    .removeCustomer(document)
+    //    .then(
+    //      async () =>
+    //        await removeOrganizationRepository(id, removeOrganizationValidator),
+    //    )
+    //} else {
+    //  return await removeOrganizationRepository(id, removeOrganizationValidator)
+    //}
   }
 }

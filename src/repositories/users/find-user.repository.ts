@@ -29,6 +29,7 @@ export async function findOneUserRepository(id: string) {
       where: { id: id },
       include: {
         membership: {
+          orderBy: { createdAt: 'desc' },
           include: {
             organization: true,
           },

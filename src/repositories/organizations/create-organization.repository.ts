@@ -41,12 +41,12 @@ export async function createOrganizationRepository(
 }
 
 export async function createOrganizationForUserRepository(
-  phone: string,
+  userId: string,
   createOrganizationValidator: CreateOrganizationValidator,
 ) {
   const { document } = createOrganizationValidator
   try {
-    const user = await prisma.user.findFirst({ where: { phone: phone } })
+    const user = await prisma.user.findFirst({ where: { id: userId } })
     if (!user) throw new NotFoundException('O usuário não foi encontrado!')
 
     const organization = await prisma.organization.findFirst({

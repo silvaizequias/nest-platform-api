@@ -17,10 +17,14 @@ async function main() {
   app.enableCors({
     origin: [
       'http://localhost:3210',
+      'http://controle.localhost:3210',
+      'http://super.localhost:3210',
       'http://127.0.0.1:3210',
       'http://localhost:4200',
       'http://127.0.0.1:4200',
       'https://dedicado.digital',
+      'https://controle.dedicado.digital',
+      'https://super.dedicado.digital',
     ],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,

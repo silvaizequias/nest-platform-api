@@ -68,7 +68,7 @@ export class OrganizationsService {
     userId: string,
     createOrganizationValidator: CreateOrganizationValidator,
   ) {
-    const { document, zipCode } = createOrganizationValidator
+    const { zipCode } = createOrganizationValidator
     try {
       if (zipCode) {
         return await this.locationService
@@ -78,8 +78,6 @@ export class OrganizationsService {
               return await createOrganizationForUserRepository(
                 userId,
                 createOrganizationValidator,
-              ).then(
-                async () => await this.stripeService.createCustomer(document),
               )
 
             return await createOrganizationForUserRepository(userId, {
@@ -90,15 +88,13 @@ export class OrganizationsService {
               state: location?.state,
               latitude: Number(location?.lat),
               longitude: Number(location?.lng),
-            }).then(
-              async () => await this.stripeService.createCustomer(document),
-            )
+            })
           })
       } else {
         return await createOrganizationForUserRepository(
           userId,
           createOrganizationValidator,
-        ).then(async () => await this.stripeService.createCustomer(document))
+        )
       }
     } catch (error) {
       throw new HttpException(error, error.status)
@@ -158,19 +154,6 @@ export class OrganizationsService {
     id: string,
     removeOrganizationValidator: RemoveOrganizationValidator,
   ) {
-    //const { definitely } = removeOrganizationValidator
     return await removeOrganizationRepository(id, removeOrganizationValidator)
-
-    //if (definitely) {
-    //  const { document } = await findOneOrganizationRepository(id)
-    //  return await this.stripeService
-    //    .removeCustomer(document)
-    //    .then(
-    //      async () =>
-    //        await removeOrganizationRepository(id, removeOrganizationValidator),
-    //    )
-    //} else {
-    //  return await removeOrganizationRepository(id, removeOrganizationValidator)
-    //}
   }
 }

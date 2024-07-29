@@ -44,7 +44,7 @@ export async function createOrganizationForUserRepository(
   userId: string,
   createOrganizationValidator: CreateOrganizationValidator,
 ) {
-  const { document } = createOrganizationValidator
+  const { document, name } = createOrganizationValidator
   try {
     const user = await prisma.user.findFirst({ where: { id: userId } })
     if (!user) throw new NotFoundException('O usuário não foi encontrado!')
@@ -75,7 +75,7 @@ export async function createOrganizationForUserRepository(
       })
       .then(() => {
         return JSON.stringify(
-          `A sua organização ${organization?.name ?? ''} foi criada na plataforma!`,
+          `A sua organização ${name ?? ''} foi criada na plataforma!`,
         )
       })
   } catch (error) {
